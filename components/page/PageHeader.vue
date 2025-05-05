@@ -4,7 +4,7 @@
 
     <div class="flex justify-between z-30">
       <!-- Header icon and title -->
-      <ToolboxIconTitle :icon="page.icon" :title="page.label" classes="page-header-title font-bold"/>
+      <ToolboxIconTitle :icon="page.icon || icons.error" :title="title" classes="page-header-title font-bold"/>
 
       <!-- Header buttons -->
       <span class="gap-1.5">
@@ -21,8 +21,8 @@
               :icon="panel.icon"
               :disabled="!$slots[panel.value]"
               :ui="ui"
+              :class="[ activePanelID == panel.value ? 'open' : '', 'button-toggler']"
               @click="toggle"
-              v-bind:class="{ 'open': activePanelID == panel.value }"
             />
           </UTooltip>
         </UButtonGroup>
@@ -31,7 +31,7 @@
 
     <!-- Display user info, developer info, or preferences if clicked -->
     <div id="page-header-more" v-if="activePanel && activePanelID">
-      <PageMore :icon="activePanel.icon" :title="activePanel.label" :slotName="activePanelID">
+      <PageMore :icon="activePanel.icon || icons.error" :title="activePanel.label || ''" :slotName="activePanelID">
         <template #[activePanelID]>
           <slot :name="activePanelID"/>
         </template>
@@ -46,9 +46,12 @@
 
 import { ref } from 'vue';
 
-const { page } = defineProps<{
-  page: AppLinkType
+const { page, label = "" } = defineProps<{
+  page: AppLinkType,
+  label?: string
 }>();
+
+const title = label ? `[${ page.label }] ${ label }` : (page.label || "");
 
 type PanelIDType = "user" | "developer" | "preferences";
 
@@ -104,7 +107,7 @@ const ui = {
   margin-left: 12px;
 }
 
-#page-header button {
+#page-header button .button-toggler {
   background-color: white;
 }
 

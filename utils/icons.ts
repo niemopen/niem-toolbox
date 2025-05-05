@@ -44,10 +44,14 @@ export default {
   more: "material-symbols:expand-more-rounded",
   less: "material-symbols:expand-less-rounded",
   map: "material-symbols:equal-rounded",
-  copy: "material-symbols:content-copy-outline-rounded",
+  copy: "tabler:copy",
+  copied: "tabler:copy-check",
   close: "i-heroicons-x-mark-20-solid",
   upload: "material-symbols-light:upload-file-outline-rounded",
   download: "material-symbols-light:download-rounded",
+  open: "material-symbols:arrow-circle-right-outline-rounded",
+  starOutline: "material-symbols:star-outline",
+  starFilled: "material-symbols:star",
 
   // Directions and locations
   start: "material-symbols:line-start-circle-outline-rounded",
@@ -70,6 +74,21 @@ export default {
   json: "ph:brackets-curly",
   owl: "material-symbols:owl-outline-rounded",
   zip: "material-symbols:folder-zip-outline-rounded",
-  csv: "material-symbols:csv-outline-rounded"
+  csv: "material-symbols:csv-outline-rounded",
+
+  // NIEM entities
+  steward: "lucide:building",
+  model: "material-symbols:network-node",
+  version: "solar:hashtag-circle-linear",
+  namespace: "mdi:file-document-outline",
+  property: "material-symbols:label-outline-rounded",
+  type: "streamline:hierarchy-2",
+  class: "streamline:hierarchy-2",
+  datatype: "clarity:block-line",
+  contents: "mdi:format-list-group",
+  childProperty: "material-symbols:subdirectory-arrow-right-rounded",
+  // childProperty: "bi:list-nested",
+  facet: "codicon:symbol-enum",
+  term: "material-symbols:dictionary-outline-rounded"
 
 } as const;

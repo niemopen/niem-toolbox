@@ -2,7 +2,7 @@
 
 export default defineNuxtConfig({
   alias: {
-    pinia: "/node_modules/@pinia/nuxt/node_modules/pinia/dist/pinia.mjs"
+    // pinia: "/node_modules/@pinia/nuxt/node_modules/pinia/dist/pinia.mjs"
   },
   app: {
     baseURL: "/niem-toolbox/",
@@ -66,6 +66,12 @@ export default defineNuxtConfig({
       }
     }
   },
+  router: {
+    options: {
+      // hashMode: true
+    }
+  },
+  sourcemap: true,
   ssr: true,
   // ui: {
   //   theme: {

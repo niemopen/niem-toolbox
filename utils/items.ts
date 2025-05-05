@@ -24,7 +24,7 @@ const AppItemsHelper = {
   },
   browse: {
     value: "browse",
-    to: undefined,
+    to: "/browse",
     label: "Browse NIEM and community content",
     icon: icons.browse,
     description: "Browse NIEM and published models top-down.  Look at highlighted NIEM components."
@@ -66,8 +66,7 @@ const AppItemsHelper = {
   },
   migrate: {
     value: "migrate",
-    to: undefined,
-    // to: "/migrate",
+    to: "/migrate",
     label: "Migrate a model",
     icon: icons.migrate,
     description: "Update a NIEM subset to a more recent version."
@@ -101,6 +100,46 @@ const AppItemsHelper = {
     icon: icons.help,
     class: "cursor-not-allowed opacity-50",
     disabled: true
+  },
+  steward: {
+    value: "steward",
+    label: "Steward",
+    icon: icons.steward
+  },
+  model: {
+    value: "model",
+    label: "Model",
+    icon: icons.model
+  },
+  version: {
+    value: "version",
+    label: "Version",
+    icon: icons.version
+  },
+  namespace: {
+    value: "namespace",
+    label: "Namespace",
+    icon: icons.namespace
+  },
+  property: {
+    value: "property",
+    label: "Property",
+    icon: icons.property
+  },
+  type: {
+    value: "type",
+    label: "Type",
+    icon: icons.class
+  },
+  childProperty: {
+    value: "childProperty",
+    label: "Child Property",
+    icon: icons.childProperty
+  },
+  facet: {
+    value: "facet",
+    label: "Facet",
+    icon: icons.facet
   },
   niemOpenWebsite: {
     value: "niem-open-website",

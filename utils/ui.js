@@ -1,7 +1,9 @@
 
 export default {
 
-  button_icon: "bg-transparent text-gray-500",
+  button_icon: {
+    base: "text-[var(--ui-text-muted)] hover:text-[var(--ui-text-highlighted)] bg-transparent hover:bg-transparent"
+  },
 
   button_invisible: {
     base: "bg-transparent"

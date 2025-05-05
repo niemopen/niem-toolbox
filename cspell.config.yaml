@@ -3,6 +3,8 @@ ignorePaths: []
 dictionaryDefinitions: []
 dictionaries: []
 words:
+  - arrowleft
+  - arrowright
   - cmftool
   - composables
   - divs
@@ -19,6 +21,8 @@ words:
   - pinia
   - pwa
   - Slideover
+  - subproperties
+  - Subproperty
   - tabler
   - tailwindcss
   - tanstack

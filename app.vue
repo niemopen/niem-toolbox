@@ -2,11 +2,11 @@
 <template>
   <NuxtRouteAnnouncer />
   <UApp>
-    <ClientOnly>
-      <NuxtLayout>
+    <NuxtLayout>
+      <ClientOnly>
         <NuxtPage/>
-      </NuxtLayout>
-    </ClientOnly>
+      </ClientOnly>
+    </NuxtLayout>
   </UApp>
 </template>
 

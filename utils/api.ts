@@ -21,7 +21,11 @@ export class API {
     validate_xml: Config.baseURL + "validation/instances/xml",
     validate_xml_catalog: Config.baseURL + "validation/xml-catalog",
     validate_message_catalog: Config.baseURL + "validation/message-catalog",
+    search_properties: Config.baseURL + "search/properties",
+    search_types: Config.baseURL + "search/types"
   }
+
+  static readonly PAGINATION_LIMIT = 100;
 
   /**
    * Pre: Loads the form body from the given state and updates results to pending.

@@ -1,159 +1,246 @@
 
-declare namespace NIEMTypes {
+declare global {
 
-  type StewardRef = {
+  type APIStewardParams = {
+    route?: string,
+    stewardKey: string
+  }
+
+  type APIModelParams = APIStewardParams & {
+    modelKey: string
+  }
+
+  type APIVersionParams = APIModelParams & {
+    versionNumber: string
+  }
+
+  type APINamespaceParams = APIVersionParams & {
+    prefix: string
+  }
+
+  type APIComponentParams = APIVersionParams & {
+    qname: string,
+    prefix?: string,
+    name?: string
+  }
+
+  type APIChildPropertyParams = APIVersionParams & {
+    prefix?: string,
+    typeQName?: string,
+    propertyQName?: string
+  }
+
+  type APIFacetParams = APIComponentParams & {
+    category?: string
+  }
+
+  type APIEntity = {
+    "@id": string,
+    "@type": string,
+    localIdentifier: string,
     route: string,
+    title: string
+  }
+
+  type APIEntityRef = {
+    route?: string
+  }
+
+  type APIStewardCategory = "Federal" | "State" | "Local" | "Tribal" | "Territorial" | "International" | "Industry" | "Nonprofit" | "SDO" | "Educational" | "Person" | "Other";
+
+  type APISteward = APIEntity & {
+    "@type": "Steward",
+    address?: string,
+    category?: APIStewardCategory,
+    contactName?: string,
+    country?: string,
+    description?: string,
+    email?: string,
+    fullName?: string,
+    phone?: string,
+    shortName: string,
     stewardKey: string,
-    shortName: string
+    subunit: string,
+    unit: string,
+    website: string
   }
 
-  type ModelRef = {
-    route: string,
+  type APIStewardRef = APIEntityRef & {
+    stewardKey: string,
+    shortName?: string
+  }
+
+
+  type APIModelCategory = "reference" | "message" | "other";
+
+  type APIModel = APIEntity & {
+    "@type": "Model",
+    category?: APIModelCategory,
+    description?: string,
+    developer?: string,
+    fullName?: string,
+    keywords?: string,
     modelKey: string,
-    shortName: string
+    objective?: string,
+    purpose?: string,
+    repo?: string,
+    shortName: string,
+    steward: APIStewardRef,
+    subjects?: string,
+    website?: string
   }
 
-  type VersionCategoryType = "major" | "minor" | "patch" | "core_supplement" | "domain_update" | "other" | undefined;
+  type APIModelRef = APIEntityRef & {
+    modelKey: string,
+    shortName?: string
+  }
+
+  type APIVersionCategoryType = "major" | "minor" | "patch" | "core_supplement" | "domain_update" | "other";
 
 
-  type VersionRef = {
-    route: string,
+  type APIVersionRef = APIEntityRef & {
     versionNumber: string,
-    niemVersionNumber: string
+    niemVersionNumber?: string
   }
 
-  type VersionFull = {
-    "@id": string;
-    "@type": string;
-    category: VersionCategoryType;
+  type APIVersion = APIEntity & {
+    "@type": "Version";
+    category: APIVersionCategoryType;
     conformanceTargets: string;
     draft: string;
     exchangePartners: string;
     exchangePattern: string;
     isCurrent: boolean;
     isPublished: boolean;
-    localIdentifier: string;
-    model: ModelRef;
+    model: APIModelRef;
     niemVersionNumber: string;
     revised: string;
-    route: string;
     status: string;
-    steward: StewardRef;
-    title: string;
+    steward: APIStewardRef;
     uri: string;
     versionNumber: string;
   }
 
-  type NamespaceCategory = "core" | "domain" | "code" | "adapter" | "auxiliary" | "external" | "utility" | "core_supplement" | "domain_update" | "extension" | "exchange" | "built_in" | "other" | undefined;
+  type APINamespaceCategory = "core" | "domain" | "code" | "adapter" | "auxiliary" | "external" | "utility" | "core_supplement" | "domain_update" | "extension" | "exchange" | "built_in" | "other";
 
-  type NamespaceRef = {
+  type APINamespaceRef = APIEntityRef & {
     prefix: string,
-    name: string,
-    category: string, // TODO
-    uri: string
+    name?: string,
+    category?: APINamespaceCategory,
+    uri?: string
   }
 
-  type NamespaceFull = {
-    "@id": string,
+  type APINamespace = APIEntity & {
     "@type": "Namespace",
     prefix: string,
     name: string,
     uri: string,
     definition: string,
-    category: NamespaceCategory,
+    category: APINamespaceCategory,
     draft: string,
     target: "REF" | "EXT",
     generation: "build" | "static_file" | "none"
     filename: string,
     filepath: string,
     conformanceTarget: string,
-    route: string,
-    title: string,
-    localIdentifier: string,
     isOriginal: boolean,
     isDeprecated: boolean,
     hasTarget: boolean, // TODO and ?
-    version: VersionRef,
-    model: ModelRef,
-    steward: StewardRef
+    version: APIVersionRef,
+    model: APIModelRef,
+    steward: APIStewardRef
   }
 
-  type PropertyCategory = "element" | "abstract_element" | "attribute";
-
-  type PropertyRef = {
+  type APIComponentRef = {
     route: string,
     prefix: string,
     qname: string,
     name: string,
     definition: string,
-    category: PropertyCategory
+    category: APIPropertyCategory | APITypeCategory
   }
 
-  type PropertyFull = {
-    "@id": string,
-    "@type": "Property",
+  type APIComponent = APIEntity & {
     prefix: string,
     qname: string,
     name: string,
     definition: string,
-    category: PropertyCategory
+    category: APIPropertyCategory | APITypeCategory,
+    terms: string[],
+    isOriginal: boolean,
+    isDeprecated: boolean,
+    namespace: APINamespaceRef,
+    version: APIVersionRef,
+    model: APIModelRef,
+    steward: APIStewardRef
+  }
+
+  type APIPropertyCategory = "element" | "abstract_element" | "attribute";
+
+  type APIPropertyRef = APIComponentRef & {
+    category: APIPropertyCategory
+  }
+
+  type APIProperty = APIComponent & {
+    "@type": "Property",
+    category: APIPropertyCategory
     alias: string,
     keywords: string,
     exampleContent: string,
     usageInfo: string,
-    route: string,
-    title: string,
-    localIdentifier: string,
-    terms: string[],
-    isOriginal: boolean,
-    isDeprecated: boolean,
-    type?: TypeRef,
-    group?: PropertyRef
-    namespace: NamespaceRef,
-    version: VersionRef,
-    model: ModelRef,
-    steward: StewardRef
+    type?: APITypeRef,
+    group?: APIPropertyRef
   }
 
-  type TypeCategory = "complex_object" | "complex_value" | "simple_value" | undefined;
+  type APITypeCategory = "complex_object" | "complex_value" | "simple_value" | undefined;
 
-  type TypeDerivation = "extension" | "restriction" | undefined;
+  type APITypeDerivation = "extension" | "restriction" | undefined;
 
-  type TypePattern = "object" | "adapter" | "association" | "augmentation" | "metadata" | "complex_value" | "simple_value" | "simple_list" | "simple_union" | undefined;
+  type APITypePattern = "object" | "adapter" | "association" | "augmentation" | "metadata" | "complex_value" | "simple_value" | "simple_list" | "simple_union" | undefined;
 
-  type TypeRef = {
-    route: string,
-    prefix: string,
-    qname: string,
-    name: string,
-    definition: string,
-    category: TypeCategory
+  type APITypeRef = APIComponentRef & {
+    category: APITypeCategory
   }
 
-  type Type = {
-    "@id": string,
+  type APIType = APIComponent & {
     "@type": "Type",
-    prefix: string,
-    qname: string,
-    name: string,
-    definition: string,
-    category: TypeCategory,
-    derivation: TypeDerivation,
-    pattern: TypePattern,
-    route: string,
-    title: string,
-    localIdentifier: string,
-    terms: string[],
-    isOriginal: boolean,
-    isDeprecated: boolean,
+    category: APITypeCategory,
+    derivation: APITypeDerivation,
+    pattern: APITypePattern,
     isSimple: boolean,
     isComplexContent: boolean,
     isSimpleContent: boolean,
-    base: TypeRef,
-    namespace: NamespaceRef,
-    version: VersionRef,
-    model: ModelRef,
-    steward: StewardRef
+    base?: APITypeRef | null,
+  }
+
+  type APIChildProperty = APIEntity & {
+    "@type": "Subproperty",
+    type: APITypeRef,
+    property: APIPropertyRef,
+    min: string,
+    max: string,
+    sequence: number,
+    definition: string,
+    namespace: APINamespaceRef,
+    version: APIVersionRef,
+    model: APIModelRef,
+    steward: APIStewardRef
+  }
+
+  type APIFacetCategory = "enumeration" | "pattern" | "length" | "minLength" | "maxLength" | "minExclusive" | "maxExclusive" | "minInclusive" | "maxInclusive" | "fractionDigits" | "totalDigits" | "whiteSpace";
+
+  type APIFacet = APIEntity & {
+    "@type": "Facet",
+    type: APITypeRef,
+    category: APIFacetCategory,
+    value: string,
+    definition: string,
+    namespace: APINamespaceRef,
+    version: APIVersionRef,
+    model: APIModelRef,
+    steward: APIStewardRef
   }
 
 }
+
+export {};
