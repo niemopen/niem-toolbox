@@ -121,8 +121,18 @@ export abstract class Entity {
     return "subtle";
   }
 
-  static fromAPI<T extends Entity>(entity: T, apiData: APIEntity) {
-    return (Object.assign(entity, apiData)) as T;
+  /**
+   * Convert JSON for an entity from the API into an object for this application.
+   */
+  static fromAPI(apiData: APIEntity) {
+    throw new Error("Method not implemented");
+  }
+
+  /**
+   * Convert JSON for a list of entities from the API into a list of objects for this application.
+   */
+  static fromAPIList(apiData: APIEntity[]) {
+    throw new Error("Method not implemented");
   }
 
   static apiRoute(params: any): string {

@@ -168,6 +168,14 @@ export class Version extends Entity {
     return breadcrumbs;
   }
 
+  static override fromAPI(apiData: APIVersion) {
+    return Object.assign(new Version(), apiData) as Version;
+  }
+
+  static override fromAPIList(apiData: APIVersion[]) {
+    return apiData.map(apiVersion => Version.fromAPI(apiVersion));
+  }
+
   static override id(modelID: string, versionNumber: string) {
     return `${modelID}/${versionNumber}`;
   }
@@ -211,13 +219,6 @@ export class Version extends Entity {
       route: entity.route,
       versionNumber: entity.versionNumber as string,
       niemVersionNumber: entity.niemVersionNumber
-    }
-  }
-
-  // TODO-API: Move category information to API
-  static category(version: Version): APIVersionCategoryType | undefined {
-    if (version.steward?.stewardKey == Steward.NIEMStewardKey && version.model?.modelKey == Model.NIEMModelKey) {
-      return version.versionNumber?.endsWith("0") ? "major" : "minor";
     }
   }
 

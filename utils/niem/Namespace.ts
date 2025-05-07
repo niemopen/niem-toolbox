@@ -130,6 +130,14 @@ export class Namespace extends Entity {
     return breadcrumbs;
   }
 
+  static override fromAPI(apiData: APINamespace) {
+    return Object.assign(new Namespace(), apiData) as Namespace;
+  }
+
+  static override fromAPIList(apiData: APINamespace[]) {
+    return apiData.map(apiNamespace => Namespace.fromAPI(apiNamespace));
+  }
+
   static override id(versionID: string, prefix: string) {
     return `${versionID}/${prefix}`;
   }

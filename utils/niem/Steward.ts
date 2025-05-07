@@ -140,6 +140,14 @@ export class Steward extends Entity {
     ]
   }
 
+  static override fromAPI(apiData: APISteward) {
+    return Object.assign(new Steward(), apiData) as Steward;
+  }
+
+  static override fromAPIList(apiData: APISteward[]) {
+    return apiData.map(apiSteward => Steward.fromAPI(apiSteward));
+  }
+
   static override id(stewardKey: string | undefined) {
     return stewardKey || "";
   }

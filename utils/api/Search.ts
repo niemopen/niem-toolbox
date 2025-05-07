@@ -9,7 +9,7 @@ export type SearchPropertiesOptions = {
   type?: string[],
   isAbstract?: boolean,
   isElement?: boolean,
-  offset?: number,
+  page?: number,
   limit?: number
 }
 
@@ -18,7 +18,7 @@ export type SearchTypesOptions = {
   token?: string[],
   substring?: string[],
   prefix?: string[],
-  offset?: number,
+  page?: number,
   limit?: number
 }
 
@@ -26,34 +26,32 @@ export type SearchTypesOptions = {
 
 export class Search {
 
-  static async properties(options: SearchPropertiesOptions) {
+  static async properties(options: SearchPropertiesOptions): Promise<Paginated<Property>> {
     let queryString = Search.optionsQueryString(options);
-    if (queryString == "") return [];
+    if (queryString == "") return Data.emptyPaginatedProperty();
 
     let response = await fetch(API.routes.search_properties + queryString);
 
     if (response.ok) {
-      let apiProperties = await response.json() as APIProperty[];
-      let properties = apiProperties.map(apiProperty => Property.fromAPI(new Property(), apiProperty));
-      return properties;
+      let paginatedAPIProperties = await response.json() as Paginated<APIProperty>;
+      return Data.processPaginatedAPIProperties(paginatedAPIProperties);
     }
 
-    return [];
+    return Data.emptyPaginatedProperty();
   }
 
-  static async types(options: SearchTypesOptions) {
+  static async types(options: SearchTypesOptions): Promise<Paginated<Type>> {
     let queryString = Search.optionsQueryString(options);
-    if (queryString == "") return [];
+    if (queryString == "") return Data.emptyPaginatedType();
 
     let response = await fetch(API.routes.search_types + queryString);
 
     if (response.ok) {
-      let apiTypes = await response.json() as APIType[];
-      let types = apiTypes.map(apiType => Type.fromAPI(new Type(), apiType));
-      return types;
+      let paginatedAPITypes = await response.json() as Paginated<APIType>;
+      return Data.processPaginatedAPITypes(paginatedAPITypes);
     }
 
-    return [];
+    return Data.emptyPaginatedType();
   }
 
   private static optionsQueryString(options: {[x: string] : string | boolean | number | string[]}) {

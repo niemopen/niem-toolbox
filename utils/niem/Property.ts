@@ -85,12 +85,12 @@ export class Property extends Component {
     ];
   }
 
-  static override apiRoute(params: APINamespaceParams | APIComponentParams) {
+  static override apiRoute(params: APIVersionParams | APINamespaceParams | APIComponentParams) {
     let route = Version.apiRoute(params);
     if ("qname" in params) {
       route += `/properties/${ params.qname }`;
     }
-    else {
+    else if ("prefix" in params) {
       route += `/namespaces/${ params.prefix }/properties`;
     }
     return route;
@@ -104,6 +104,14 @@ export class Property extends Component {
   static override badgeVariant(category: APIPropertyCategory | undefined): ColorVariantType {
     let label = Property.badgeLabel(category);
     return label == "object" ? "solid" : "subtle";
+  }
+
+  static override fromAPI(apiData: APIProperty) {
+    return Object.assign(new Property(), apiData) as Property;
+  }
+
+  static override fromAPIList(apiData: APIProperty[]) {
+    return apiData.map(apiProperty => Property.fromAPI(apiProperty));
   }
 
   static override init() {

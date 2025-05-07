@@ -136,6 +136,14 @@ export class Model extends Entity {
     return breadcrumbs;
   }
 
+  static override fromAPI(apiData: APIModel) {
+    return Object.assign(new Model(), apiData) as Model;
+  }
+
+  static override fromAPIList(apiData: APIModel[]) {
+    return apiData.map(apiModel => Model.fromAPI(apiModel));
+  }
+
   static override id(stewardID: string, modelKey: string) {
     return `${stewardID}/${modelKey}`;
   }

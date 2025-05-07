@@ -81,12 +81,12 @@ export class Type extends Component {
     ];
   }
 
-  static override apiRoute(params: APINamespaceParams | APIComponentParams) {
+  static override apiRoute(params: APIVersionParams | APINamespaceParams | APIComponentParams) {
     let route = Version.apiRoute(params);
     if ("qname" in params) {
       route += `/types/${params.qname}`;
     }
-    else {
+    else if ("prefix" in params) {
       route += `/namespaces/${params.prefix}/types`;
     }
     return route;
@@ -106,6 +106,14 @@ export class Type extends Component {
       case "complex_value": return "value";
       case "simple_value": return "datatype";
     }
+  }
+
+  static override fromAPI(apiData: APIType) {
+    return Object.assign(new Type(), apiData) as Type;
+  }
+
+  static override fromAPIList(apiData: APIType[]) {
+    return apiData.map(apiType => Type.fromAPI(apiType));
   }
 
   static override init() {

@@ -1,5 +1,4 @@
-import { useStorage, type UseStorageOptions } from "@vueuse/core";
-import type { RemovableRef } from "@vueuse/core/index.cjs";
+import { useStorage, type RemovableRef, type UseStorageOptions } from "@vueuse/core";
 import { Model } from "~/utils/niem/Model";
 import { Namespace } from "~/utils/niem/Namespace";
 import { Property } from "~/utils/niem/Property";
@@ -168,96 +167,53 @@ export const useToolboxStore = defineStore("niem-toolbox", () => {
     return results;
   }
 
-  async function propertiesFromVersion(version: Version, offset=0): Promise<Property[]> {
-    if (version.propertiesLoaded) {
-      let results = propertyStorage.value.filter(property => property.version?.route == version.route);
-      processHits(results);
-      return results;
-    }
+  async function propertiesFromVersion(version: Version, page=0): Promise<Paginated<Property>> {
 
     let options: SearchPropertiesOptions = {
       niemVersionNumber: version.niemVersionNumber,
-      offset
+      page
     }
 
     let results = await Search.properties(options);
-    // propertyStorage.value.push(...results);
-
-    // if (results.length < API.PAGINATION_LIMIT) {
-    //   version.propertiesLoaded = true;
-
-    //   // Cascade loaded boolean to namespaces in version
-    //   let namespaces = namespaceStorage.value.filter(namespace => namespace.version?.route == version.route);
-    //   for (let namespace of namespaces) {
-    //     namespace.propertiesLoaded = true;
-    //   }
-    // }
     return results;
   }
 
-  async function propertiesFromNamespace(namespace: Namespace, offset=0): Promise<Property[]> {
-    if (namespace.propertiesLoaded) {
-      let results = propertyStorage.value.filter(property => property.namespace?.route == namespace.route);
-      processHits(results);
-      return results;
-    }
+  async function propertiesFromNamespace(namespace: Namespace, page=0):
+      Promise<Paginated<Property>> {
 
-    if (!namespace.prefix) return [];
+    if (!namespace.prefix) return Data.emptyPaginatedProperty();
 
     let namespaceVersion = await version(namespace.params);
     let options: SearchPropertiesOptions = {
       niemVersionNumber: namespaceVersion?.niemVersionNumber,
       prefix: [namespace.prefix],
-      offset
+      page
     }
 
     let results = await Search.properties(options);
-    // propertyStorage.value.push(...results);
-    // namespace.propertiesLoaded = true;
     return results;
   }
 
-  async function typesFromVersion(version: Version, offset=0): Promise<Type[]> {
-    if (version.typesLoaded) {
-      let results = typeStorage.value.filter(type => type.version?.route == version.route);
-      processHits(results);
-      return results;
-    }
+  async function typesFromVersion(version: Version, page=0): Promise<Paginated<Type>> {
 
     let options: SearchTypesOptions = {
       niemVersionNumber: version.niemVersionNumber,
-      offset
+      page
     }
 
     let results = await Search.types(options);
-    // typeStorage.value.push(...results);
-
-    // if (results.length < API.PAGINATION_LIMIT) {
-    //   version.typesLoaded = true;
-
-    //   // Cascade loaded boolean to namespaces in version
-    //   let namespaces = namespaceStorage.value.filter(namespace => namespace.version?.route == version.route);
-    //   for (let namespace of namespaces) {
-    //     namespace.typesLoaded = true;
-    //   }
-    // }
     return results;
   }
 
-  async function typesFromNamespace(namespace: Namespace, offset=0): Promise<Type[]> {
-    if (namespace.typesLoaded) {
-      let results = typeStorage.value.filter(type => type.namespace?.route == namespace.route);
-      processHits(results);
-      return results;
-    }
+  async function typesFromNamespace(namespace: Namespace, page=0): Promise<Paginated<Type>> {
 
-    if (!namespace.prefix) return [];
+    if (!namespace.prefix) return Data.emptyPaginatedType();
 
     let namespaceVersion = await version(namespace.params);
     let options: SearchTypesOptions = {
       niemVersionNumber: namespaceVersion?.niemVersionNumber,
       prefix: [namespace.prefix],
-      offset
+      page
     }
 
     let results = await Search.types(options);
@@ -392,10 +348,14 @@ export const useToolboxStore = defineStore("niem-toolbox", () => {
     return bases;
   }
 
+  async function substitutions(property: Property): Promise<Property[]> {
+
+  }
+
   async function augmentations(type: Type): Promise<Property[]> {
     if (!type.name || !type.name.endsWith("Type") || type.category != "complex_object") return [];
 
-    let augmentationName = type.name.slice(0, -4) + "Augmentation";
+    let augmentationName = type.name.slice(0, -4) + "AugmentationPoint";
 
     let augmentations = await Search.properties({
       niemVersionNumber: type.version?.niemVersionNumber,

@@ -3,12 +3,21 @@ import FileSaver from "file-saver";
 
 export type APIMediaType = "json" | "xml" | "csv";
 
+type IconKeys = keyof typeof icons;
+type IconValues = typeof icons[IconKeys];
+
 type ItemType = SelectMenuItem & {
   value: APIMediaType;
+  icon: IconValues;
 }
 
 type StateType = { [key: string]: any };
 
+/**
+ * NIEM API 2.0-related functionality for transforms, migrations, and validation.
+ *
+ * Note that data and search-related functionality are in their own classes..
+ */
 export class API {
 
   static readonly routes = {
