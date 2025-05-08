@@ -13,69 +13,69 @@ const AppItemsHelper = {
     value: "brand",
     to: "/",
     label: "NIEM Toolbox",
-    icon: icons.toolbox
+    icon: Icons.toolbox
   },
   home: {
     value: "home",
     to: "/",
     label: "Home",
-    icon: icons.home,
+    icon: Icons.home,
     description: "Use the provided utilities to help manage NIEM data models or to see working demos of NIEM API 2.0 functionality."
   },
   browse: {
     value: "browse",
     to: "/browse",
     label: "Browse NIEM and community content",
-    icon: icons.browse,
+    icon: Icons.browse,
     description: "Browse NIEM and published models top-down.  Look at highlighted NIEM components."
   },
   search: {
     value: "search",
     to: undefined,
     label: "Search NIEM and community content",
-    icon: icons.search,
+    icon: Icons.search,
     description: "Search on specific terms, filter results by namespaces, types, and other options."
   },
   build: {
     value: "build",
     to: undefined,
     label: "Work on models",
-    icon: icons.build,
+    icon: Icons.build,
     description: "Build a subset and create extensions.  Reuse components from NIEM and other published models."
   },
   validate: {
     value: "validate",
     to: "/validate",
     label: "Validate models and artifacts",
-    icon: icons.validate,
+    icon: Icons.validate,
     description: "Check NIEM schemas, sample instances, catalog files, and IEPDs / message specifications."
   },
   transform: {
     value: "transform",
     to: "/transform",
     label: "Transform models",
-    icon: icons.transform,
+    icon: Icons.transform,
     description: "Convert NIEM models in CMF or NIEM XML Schema into supported formats, including NIEM JSON."
   },
   publish: {
     value: "publish",
     to: undefined,
     label: "Publish a model",
-    icon: icons.publish,
+    icon: Icons.publish,
     description: "Import a NIEM community model or IEPD / message specification to make available to others."
   },
   migrate: {
     value: "migrate",
     to: "/migrate",
     label: "Migrate a model",
-    icon: icons.migrate,
+    icon: Icons.migrate,
     description: "Update a NIEM subset to a more recent version."
   },
   login: {
     value: "login",
     to: undefined,
     label: "Log in",
-    icon: icons.user,
+    icon: Icons.user,
     class: "cursor-not-allowed opacity-50",
     disabled: true
   },
@@ -83,7 +83,7 @@ const AppItemsHelper = {
     value: "preferences",
     to: undefined,
     label: "Site preferences",
-    icon: icons.preferences,
+    icon: Icons.preferences,
     class: "cursor-not-allowed opacity-50",
     disabled: true
   },
@@ -91,110 +91,110 @@ const AppItemsHelper = {
     value: "release_notes",
     to: "/release-notes",
     label: "Release notes",
-    icon: icons.releaseNotes
+    icon: Icons.releaseNotes
   },
   help: {
     value: "help",
     to: undefined,
     label: "Help",
-    icon: icons.help,
+    icon: Icons.help,
     class: "cursor-not-allowed opacity-50",
     disabled: true
   },
   steward: {
     value: "steward",
     label: "Steward",
-    icon: icons.steward
+    icon: Icons.steward
   },
   model: {
     value: "model",
     label: "Model",
-    icon: icons.model
+    icon: Icons.model
   },
   version: {
     value: "version",
     label: "Version",
-    icon: icons.version
+    icon: Icons.version
   },
   namespace: {
     value: "namespace",
     label: "Namespace",
-    icon: icons.namespace
+    icon: Icons.namespace
   },
   property: {
     value: "property",
     label: "Property",
-    icon: icons.property
+    icon: Icons.property
   },
   type: {
     value: "type",
     label: "Type",
-    icon: icons.class
+    icon: Icons.class
   },
   childProperty: {
     value: "childProperty",
     label: "Child Property",
-    icon: icons.childProperty
+    icon: Icons.childProperty
   },
   facet: {
     value: "facet",
     label: "Facet",
-    icon: icons.facet
+    icon: Icons.facet
   },
   niemOpenWebsite: {
     value: "niem-open-website",
     to: "https://niemopen.org",
     label: "NIEMOpen",
-    icon: icons.niemopen,
+    icon: Icons.niemopen,
     target: "_blank"
   },
   apiRepo: {
     value: "api-repo",
     to: "https://github.com/niemopen/niem-api/",
     label: "NIEM API 2.0",
-    icon: icons.github,
+    icon: Icons.github,
     target: "_blank"
   },
   cmfRepo: {
     value: "cmf-repo",
     to: "https://github.com/niemopen/common-model-format",
     label: "CMF",
-    icon: icons.cmf,
+    icon: Icons.cmf,
     target: "_blank"
   },
   cmfToolRepo: {
     value: "cmf-tool-repo",
     to: "https://github.com/niemopen/cmftool",
     label: "CMF Tool",
-    icon: icons.github,
+    icon: Icons.github,
     target: "_blank"
   },
   techHub: {
     value: "tech-hub",
     to: "https://niem.github.io",
     label: "niem.github.io",
-    icon: icons.book,
+    icon: Icons.book,
     target: "_blank"
   },
   trainingVideos: {
     value: "training-videos",
     to: "https://www.youtube.com/watch?v=LJABuw42EnY&list=PLWEnz1sVMlkqxUzx7mCFSRdOLZhyM4DiV",
     label: "Training",
-    icon: icons.youtube,
+    icon: Icons.youtube,
     target: "_blank"
   },
   contact: {
     value: "contact",
     to: "https://www.niemopen.org/contact/",
     label: "Contact Us",
-    icon: icons.help,
+    icon: Icons.help,
     target: "_blank"
   },
   toolboxRepo: {
     value: "toolbox-repo",
     to: TOOLBOX_REPO_URL,
     label: "NIEM Toolbox",
-    icon: icons.github,
+    icon: Icons.github,
     target: "_blank"
   },
   apiSwaggerUI: {
@@ -202,13 +202,13 @@ const AppItemsHelper = {
     to: Config.baseURL + "/swagger-ui/index.html",
     label: "NIEM API 2.0 REST documentation",
     target: "_blank",
-    icon: icons.swagger
+    icon: Icons.swagger
   },
   toolboxIssues: {
     value: "toolbox-issues",
     to: TOOLBOX_REPO_URL + "issues/",
     label: "Issues",
-    icon: icons.issue,
+    icon: Icons.issue,
     target: "_blank"
   }
 }

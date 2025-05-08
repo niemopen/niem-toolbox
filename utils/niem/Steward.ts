@@ -1,5 +1,6 @@
 import type { BreadcrumbItem, TabsItem } from "@nuxt/ui";
 import { Entity, type EntityTypeCode } from "./Entity"
+import { Config } from "../Config";
 
 export class Steward extends Entity {
 
@@ -62,7 +63,7 @@ export class Steward extends Entity {
   }
 
   override get icon() {
-    return icons.steward;
+    return Icons.steward;
   }
 
   override get infoItems() {
@@ -99,13 +100,13 @@ export class Steward extends Entity {
   override get tabsItems(): ToolboxTabsItem[] {
     return [
       {
-        icon: icons.model,
+        icon: Icons.model,
         label: "Models",
         slot: "models",
         count: this.modelsCount
       },
       {
-        icon: icons.namespace,
+        icon: Icons.namespace,
         label: "Namespaces",
         slot: "namespaces"
       }

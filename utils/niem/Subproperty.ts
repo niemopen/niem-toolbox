@@ -5,9 +5,9 @@ import { Type } from "./Type";
 import { Namespace } from "./Namespace";
 import { Property } from "./Property";
 
-export class ChildProperty extends Entity {
+export class Subproperty extends Entity {
 
-  override "@type": EntityTypeCode = "ChildProperty";
+  override "@type": EntityTypeCode = "ChildPropertyAssociation";
 
   type?: APITypeRef;
   property?: APIPropertyRef;
@@ -46,7 +46,7 @@ export class ChildProperty extends Entity {
   }
 
   override get icon() {
-    return icons.childProperty;
+    return Icons.childProperty;
   }
 
   override get infoItems(): InfoItem[] {
@@ -86,13 +86,13 @@ export class ChildProperty extends Entity {
   }
 
   override get params() {
-    return super.params as APIChildPropertyParams
+    return super.params as APISubpropertyParams
   }
 
   override get tabsItems(): ToolboxTabsItem[] {
     return [
       {
-        icon: icons.childProperty,
+        icon: Icons.childProperty,
         label: "Contents",
         slot: "contents",
         count: this.contentsCount
@@ -100,7 +100,7 @@ export class ChildProperty extends Entity {
     ];
   }
 
-  static override apiRoute(params: APIChildPropertyParams) {
+  static override apiRoute(params: APISubpropertyParams) {
     let route = Version.apiRoute(params);
 
     if ("prefix" in params) {
@@ -119,7 +119,7 @@ export class ChildProperty extends Entity {
     return route;
   }
 
-  static override breadcrumbs(params: APIChildPropertyParams): BreadcrumbItem[] {
+  static override breadcrumbs(params: APISubpropertyParams): BreadcrumbItem[] {
     let breadcrumbs = Namespace.breadcrumbs({...params, prefix: "tmp"}).slice(0, -1);
     breadcrumbs.push(...[
       {
@@ -133,15 +133,23 @@ export class ChildProperty extends Entity {
     return breadcrumbs;
   }
 
+  static override fromAPI(apiData: APISubproperty) {
+    return Object.assign(new Subproperty(), apiData) as Subproperty;
+  }
+
+  static override fromAPIList(apiData: APISubproperty[]) {
+    return apiData.map(apiChildProperty => Subproperty.fromAPI(apiChildProperty));
+  }
+
   static override id(typeID: string, propertyQName: string) {
     return `${typeID}/${propertyQName}`;
   }
 
   static override init() {
-    return new ChildProperty();
+    return new Subproperty();
   }
 
-  static override params(childProperty: APIChildProperty | string): APIChildPropertyParams {
+  static override params(childProperty: APISubproperty | string): APISubpropertyParams {
     if (typeof childProperty == "string") {
       let [stewardKey, modelKey, versionNumber, typeQName, propertyQName] = childProperty.split("/");
       return {
@@ -157,12 +165,12 @@ export class ChildProperty extends Entity {
     }
   }
 
-  static override sort(a: ChildProperty, b: ChildProperty): number {
+  static override sort(a: Subproperty, b: Subproperty): number {
     if (!a.sequence || !b.sequence) return 0;
     return a.sequence - b.sequence;
   }
 
-  static override toolboxRoute(params: APIChildPropertyParams) {
+  static override toolboxRoute(params: APISubpropertyParams) {
     if ("typeQName" in params && "propertyQName" in params) {
       return Version.toolboxRoute(params)
       + "/" + params.typeQName

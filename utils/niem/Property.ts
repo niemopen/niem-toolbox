@@ -38,7 +38,7 @@ export class Property extends Component {
   }
 
   override get icon() {
-    return icons.property;
+    return Icons.property;
   }
 
   override get infoItems() {
@@ -71,13 +71,13 @@ export class Property extends Component {
   override get tabsItems(): ToolboxTabsItem[] {
     return [
       {
-        icon: icons.childProperty,
+        icon: Icons.childProperty,
         label: "Contents",
         slot: "contents",
         count: this.contentsCount
       },
       {
-        icon: icons.checklist,
+        icon: Icons.checklist,
         label: "Usages",
         slot: "usages",
         count: this.usagesCount
@@ -88,10 +88,16 @@ export class Property extends Component {
   static override apiRoute(params: APIVersionParams | APINamespaceParams | APIComponentParams) {
     let route = Version.apiRoute(params);
     if ("qname" in params) {
+      // Property route
       route += `/properties/${ params.qname }`;
     }
     else if ("prefix" in params) {
+      // Namespace properties route
       route += `/namespaces/${ params.prefix }/properties`;
+    }
+    else {
+      // Version properties route
+      route += "/properties";
     }
     return route;
   }

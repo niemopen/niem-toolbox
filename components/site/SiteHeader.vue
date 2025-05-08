@@ -19,7 +19,7 @@ const items = [
   [ AppItems.brand ],
 
   // Menu items on right
-  [ AppMenuItem(undefined, icons.menu, siteMenuItems) ]
+  [ AppMenuItem(undefined, Icons.menu, siteMenuItems) ]
 ] as NavigationMenuItem[];
 
 const ui = {

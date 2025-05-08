@@ -3,7 +3,7 @@
   <EntityContents :as="as" :entity="namespace">
 
     <template #properties>
-      <ListProperties :properties="properties" :enable-more="enableMoreProperties" @load-more="loadMoreProperties"/>
+      <ListProperties :properties="properties" :enable-more="hasMoreProperties" @load-more="loadMoreProperties"/>
     </template>
 
     <template #types>
@@ -31,13 +31,16 @@ params.prefix = params.slug;
 
 const toolbox = useToolboxStore();
 
+// Set up reactive component lists so values can be added later
 const properties: Ref<Property[]> = ref([]);
 const types: Ref<Type[]> = ref([]);
 
-const enableMoreProperties = computed<boolean>(() => {
+// Reactive indicator for if the namespace has more properties that could be loaded
+const hasMoreProperties = computed<boolean>(() => {
   return !namespace.propertiesLoaded;
 })
 
+// Reactive indicator for if the namespace has more types that could be loaded
 const enableMoreTypes = computed<boolean>(() => {
   return !namespace.typesLoaded;
 });
@@ -49,28 +52,44 @@ namespace.typesCount = 0;
 await loadMoreProperties();
 await loadMoreTypes();
 
+/**
+ * Load the next page of properties.
+ */
 async function loadMoreProperties() {
   if (namespace.propertiesLoaded) return;
   if (!namespace.propertiesCount) namespace.propertiesCount = 0;
 
-  let results = await toolbox.propertiesFromNamespace(namespace, properties.value.length);
-  if (results.length < API.PAGINATION_LIMIT) {
+  let page = await toolbox.propertiesFromNamespace(namespace, properties.value.length);
+
+  if (page.first) {
+    namespace.propertiesCount = page.totalElements;
+  }
+
+  if (page.last) {
     namespace.propertiesLoaded = true;
   }
-  namespace.propertiesCount += results.length;
-  properties.value.push(...results);
+
+  properties.value.push(...page.content);
 }
 
+/**
+ * Load the next page of types.
+ */
 async function loadMoreTypes() {
   if (namespace.typesLoaded) return;
   if (!namespace.typesCount) namespace.typesCount = 0;
 
-  let results = await toolbox.typesFromNamespace(namespace, types.value.length);
-  if (results.length < API.PAGINATION_LIMIT) {
+  let page = await toolbox.typesFromNamespace(namespace, types.value.length);
+
+  if (page.first) {
+    namespace.typesCount += page.totalElements;
+  }
+
+  if (page.last) {
     namespace.typesLoaded = true;
   }
-  namespace.typesCount += results.length;
-  types.value.push(...results);
+
+  types.value.push(...page.content);
 }
 
 </script>

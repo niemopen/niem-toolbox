@@ -11,7 +11,7 @@
 
         <!-- Popover info -->
         <UPopover mode="hover" :content="{side: 'right'}" :open-delay="700">
-          <UButton :icon="icons.info" color="neutral" variant="ghost" class="align-middle text-[var(--ui-text-muted)]"/>
+          <UButton :icon="Icons.info" color="neutral" variant="ghost" class="align-middle text-[var(--ui-text-muted)]"/>
           <template #content>
             <InfoTable :data="item.infoItems" width-class="w-[600px]"/>
           </template>
@@ -46,7 +46,7 @@
       <USeparator class="py-4"/>
       <div class="flex justify-between">
         <span>{{ entities.length }} items loaded</span>
-        <UButton label="More" :trailing-icon="icons.down" @click="$emit('loadMore')"/>
+        <UButton label="More" :trailing-icon="Icons.down" @click="$emit('loadMore')"/>
       </div>
     </div>
   </div>

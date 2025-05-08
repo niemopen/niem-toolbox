@@ -143,17 +143,17 @@ export class API {
     {
       value: "json",
       label: "JSON",
-      icon: icons.json
+      icon: Icons.json
     },
     {
       value: "csv",
       label: "CSV",
-      icon: icons.csv
+      icon: Icons.csv
     },
     {
       value: "xml",
       label: "XML",
-      icon: icons.xml
+      icon: Icons.xml
     }
   ]
 
@@ -183,10 +183,10 @@ export class API {
 
   static statusIcon(status: APITypes.ResultSeverityCode | APITypes.ResultStatusCode) {
     switch (status) {
-      case "error": return icons.error;
-      case "warning": return icons.warning;
-      case "passed": return icons.success;
-      case "info": return icons.info;
+      case "error": return Icons.error;
+      case "warning": return Icons.warning;
+      case "passed": return Icons.success;
+      case "info": return Icons.info;
     }
   }
 

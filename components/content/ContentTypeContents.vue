@@ -8,7 +8,7 @@
 </template>
 
 <script setup lang="ts">
-import type { ChildProperty } from '~/utils/niem/ChildProperty';
+import type { Subproperty } from '~/utils/niem/Subproperty';
 import type { Type } from '~/utils/niem/Type';
 
 const { type } = defineProps<{ type: Type }>();
@@ -17,7 +17,7 @@ const toolbox = useToolboxStore();
 
 let contentsItems: Ref<ContentsItem[]> = ref([]);
 
-function loadContents(type: Type, category: ContentsCategory, childProperties: ChildProperty[], label: string) {
+function loadContents(type: Type, category: ContentsCategory, childProperties: Subproperty[], label: string) {
 
   if (childProperties.length == 0) return;
   if (!type.contentsCount) type.contentsCount = 0;
@@ -28,7 +28,7 @@ function loadContents(type: Type, category: ContentsCategory, childProperties: C
     category,
     childProperties,
     type,
-    icon: icons.contents,
+    icon: Icons.contents,
     label: `${ label } (${ childProperties.length })`,
     value: type.qname
   })
@@ -37,7 +37,7 @@ function loadContents(type: Type, category: ContentsCategory, childProperties: C
 
 
 // Add inherited properties
-let bases = await toolbox.bases(type);
+let bases = await toolbox.bases(type.params);
 
 for (let base of bases) {
   let childProperties = await toolbox.childPropertiesOfType(base);

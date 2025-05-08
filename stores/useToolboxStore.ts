@@ -1,13 +1,13 @@
 import { useStorage, type RemovableRef, type UseStorageOptions } from "@vueuse/core";
-import { Model } from "~/utils/niem/Model";
-import { Namespace } from "~/utils/niem/Namespace";
-import { Property } from "~/utils/niem/Property";
-import { Steward } from "~/utils/niem/Steward";
-import { Type } from "~/utils/niem/Type";
+import { Steward } from "../utils/niem/Steward";
+import { Model } from "../utils/niem/Model";
+import { Config } from "../utils/Config";
+import { Type } from "../utils/niem/Type";
+import { Property } from "../utils/niem/Property";
+import { Subproperty } from "../utils/niem/Subproperty";
+import { Namespace } from "../utils/niem/Namespace";
 import { Version } from "~/utils/niem/Version";
-import { Config } from "~/utils/Config";
 import type { Entity } from "~/utils/niem/Entity";
-import { ChildProperty } from "~/utils/niem/ChildProperty";
 
 /**
  * Prefix keys in local storage with "niem-toolbox-".
@@ -63,7 +63,7 @@ export const useToolboxStore = defineStore("niem-toolbox", () => {
 
   const typeStorage: RemovableRef<Type[]> = useStorage(key("types"), [], localStorage, {...storageOptions, serializer: Type.serializeEntityList(Type.init)});
 
-  const childPropertyStorage: RemovableRef<ChildProperty[]> = useStorage(key("child-properties"), [], localStorage, {...storageOptions, serializer: ChildProperty.serializeEntityList(ChildProperty.init)});
+  const childPropertyStorage: RemovableRef<Subproperty[]> = useStorage(key("child-properties"), [], localStorage, {...storageOptions, serializer: Subproperty.serializeEntityList(Subproperty.init)});
 
 
   const userSteward: RemovableRef<Steward> = useStorage(key("user"), user, localStorage, storageOptions);
@@ -103,7 +103,7 @@ export const useToolboxStore = defineStore("niem-toolbox", () => {
   }
 
   /**
-   * Get stewards from session storage, or load from the API.
+   * Get all stewards.
    */
   async function stewards(): Promise<Steward[]> {
     if (stewardStorage.value.length == 0) {
@@ -115,6 +115,10 @@ export const useToolboxStore = defineStore("niem-toolbox", () => {
     return stewardStorage.value;
   }
 
+  /**
+   * Get all models from the given steward, or all models from all stewards if
+   * no steward is given.
+   */
   async function models(steward?: Steward): Promise<Model[]> {
     if (steward && steward.modelsLoaded) {
       // Get all models from given steward in storage
@@ -167,98 +171,68 @@ export const useToolboxStore = defineStore("niem-toolbox", () => {
     return results;
   }
 
-  async function propertiesFromVersion(version: Version, page=0): Promise<Paginated<Property>> {
-
-    let options: SearchPropertiesOptions = {
-      niemVersionNumber: version.niemVersionNumber,
-      page
-    }
-
-    let results = await Search.properties(options);
-    return results;
+  async function propertiesFromVersion(version: Version, offset=0): Promise<Paginated<Property>> {
+    let pageable = Pagination.pageable(offset);
+    return Data.properties(version.params, pageable);
   }
 
-  async function propertiesFromNamespace(namespace: Namespace, page=0):
+  async function propertiesFromNamespace(namespace: Namespace, offset=0):
       Promise<Paginated<Property>> {
-
-    if (!namespace.prefix) return Data.emptyPaginatedProperty();
-
-    let namespaceVersion = await version(namespace.params);
-    let options: SearchPropertiesOptions = {
-      niemVersionNumber: namespaceVersion?.niemVersionNumber,
-      prefix: [namespace.prefix],
-      page
-    }
-
-    let results = await Search.properties(options);
-    return results;
+    if (!namespace.prefix) return Pagination.emptyProperties();
+    let pageable = Pagination.pageable(offset);
+    return Data.properties(namespace.params, pageable);
   }
 
-  async function typesFromVersion(version: Version, page=0): Promise<Paginated<Type>> {
-
-    let options: SearchTypesOptions = {
-      niemVersionNumber: version.niemVersionNumber,
-      page
-    }
-
-    let results = await Search.types(options);
-    return results;
+  async function typesFromVersion(version: Version, offset=0): Promise<Paginated<Type>> {
+    let pageable = Pagination.pageable(offset);
+    return Data.types(version.params, pageable);
   }
 
-  async function typesFromNamespace(namespace: Namespace, page=0): Promise<Paginated<Type>> {
-
-    if (!namespace.prefix) return Data.emptyPaginatedType();
-
-    let namespaceVersion = await version(namespace.params);
-    let options: SearchTypesOptions = {
-      niemVersionNumber: namespaceVersion?.niemVersionNumber,
-      prefix: [namespace.prefix],
-      page
-    }
-
-    let results = await Search.types(options);
-    // typeStorage.value.push(...results);
-    // namespace.typesLoaded = true;
-    return results;
+  async function typesFromNamespace(namespace: Namespace, offset=0): Promise<Paginated<Type>> {
+    let pageable = Pagination.pageable(offset);
+    return Data.types(namespace.params, pageable);
   }
 
-  async function childPropertiesOfType(type: Type): Promise<ChildProperty[]> {
+  async function childPropertiesOfType(type: Type): Promise<Subproperty[]> {
     if (type.contentsLoaded) {
       let results = childPropertyStorage.value.filter(childProperty => childProperty.type?.route == type.route);
       processHits(results);
-      return results.sort(ChildProperty.sort);
+      return results.sort(Subproperty.sort);
     }
 
     console.log("PULLING CHILD PROPERTIES OF ", type.qname);
-    let results = await Data.childPropertiesOfType(type.params);
+    let results = await Data.subpropertiesOfType(type.params);
     childPropertyStorage.value.push(...results);
     type.contentsLoaded = true;
     return results || [];
   }
 
-  async function childPropertiesWithProperty(property: Property): Promise<ChildProperty[]> {
-    let results = await Data.childPropertiesWithProperty(property.params);
+  async function childPropertiesWithProperty(property: Property): Promise<Subproperty[]> {
+    let results = await Data.subpropertiesWithProperty(property.params);
     return results || [];
   }
 
 
   /**
-   * Get steward from session storage or from the API.
+   * Get the steward with the given fields from storage or from the API.
    */
-  async function steward(params: APIStewardParams): Promise<Steward|void> {
+  async function steward(params: APIStewardParams): Promise<Steward|null> {
     // Attempt to load from store
     let result = stewardStorage.value.find(steward => steward.stewardKey == params.stewardKey);
     processHit(result);
 
     if (!result) {
       // Attempt to pull from API
-      result = await Data.steward(params);
+      return Data.steward(params);
     }
 
-    return result;
+    return result ?? null;
   }
 
-  async function model(params: APIModelParams): Promise<Model|undefined> {
+  /**
+   * Get the model with the given fields from storage or from the API.
+   */
+  async function model(params: APIModelParams): Promise<Model|null> {
     // Attempt to load from store
     let modelID = Model.idFromParams(Model, params);
     let result = modelStorage.value.find(model => model.id == modelID);
@@ -266,104 +240,73 @@ export const useToolboxStore = defineStore("niem-toolbox", () => {
 
     if (!result) {
       // Attempt to load from API
-      result = await Data.model(params);
+      return Data.model(params);
     }
 
-    return result;
+    return result ?? null;
   }
 
-  async function version(params: APIVersionParams): Promise<Version|undefined> {
-    // Attempt to load from store
-    let versionID = Version.idFromParams(Version, params);
-    let result = versionStorage.value.find(version => version.id == versionID);
-    processHit(result);
-
-    if (!result) {
-      result = await Data.version(params);
-    }
-
-    return result;
+  /**
+   * Get the version with the given fields from the API.
+   */
+  async function version(params: APIVersionParams): Promise<Version|null> {
+    return Data.version(params);
   }
 
-  async function namespace(params: APINamespaceParams): Promise<Namespace|undefined> {
-    // Attempt to load from store
-    let namespaceID = Namespace.idFromParams(Namespace, params);
-    let result = namespaceStorage.value.find(namespace => namespace.id == namespaceID);
-    processHit(result);
-
-    if (!result) {
-      result = await Data.namespace(params);
-      if (result) namespaceStorage.value.push(result);
-    }
-
-    return result;
+  /**
+   * Get the namespace with the given fields.
+   */
+  async function namespace(params: APINamespaceParams): Promise<Namespace|null> {
+    return Data.namespace(params);
   }
 
-  async function property(arg: APIComponentParams | string): Promise<Property|undefined> {
-    let result: Property | undefined;
-
-    if (typeof arg == "object") {
-      // Attempt to load from store
-      let propertyID = Property.idFromParams(Property, arg);
-      result = propertyStorage.value.find(property => property.id == propertyID);
-      processHit(result);
-    }
-
-    if (!result) {
-      result = await Data.property(arg);
-      if (result) propertyStorage.value.push(result);
-    }
-
-    return result;
+  /**
+   * Get the property with the given fields.
+   */
+  async function property(arg: APIComponentParams | string): Promise<Property|null> {
+    return Data.property(arg);
   }
 
-  async function type(arg: APIComponentParams | string): Promise<Type|undefined> {
-    let result: Type | undefined;
-
-    if (typeof arg == "object") {
-      // Attempt to load from store
-      let typeID = Type.idFromParams(Type, arg);
-      result = typeStorage.value.find(type => type.id == typeID);
-      processHit(result);
-    }
-
-    if (!result) {
-      result = await Data.type(arg);
-      if (result) typeStorage.value.push(result);
-    }
-
-    return result;
+  /**
+   * Get the type with the given fields.
+   */
+  async function type(arg: APIComponentParams | string): Promise<Type|null> {
+    return Data.type(arg);
   }
 
-  async function bases(type: Type): Promise<Type[]> {
-    let bases: Type[] = [];
-    let currentType: Type | undefined = type;
-
-    while (currentType && currentType.base) {
-      let base = await Data.type(currentType.base.route);
-      if (base) bases.push(base);
-      currentType = base;
-    }
-
-    return bases;
+  /**
+   * Get the type inheritance or restriction chain for the type with the given fields.
+   */
+  async function bases(typeParams: APIComponentParams): Promise<Type[]> {
+    return Data.bases(typeParams);
   }
 
-  async function substitutions(property: Property): Promise<Property[]> {
-
+  /**
+   * Get a list of properties substitutable for the given property.
+   */
+  async function substitutions(arg: APIComponentParams): Promise<Property[]> {
+    return Data.substitutions(arg);
   }
 
+  /**
+   * Get augmentation properties for the type with the given fields.
+   */
   async function augmentations(type: Type): Promise<Property[]> {
-    if (!type.name || !type.name.endsWith("Type") || type.category != "complex_object") return [];
+    if (type.isSimpleContent) {
+      return [];
+    }
 
-    let augmentationName = type.name.slice(0, -4) + "AugmentationPoint";
+    let augmentationParams = type.params;
+    augmentationParams.qname = type.params.qname?.slice(0, -4) + "AugmentationPoint";
 
-    let augmentations = await Search.properties({
-      niemVersionNumber: type.version?.niemVersionNumber,
-      type: [ augmentationName + "Type" ]
-    })
+    try {
+      let augmentationProperty = await Data.property(augmentationParams);
+      return augmentationProperty ? substitutions(augmentationProperty.params) : [];
+    }
+    catch (error) {
+      return [];
+    }
 
-    // TODO-API: Search augmentations returns too many results
-    return augmentations.filter(augmentation => augmentation.name == augmentationName);
   }
 
 
@@ -406,6 +349,7 @@ export const useToolboxStore = defineStore("niem-toolbox", () => {
 
     bases,
     augmentations,
+    substitutions,
 
     userSteward,
     highlights,

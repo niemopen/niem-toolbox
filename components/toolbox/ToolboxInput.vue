@@ -2,7 +2,7 @@
 <template>
   <UInput v-model="value" :placeholder="placeholder" :name="name" :ui="ui">
     <template v-if="true" #trailing>
-      <UButton color="neutral" variant="link" size="sm" :icon="icons.close" aria-label="Clear input" @click="value=''"/>
+      <UButton color="neutral" variant="link" size="sm" :icon="Icons.close" aria-label="Clear input" @click="value=''"/>
     </template>
   </UInput>
 </template>

@@ -51,14 +51,14 @@
 
         <!-- Upload file input -->
         <span v-if="inputMode=='upload'">
-          <UInput type="file" @change="onFileChange" :accept="accept" :icon="icons.upload" :ui="UI.inputFileInGroup">
+          <UInput type="file" @change="onFileChange" :accept="accept" :icon="Icons.upload" :ui="UI.inputFileInGroup">
             <template #trailing>(CMF | XSD | ZIP)</template>
           </UInput>
         </span>
 
         <!-- Demo file input -->
         <span v-else>
-          <UInput v-model="demoFile" :ui="UI.inputFileInGroup" :icon="icons.magic"/>
+          <UInput v-model="demoFile" :ui="UI.inputFileInGroup" :icon="Icons.magic"/>
         </span>
 
         <!-- Select upload file or demo file option -->
@@ -110,7 +110,7 @@ const inputModeItems: InputModeItem[] = [
   {
     value: "upload",
     label: "Upload",
-    icon: icons.upload
+    icon: Icons.upload
   },
   {
     type: "separator"
@@ -122,14 +122,14 @@ const inputModeItems: InputModeItem[] = [
   {
     value: "cmf",
     label: "CMF",
-    icon: icons.cmf,
+    icon: Icons.cmf,
     from: "cmf",
     path: "demo/transform/CrashDriver-5.0.cmf.xml"
   },
   {
     value: "xsd",
     label: "XSD",
-    icon: icons.xml,
+    icon: Icons.xml,
     from: "xsd",
     path: "demo/transform/CrashDriver-5.0.zip"
   },
@@ -143,14 +143,14 @@ const inputModeItems: InputModeItem[] = [
   {
     value: "cmf-invalid",
     label: "CMF 0.6",
-    icon: icons.error,
+    icon: Icons.error,
     from: "cmf",
     path: "demo/transform/CrashDriver-5.0-CMFv0.6.cmf.xml"
   },
   {
     value: "text",
     label: ".txt file",
-    icon: icons.error,
+    icon: Icons.error,
     from: undefined,
     path: "demo/transform/CrashDriver-5.0.txt"
   }
@@ -195,13 +195,13 @@ const fromItems = [
   {
     value: "cmf",
     label: "CMF XML",
-    icon: icons.cmf,
+    icon: Icons.cmf,
     extensions: ["cmf", "xml"]
   },
   {
     value: "xsd",
     label: "NIEM XSD",
-    icon: icons.xml,
+    icon: Icons.xml,
     extensions: ["zip", "xsd"]
   }
 ];
@@ -211,14 +211,14 @@ const toItems = [
   {
     value: "json_schema",
     label: "JSON Schema",
-    icon: icons.json,
+    icon: Icons.json,
     extensions: ["schema.json", "jschema", "json"]
 
   },
   {
     value: "owl",
     label: "OWL",
-    icon: icons.owl,
+    icon: Icons.owl,
     extensions: ["ttl"]
   }
 ];

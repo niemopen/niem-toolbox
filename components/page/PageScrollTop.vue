@@ -1,7 +1,7 @@
 
 <template>
   <UButton id="scroll-top" color="neutral" variant="outline" class="rounded-full" :ui="ui" @click="scrollTop" aria-label="Scroll to top of page">
-    <UIcon :name="icons.up" aria-hidden="true"/>
+    <UIcon :name="Icons.up" aria-hidden="true"/>
   </UButton>
 </template>
 

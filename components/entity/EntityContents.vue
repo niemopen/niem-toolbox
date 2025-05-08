@@ -23,7 +23,7 @@
     <!-- Entity as list item -->
     <UTabs v-else-if="as=='list-item'" :items="entity.tabsItems" color="neutral" variant="link">
       <template #trailing="{ item }">
-        <span v-if="item.count">({{ item.count }}{{ item.more ? "+" : "" }})</span>
+        <span v-if="item.count">({{ item.count }})</span>
       </template>
 
       <template #default="{ item, index }">
@@ -35,7 +35,8 @@
     </UTabs>
 
     <!-- Entity as tree -->
-    <ContentTypeContents v-else-if="as=='tree' && entity['@type']=='Type'" :type="entity as Type"/>
+    <ContentTypeContents v-else-if="as=='tree' && entity['@type']=='Type'"
+        :type="(entity as Type)"/>
 
   </div>
 

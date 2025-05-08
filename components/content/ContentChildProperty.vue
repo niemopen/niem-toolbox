@@ -9,13 +9,13 @@
 </template>
 
 <script setup lang="ts">
-import { ChildProperty } from '~/utils/niem/ChildProperty';
+import { Subproperty } from '~/utils/niem/Subproperty';
 import type { Property } from '~/utils/niem/Property';
 import type { Type } from '~/utils/niem/Type';
 
 const { childProperty } = defineProps<{
   as: ContentsAsType,
-  childProperty: ChildProperty
+  childProperty: Subproperty
 }>();
 
 const toolbox = useToolboxStore();

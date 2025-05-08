@@ -1,5 +1,6 @@
-import { Property } from "./niem/Property";
-import { Type } from "./niem/Type";
+import type { Property } from "./niem/Property";
+import type { Type } from "./niem/Type";
+import { Pagination } from "./Pagination";
 
 export type SearchPropertiesOptions = {
   niemVersionNumber?: string,
@@ -28,30 +29,30 @@ export class Search {
 
   static async properties(options: SearchPropertiesOptions): Promise<Paginated<Property>> {
     let queryString = Search.optionsQueryString(options);
-    if (queryString == "") return Data.emptyPaginatedProperty();
+    if (queryString == "") return Pagination.emptyProperties();
 
     let response = await fetch(API.routes.search_properties + queryString);
 
     if (response.ok) {
       let paginatedAPIProperties = await response.json() as Paginated<APIProperty>;
-      return Data.processPaginatedAPIProperties(paginatedAPIProperties);
+      return Pagination.processAPIProperties(paginatedAPIProperties);
     }
 
-    return Data.emptyPaginatedProperty();
+    return Pagination.emptyProperties();
   }
 
   static async types(options: SearchTypesOptions): Promise<Paginated<Type>> {
     let queryString = Search.optionsQueryString(options);
-    if (queryString == "") return Data.emptyPaginatedType();
+    if (queryString == "") return Pagination.emptyTypes();
 
     let response = await fetch(API.routes.search_types + queryString);
 
     if (response.ok) {
       let paginatedAPITypes = await response.json() as Paginated<APIType>;
-      return Data.processPaginatedAPITypes(paginatedAPITypes);
+      return Pagination.processAPITypes(paginatedAPITypes);
     }
 
-    return Data.emptyPaginatedType();
+    return Pagination.emptyTypes();
   }
 
   private static optionsQueryString(options: {[x: string] : string | boolean | number | string[]}) {

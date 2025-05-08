@@ -1,5 +1,5 @@
 import type { AccordionItem, BreadcrumbItem, LinkProps, SelectItem, TabsItem } from "@nuxt/ui";
-import type { ChildProperty } from "~/utils/niem/ChildProperty";
+import type { Subproperty } from "~/utils/niem/Subproperty";
 import type { InfoItem } from "~/utils/niem/Entity";
 import type { Type } from "~/utils/niem/Type";
 
@@ -57,7 +57,7 @@ declare global {
 
   type ContentsItem = AccordionItem & {
     type: Type,
-    childProperties: ChildProperty[],
+    childProperties: Subproperty[],
     category: ContentsCategory
   }
 

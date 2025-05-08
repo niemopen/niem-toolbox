@@ -63,7 +63,7 @@ const summaryItems = computed<AccordionItem[]>(() => {
   return [
     {
       label: results.message,
-      icon: icons.download
+      icon: Icons.download
     }
   ]
 });
@@ -115,7 +115,7 @@ const testItems = computed<TestAccordionItem[]>(() => {
 
     return {
       label: test.id,
-      icon: icons.checklist,
+      icon: Icons.checklist,
       tests,
       status,
       color: API.statusColor(status)
@@ -128,7 +128,7 @@ const testItems = computed<TestAccordionItem[]>(() => {
 
     items.push({
       label: "NDR validation report",
-      icon: icons.checklist,
+      icon: Icons.checklist,
       kind: "ndr",
       tests: ndrTests.value,
       status,

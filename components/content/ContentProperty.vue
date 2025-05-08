@@ -20,7 +20,7 @@
 </template>
 
 <script setup lang="ts">
-import type { ChildProperty } from '~/utils/niem/ChildProperty';
+import type { Subproperty } from '~/utils/niem/Subproperty';
 import type { Property } from '~/utils/niem/Property';
 import type { Type } from '~/utils/niem/Type';
 
@@ -37,7 +37,7 @@ if (property.type) {
   type = await toolbox.type({...property.params, qname: property.type?.qname});
 }
 
-let usages: ChildProperty[] = await toolbox.childPropertiesWithProperty(property);
+let usages: Subproperty[] = await toolbox.childPropertiesWithProperty(property);
 
 property.usagesCount = usages.length;
 

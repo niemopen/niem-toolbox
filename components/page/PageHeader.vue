@@ -4,7 +4,7 @@
 
     <div class="flex justify-between z-30">
       <!-- Header icon and title -->
-      <ToolboxIconTitle :icon="page.icon || icons.error" :title="title" classes="page-header-title font-bold"/>
+      <ToolboxIconTitle :icon="page.icon || Icons.error" :title="title" classes="page-header-title font-bold"/>
 
       <!-- Header buttons -->
       <span class="gap-1.5">
@@ -31,7 +31,7 @@
 
     <!-- Display user info, developer info, or preferences if clicked -->
     <div id="page-header-more" v-if="activePanel && activePanelID">
-      <PageMore :icon="activePanel.icon || icons.error" :title="activePanel.label || ''" :slotName="activePanelID">
+      <PageMore :icon="activePanel.icon || Icons.error" :title="activePanel.label || ''" :slotName="activePanelID">
         <template #[activePanelID]>
           <slot :name="activePanelID"/>
         </template>
@@ -59,17 +59,17 @@ const panels: AppLinkType[] = [
   {
     value: "user",
     label: "User information",
-    icon: icons.info
+    icon: Icons.info
   },
   {
     value: "developer",
     label: "Developer information",
-    icon: icons.developer
+    icon: Icons.developer
   },
   {
     value: "preferences",
     label: "Page preferences",
-    icon: icons.preferences
+    icon: Icons.preferences
   }
 ]
 

@@ -25,7 +25,7 @@
         <UTabs :items="updatedTabsItems" color="neutral" variant="link">
 
           <template #trailing="{ item }">
-            <span v-if="item.count">({{ item.count }}{{ item.more ? "+" : "" }})</span>
+            <span v-if="item.count">({{ item.count }})</span>
           </template>
 
           <template #details>
@@ -47,11 +47,11 @@
 
     <div class="flex justify-between mt-2 pl-6 pr-2">
       <span>
-        <UButton v-if="previousInList" :to="previousInList.to" :leading-icon="icons.left" :label="previousInList.label" color="neutral" variant="link" class="hover:bg-transparent"/>
+        <UButton v-if="previousInList" :to="previousInList.to" :leading-icon="Icons.left" :label="previousInList.label" color="neutral" variant="link" class="hover:bg-transparent"/>
       </span>
 
       <span>
-        <UButton v-if="nextInList" :to="nextInList.to" :trailing-icon="icons.right" :label="nextInList.label" color="neutral" variant="link" class="hover:bg-transparent"/>
+        <UButton v-if="nextInList" :to="nextInList.to" :trailing-icon="Icons.right" :label="nextInList.label" color="neutral" variant="link" class="hover:bg-transparent"/>
       </span>
     </div>
 
@@ -67,7 +67,7 @@ const { entity } = defineProps<{
 
 const updatedTabsItems: ToolboxTabsItem[] = [
   {
-    icon: icons.info,
+    icon: Icons.info,
     label: "Details",
     slot: "details"
   },

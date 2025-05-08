@@ -15,7 +15,7 @@ type Params = APIVersionParams & {
 
 const params = useRoute().params as Params;
 
-const childProperty = await Data.childProperty({
+const childProperty = await Data.subproperty({
   ...params,
   typeQName: params.base + "Type"
 });

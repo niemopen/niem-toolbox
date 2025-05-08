@@ -20,20 +20,20 @@
         <ListModels :models="models" :useLabelQualifier="true"/>
       </template>
 
-      <template #highlights>
-        <!-- TODO: Highlights -->
+      <!-- TODO: Highlights -->
+      <!-- <template #highlights>
         <ContentPlaceholder label="highlights"/>
         <ContentModel as="list-item" :model="highlights"/>
-      </template>
+      </template> -->
 
-      <template #favorites>
-        <!-- TODO: Favorites -->
+      <!-- TODO: Favorites -->
+      <!-- <template #favorites>
         <ContentPlaceholder label="favorites"/>
         <ContentModel as="list-item" :model="favorites"/>
-      </template>
+      </template> -->
 
+      <!-- TODO: History -->
       <template #history>
-        <!-- TODO: History -->
         <ContentPlaceholder label="history"/>
         <ListProperties :properties="propertyHistory"/>
       </template>
@@ -58,31 +58,31 @@ const router = useRouter();
 const items = ref<TabsItem[]>([
   {
     label: "Stewards" + ToolboxApp.labelCount(stewards),
-    icon: icons.steward,
+    icon: Icons.steward,
     slot: "stewards",
     value: "stewards"
   },
   {
     label: "Models" + ToolboxApp.labelCount(models),
-    icon: icons.model,
+    icon: Icons.model,
     slot: "models",
     value: "models"
   },
-  {
-    label: "NIEM highlights",
-    icon: icons.niemopen,
-    slot: "highlights",
-    value: "highlights"
-  },
-  {
-    label: "Favorites",
-    icon: icons.starFilled,
-    slot: "favorites",
-    value: "favorites"
-  },
+  // {
+  //   label: "NIEM highlights",
+  //   icon: Icons.niemopen,
+  //   slot: "highlights",
+  //   value: "highlights"
+  // },
+  // {
+  //   label: "Favorites",
+  //   icon: Icons.starFilled,
+  //   slot: "favorites",
+  //   value: "favorites"
+  // },
   {
     label: "History" + ToolboxApp.labelCount(propertyHistory),
-    icon: icons.history,
+    icon: Icons.history,
     slot: "history",
     value: "history"
   }

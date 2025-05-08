@@ -67,7 +67,7 @@ export class Model extends Entity {
   }
 
   override get icon() {
-    return icons.model;
+    return Icons.model;
   }
 
   override get infoItems() {
@@ -106,7 +106,7 @@ export class Model extends Entity {
   override get tabsItems(): ToolboxTabsItem[] {
     return [
       {
-        icon: icons.version,
+        icon: Icons.version,
         label: "Versions",
         slot: "versions",
         count: this.versionsCount

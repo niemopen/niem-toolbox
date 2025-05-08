@@ -32,13 +32,13 @@
       <hr/>
       <div v-for="property in properties" :key="property.label" class="divider-y">
         <div class="flex flex-row w-full">
-          <UButton :icon="icons.more" @click="toggleDisplay(property)" :class="UI.button_icon"/>
+          <UButton :icon="Icons.more" @click="toggleDisplay(property)" :class="UI.button_icon"/>
 
           <ULink @click="console.log('clicked', property.qname)" class="mr-1 font-medium text-sm text-indigo-800">{{ property.qname }}</ULink>
           <ULink @click="console.log('clicked', 'nc:TextType')" class="font-light text-sm">({{ 'nc:TextType' }})</ULink>
 
           <UButton @click="property.expand = !property.expand" class="grow justify-end" :ui="UI.button_invisible"/>
-          <UButton :icon="icons.add" @click="selectedItem=property.qname" :class="UI.button_icon"/>
+          <UButton :icon="Icons.add" @click="selectedItem=property.qname" :class="UI.button_icon"/>
         </div>
 
         <div :class="property.expand">

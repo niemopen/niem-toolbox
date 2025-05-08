@@ -8,7 +8,7 @@
     </template>
 
     <template #body="{ item }">
-      <ListTemplate :entities="item.namespaces" class="pl-4" :disableExpand="true" :useLabelQualifier="true"/>
+      <ListTemplate :entities="item.namespaces" class="pl-4" :disableExpand="true" :useLabelQualifier="useLabelQualifier"/>
     </template>
   </UAccordion>
 </template>
@@ -17,7 +17,10 @@
 import { Namespace } from '~/utils/niem/Namespace';
 import type { AccordionItem } from '@nuxt/ui';
 
-const { namespaces = [] } = defineProps<{ namespaces?: Namespace[] }>();
+const { namespaces = [], useLabelQualifier = false } = defineProps<{
+  namespaces?: Namespace[] ,
+  useLabelQualifier?: boolean
+}>();
 
 // Unique list of namespace categories
 const namespaceCategories = [
@@ -37,7 +40,7 @@ const namespaceCategoryItems: NamespaceCategoryItem[] = namespaceCategories.map(
     .sort(Namespace.sort)
 
   return {
-    icon: icons.namespace,
+    icon: Icons.namespace,
     label: `${category} (${filteredNamespaces.length})`,
     namespaces: filteredNamespaces
   }
@@ -48,7 +51,7 @@ const undefinedNamespaces = namespaces.filter(namespace => namespace.category ==
 
 if (undefinedNamespaces.length > 0) {
   namespaceCategoryItems.push({
-    icon: icons.namespace,
+    icon: Icons.namespace,
     label: `[undefined] ${undefinedNamespaces.length}`,
     namespaces: undefinedNamespaces
   })

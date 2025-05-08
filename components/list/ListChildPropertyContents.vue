@@ -4,9 +4,9 @@
 </template>
 
 <script setup lang="ts">
-import type { ChildProperty } from '~/utils/niem/ChildProperty';
+import type { Subproperty } from '~/utils/niem/Subproperty';
 
-const { childProperty } = defineProps<{ childProperty: ChildProperty }>();
+const { childProperty } = defineProps<{ childProperty: Subproperty }>();
 
 
 </script>

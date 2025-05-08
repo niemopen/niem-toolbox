@@ -35,9 +35,9 @@ export class Type extends Component {
 
   override get icon() {
     if (this.category == "complex_value" || this.category == "simple_value") {
-      return icons.datatype;
+      return Icons.datatype;
     }
-    return icons.class;
+    return Icons.class;
   }
 
   override get infoItems() {
@@ -67,13 +67,13 @@ export class Type extends Component {
   override get tabsItems(): ToolboxTabsItem[] {
     return [
       {
-        icon: icons.childProperty,
+        icon: Icons.childProperty,
         label: "Contents",
         slot: "contents",
         count: this.contentsCount
       },
       {
-        icon: icons.checklist,
+        icon: Icons.checklist,
         label: "Usages",
         slot: "usages",
         count: this.usagesCount
@@ -84,10 +84,16 @@ export class Type extends Component {
   static override apiRoute(params: APIVersionParams | APINamespaceParams | APIComponentParams) {
     let route = Version.apiRoute(params);
     if ("qname" in params) {
+      // Type route
       route += `/types/${params.qname}`;
     }
     else if ("prefix" in params) {
+      // Namespace types route
       route += `/namespaces/${params.prefix}/types`;
+    }
+    else {
+      // Version types route
+      route += "/types";
     }
     return route;
   }

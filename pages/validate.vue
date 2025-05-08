@@ -73,14 +73,14 @@
 
         <!-- File 1 as upload -->
         <span v-if="inputMode=='upload'">
-          <UInput type="file" @change="onFile1Change" :accept="validationItem?.file1?.validExtensions" :icon="validationItem?.file1?.icon || icons.upload" :ui="UI.inputFileInGroup">
+          <UInput type="file" @change="onFile1Change" :accept="validationItem?.file1?.validExtensions" :icon="validationItem?.file1?.icon || Icons.upload" :ui="UI.inputFileInGroup">
             <template #trailing>{{ file1TypeLabel }}</template>
           </UInput>
         </span>
 
         <!-- File 1 as demo file -->
         <span v-else>
-          <UInput v-model="demoFile1" :ui="UI.inputFileInGroup" :icon="icons.magic"/>
+          <UInput v-model="demoFile1" :ui="UI.inputFileInGroup" :icon="Icons.magic"/>
         </span>
 
         <!-- Select upload file or demo file option -->
@@ -98,13 +98,13 @@
       >
 
         <!-- File 2 as upload -->
-        <UInput v-if="inputMode=='upload'" type="file" @change="onFile2Change" :accept="validationItem.file2.validExtensions" :icon="validationItem?.file2?.icon || icons.upload" :ui="UI.inputFileInGroup">
+        <UInput v-if="inputMode=='upload'" type="file" @change="onFile2Change" :accept="validationItem.file2.validExtensions" :icon="validationItem?.file2?.icon || Icons.upload" :ui="UI.inputFileInGroup">
           <template #trailing>{{ file2TypeLabel }}</template>
         </UInput>
 
         <!-- File 2 as demo file -->
         <span v-else>
-          <UInput v-model="demoFile2" :ui="UI.inputFileInGroup" :icon="icons.magic"/>
+          <UInput v-model="demoFile2" :ui="UI.inputFileInGroup" :icon="Icons.magic"/>
         </span>
       </UFormField>
 
@@ -139,7 +139,7 @@ type InputModeItem = SelectItem & {
 const inputModeItems: InputModeItem[] = [
   {
     value: "upload",
-    icon: icons.upload,
+    icon: Icons.upload,
     label: "Upload"
   },
   {
@@ -151,13 +151,13 @@ const inputModeItems: InputModeItem[] = [
   },
   {
     value: "valid",
-    icon: icons.success,
+    icon: Icons.success,
     label: "Valid",
 
   },
   {
     value: "invalid",
-    icon: icons.error,
+    icon: Icons.error,
     label: "Invalid"
   }
 ]

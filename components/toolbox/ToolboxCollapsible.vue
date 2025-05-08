@@ -2,7 +2,7 @@
 <template>
   <UCollapsible class="mt-3" :default-open="defaultOpen" @update:open="$emit('open')">
 
-    <UButton :label="label" color="neutral" variant="subtle" :leading-icon="icons.down" class="justify-start" block/>
+    <UButton :label="label" color="neutral" variant="subtle" :leading-icon="Icons.down" class="justify-start" block/>
 
     <template #content>
       <div class="mt-3 ml-8">

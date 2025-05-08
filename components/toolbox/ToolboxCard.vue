@@ -5,7 +5,7 @@
     <template #header>
       <div class="flex justify-between">
         <ToolboxIconTitle :title="title" :icon="icon"/>
-        <UButton v-if="dismissible" :icon="icons.close" @click="panelDisplay='hidden'" :class="closeButtonClasses"/>
+        <UButton v-if="dismissible" :icon="Icons.close" @click="panelDisplay='hidden'" :class="closeButtonClasses"/>
       </div>
     </template>
 

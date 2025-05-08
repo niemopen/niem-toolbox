@@ -46,7 +46,7 @@ export class Namespace extends Entity {
   }
 
   override get icon() {
-    return icons.namespace;
+    return Icons.namespace;
   }
 
   override get infoItems(): InfoItem[] {
@@ -87,21 +87,21 @@ export class Namespace extends Entity {
   override get tabsItems(): ToolboxTabsItem[] {
     return [
       {
-        icon: icons.property,
+        icon: Icons.property,
         label: "Properties",
         slot: "properties",
         count: this.propertiesCount,
         more: !this.propertiesLoaded
       },
       {
-        icon: icons.type,
+        icon: Icons.type,
         label: "Types",
         slot: "types",
         count: this.typesCount,
         more: !this.typesLoaded
       },
       {
-        icon: icons.term,
+        icon: Icons.term,
         label: "Local terms",
         slot: "terms"
       }

@@ -9,7 +9,7 @@ import type { Row } from '@tanstack/vue-table'
 
 const { row } = defineProps<{ row: Row<any> }>();
 
-const icon = computed(() => row.getIsExpanded() ? icons.down : icons.right);
+const icon = computed(() => row.getIsExpanded() ? Icons.down : Icons.right);
 
 function toggle() {
   row.toggleExpanded()

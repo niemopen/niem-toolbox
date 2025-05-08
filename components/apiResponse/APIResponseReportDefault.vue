@@ -47,10 +47,10 @@ function testUI(status: APITypes.ResultStatusCode) {
 
 function getResultIcon(severity: APITypes.ResultSeverityCode | APITypes.ResultStatusCode) {
   switch (severity) {
-    case "error" : return icons.error;
-    case "info": return icons.info;
-    case "warning": return icons.warning;
-    case 'passed': return icons.success;
+    case "error" : return Icons.error;
+    case "info": return Icons.info;
+    case "warning": return Icons.warning;
+    case 'passed': return Icons.success;
   }
 }
 

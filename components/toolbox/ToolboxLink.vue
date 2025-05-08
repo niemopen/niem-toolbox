@@ -10,7 +10,7 @@
   </ULink>
 
   <!-- Trailing external link icon if applicable -->
-  <UIcon v-if="link.target" :name="icons.externalLink" :class="trailingIconClasses"/>
+  <UIcon v-if="link.target" :name="Icons.externalLink" :class="trailingIconClasses"/>
 
 </template>
 

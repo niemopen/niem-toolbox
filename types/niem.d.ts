@@ -30,6 +30,12 @@ declare global {
     empty: boolean
   }
 
+  type Pageable = {
+    page?: number,
+    number?: number,
+    sort?: string
+  }
+
   type APIStewardParams = {
     route?: string,
     stewardKey: string
@@ -53,7 +59,7 @@ declare global {
     name?: string
   }
 
-  type APIChildPropertyParams = APIVersionParams & {
+  type APISubpropertyParams = APIVersionParams & {
     prefix?: string,
     typeQName?: string,
     propertyQName?: string
@@ -242,7 +248,7 @@ declare global {
     base?: APITypeRef | null,
   }
 
-  type APIChildProperty = APIEntity & {
+  type APISubproperty = APIEntity & {
     "@type": "Subproperty",
     type: APITypeRef,
     property: APIPropertyRef,

@@ -1,7 +1,7 @@
 import type { BreadcrumbItem } from "@nuxt/ui";
 import type { Serializer } from "@vueuse/core";
 
-export type EntityTypeCode = "Steward" | "Model" | "Version" | "Namespace" | "Property" | "Type" | "ChildProperty" | "Facet" | "LocalTerm";
+export type EntityTypeCode = "Steward" | "Model" | "Version" | "Namespace" | "Property" | "Type" | "ChildPropertyAssociation" | "Facet" | "LocalTerm";
 
 export abstract class Entity {
 
@@ -52,38 +52,38 @@ export abstract class Entity {
     return this.constructor as typeof Entity;
   }
 
-  get apiRoute() {
+  public get apiRoute() {
     return this.childConstructor.apiRoute(this.params);
   }
 
-  get badgeVariant(): ColorVariantType | undefined {
+  public get badgeVariant(): ColorVariantType | undefined {
     return "subtle";
   }
 
-  get breadcrumbs() {
+  public get breadcrumbs() {
     return this.childConstructor.breadcrumbs(this.params);
   }
 
   /**
    * Getter for `@id`
    */
-  get id() {
+  public get id() {
     return this["@id"];
   }
 
-  get labelQualifier(): string | undefined {
+  public get labelQualifier(): string | undefined {
     return undefined;
   }
 
-  get params() {
+  public get params() {
     return this.childConstructor.params(this.toAPI());
   }
 
-  get to() {
+  public get to() {
     return this.childConstructor.toolboxRoute(this.params);
   }
 
-  get toolboxRoute(): string {
+  public get toolboxRoute(): string {
     return this.childConstructor.toolboxRoute(this.params);
   }
 

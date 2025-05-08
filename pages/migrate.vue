@@ -40,14 +40,14 @@
 
         <!-- Upload file input -->
         <span v-if="inputMode=='upload'">
-          <UInput type="file" id="uploadFileElement" @change="onFileChange" accept=".cmf,.cmf.xml,.xml" :icon="icons.upload" :ui="UI.inputFileInGroup">
+          <UInput type="file" id="uploadFileElement" @change="onFileChange" accept=".cmf,.cmf.xml,.xml" :icon="Icons.upload" :ui="UI.inputFileInGroup">
             <template #trailing>(CMF)</template>
           </UInput>
         </span>
 
         <!-- Demo file input -->
         <span v-else>
-          <UInput v-model="demoFile" :ui="UI.inputFileInGroup" :icon="icons.magic"/>
+          <UInput v-model="demoFile" :ui="UI.inputFileInGroup" :icon="Icons.magic"/>
         </span>
 
         <!-- Select upload file or demo file option -->
@@ -58,12 +58,12 @@
 
       <!-- Select from -->
       <UFormField name="from" required label="2. Select current version">
-        <USelect v-model="state.from" :items="fromItems" :icon="icons.start" class="w-64"/>
+        <USelect v-model="state.from" :items="fromItems" :icon="Icons.start" class="w-64"/>
       </UFormField>
 
       <!-- Select to -->
       <UFormField name="to" required label="3. Select migration version">
-        <USelect v-model="state.to" :items="toItems" :icon="icons.end" class="w-64"/>
+        <USelect v-model="state.to" :items="toItems" :icon="Icons.end" class="w-64"/>
       </UFormField>
 
       <UButton type="submit">Migrate</UButton>
@@ -98,7 +98,7 @@ type InputModeItem = SelectItem & {
 const inputModeItems: InputModeItem[] = [
   {
     value: "upload",
-    icon: icons.upload,
+    icon: Icons.upload,
     label: "Upload"
   },
   {
@@ -110,13 +110,13 @@ const inputModeItems: InputModeItem[] = [
   },
   {
     value: "valid",
-    icon: icons.success,
+    icon: Icons.success,
     label: "Valid",
     path: "demo/migrate/CrashDriver-NIEM-5.0.cmf.xml"
   },
   {
     value: "invalid",
-    icon: icons.error,
+    icon: Icons.error,
     label: "Invalid",
     path: "demo/migrate/CrashDriver-NIEM-5.0-v0.6.cmf.xml"
   }

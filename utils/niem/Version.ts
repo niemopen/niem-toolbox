@@ -84,7 +84,7 @@ export class Version extends Entity {
   }
 
   override get icon() {
-    return icons.version;
+    return Icons.version;
   }
 
   override get infoItems() {
@@ -93,18 +93,18 @@ export class Version extends Entity {
     Entity.addInfoItem(items, "Version Number", this.versionNumber);
 
     Entity.addInfoItem(items, "Category", this.category);
-    Entity.addInfoItem(items, "Conformance targets", this.conformanceTargets);
     Entity.addInfoItem(items, "Draft", this.draft);
-    Entity.addInfoItem(items, "Exchange partners", this.exchangePartners);
-    Entity.addInfoItem(items, "Exchange pattern", this.exchangePattern);
-    Entity.addInfoItem(items, "Is current?", this.isCurrent + "");
-    Entity.addInfoItem(items, "Is published?", this.isPublished + "");
-    Entity.addInfoItem(items, "NIEM version number", this.niemVersionNumber);
     Entity.addInfoItem(items, "Revised date", this.revised);
-    Entity.addInfoItem(items, "Status", this.status);
-    Entity.addInfoItem(items, "URI", this.uri, "link");
     Entity.addInfoItem(items, "Description", this.description);
     Entity.addInfoItem(items, "Website", this.link, "link");
+    Entity.addInfoItem(items, "NIEM version number", this.niemVersionNumber);
+    Entity.addInfoItem(items, "Status", this.status);
+    Entity.addInfoItem(items, "Conformance targets", this.conformanceTargets);
+    Entity.addInfoItem(items, "Exchange partners", this.exchangePartners);
+    Entity.addInfoItem(items, "Exchange pattern", this.exchangePattern);
+    Entity.addInfoItem(items, "Current?", this.isCurrent + "");
+    Entity.addInfoItem(items, "Published?", this.isPublished + "");
+    Entity.addInfoItem(items, "URI", this.uri, "link");
 
     return items;
   }
@@ -124,20 +124,20 @@ export class Version extends Entity {
   override get tabsItems(): ToolboxTabsItem[] {
     return [
       {
-        icon: icons.namespace,
+        icon: Icons.namespace,
         label: "Namespaces",
         slot: "namespaces",
         count: this.namespacesCount
       },
       {
-        icon: icons.property,
+        icon: Icons.property,
         label: "Properties",
         slot: "properties",
         count: this.propertiesCount,
         more: !this.propertiesLoaded
       },
       {
-        icon: icons.type,
+        icon: Icons.type,
         label: "Types",
         slot: "types",
         count: this.typesCount,
