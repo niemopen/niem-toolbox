@@ -25,7 +25,9 @@
         <UTabs :items="updatedTabsItems" color="neutral" variant="link">
 
           <template #trailing="{ item }">
-            <span v-if="item.count">({{ item.count }})</span>
+            <span v-if="item.count" class="text-dimmed">
+              ({{ (item.count?.toLocaleString()) }})
+            </span>
           </template>
 
           <template #details>

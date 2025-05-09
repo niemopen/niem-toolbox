@@ -116,6 +116,10 @@ export class Data {
   static async properties(params: APIVersionParams | APINamespaceParams,
       pageable: Pageable): Promise<Paginated<Property>> {
 
+    if (!pageable.sort) {
+      pageable.sort = "prefix" in params ? ["name"] : Pagination.sortByRankQName();
+    }
+
     let route = Pagination.route(Property.apiRoute(params), pageable);
     let response = await fetch(route);
 
@@ -147,6 +151,10 @@ export class Data {
    */
   static async types(params: APIVersionParams | APINamespaceParams,
       pageable: Pageable): Promise<Paginated<Type>> {
+
+    if (!pageable.sort) {
+      pageable.sort = "prefix" in params ? ["name"] : Pagination.sortByRankQName();
+    }
 
     let route = Pagination.route(Type.apiRoute(params), pageable);
     let response = await fetch(route);

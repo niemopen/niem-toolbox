@@ -3,11 +3,17 @@
   <EntityContents :as="as" :entity="namespace">
 
     <template #properties>
-      <ListProperties :properties="properties" :enable-more="hasMoreProperties" @load-more="loadMoreProperties"/>
+      <ListProperties :properties="properties" :enable-more="hasMoreProperties"
+          :total="propertyCount" @load-more="loadMoreProperties"/>
     </template>
 
     <template #types>
-      <ListTypes :types="types" :enable-more="enableMoreTypes" @load-more="loadMoreTypes"/>
+      <ListTypes :types="types" :enable-more="enableMoreTypes"
+          :total="typeCount" @load-more="loadMoreTypes"/>
+    </template>
+
+    <template #terms>
+      <ContentPlaceholder label="Local terminology"/>
     </template>
 
   </EntityContents>
@@ -47,6 +53,16 @@ const enableMoreTypes = computed<boolean>(() => {
 
 namespace.propertiesCount = 0;
 namespace.typesCount = 0;
+
+// Reactive property count
+const propertyCount = computed<number|undefined>(() => {
+  return namespace.propertiesCount;
+});
+
+// Reactive type count
+const typeCount = computed<number|undefined>(() => {
+  return namespace.typesCount;
+});
 
 // Initial load
 await loadMoreProperties();

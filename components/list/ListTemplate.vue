@@ -45,8 +45,14 @@
     <div v-if="enableMore && entities.length >= API.PAGINATION_LIMIT">
       <USeparator class="py-4"/>
       <div class="flex justify-between">
-        <span>{{ entities.length }} items loaded</span>
-        <UButton label="More" :trailing-icon="Icons.down" @click="$emit('loadMore')"/>
+        <div>
+          <span>{{ entities.length }}</span>
+          <span v-if="total"> of {{ total }}</span>
+          <span> items loaded</span>
+        </div>
+        <UButton
+            v-if="total==undefined || entities.length < total"
+            label="More" :trailing-icon="Icons.down" @click="$emit('loadMore')"/>
       </div>
     </div>
   </div>
@@ -64,7 +70,8 @@ const {
   entities: Entity[],
   disableExpand?: boolean,
   useLabelQualifier?: boolean,
-  enableMore?: boolean
+  enableMore?: boolean,
+  total?: number
 }>();
 
 defineEmits(["loadMore"]);

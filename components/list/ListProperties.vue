@@ -1,6 +1,7 @@
 
 <template>
-  <ListTemplate :entities="properties" :enable-more="enableMore" @load-more="$emit('loadMore')">
+  <ListTemplate :entities="properties" :enable-more="enableMore" :total="total"
+      @load-more="$emit('loadMore')">
     <!-- @vue-expect-error -->
     <template #default="{ item }: { item: Property }">
       <ContentPropertyContents :property="item"/>
@@ -13,7 +14,8 @@ import { Property } from '~/utils/niem/Property';
 
 const { enableMore = false } = defineProps<{
   properties: Property[],
-  enableMore?: boolean
+  enableMore?: boolean,
+  total?: number
 }>();
 
 defineEmits(["loadMore"]);

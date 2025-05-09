@@ -34,7 +34,7 @@ export class API {
     search_types: Config.baseURL + "search/types"
   }
 
-  static readonly PAGINATION_LIMIT = 100;
+  static readonly PAGINATION_LIMIT = 50;
 
   /**
    * Pre: Loads the form body from the given state and updates results to pending.

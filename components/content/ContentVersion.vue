@@ -9,11 +9,13 @@
     </template>
 
     <template #properties>
-      <ListProperties :properties="properties" :enable-more="hasMoreProperties" @load-more="loadMoreProperties"/>
+      <ListProperties :properties="properties" :enable-more="hasMoreProperties"
+          :total="propertyCount" @load-more="loadMoreProperties"/>
     </template>
 
     <template #types>
-      <ListTypes :types="types" :enable-more="hasMoreTypes" @load-more="loadMoreTypes"/>
+      <ListTypes :types="types" :enable-more="hasMoreTypes"
+          :total="typeCount" @load-more="loadMoreTypes"/>
     </template>
 
     <template v-for="panel in ToolboxApp.PAGE_PANEL_NAMES" #[panel]>
@@ -58,6 +60,16 @@ const hasMoreTypes = computed<boolean>(() => {
 version.propertiesCount = 0;
 version.typesCount = 0;
 
+// Reactive property count
+const propertyCount = computed<number|undefined>(() => {
+  return version.propertiesCount;
+});
+
+// Reactive type count
+const typeCount = computed<number|undefined>(() => {
+  return version.typesCount;
+});
+
 // Initial component load
 await loadMoreProperties();
 await loadMoreTypes();
@@ -76,6 +88,7 @@ async function loadMoreProperties() {
   }
 
   if (page.last) {
+    console.log("PAGE LAST", page.last);
     version.propertiesLoaded = true;
   }
 

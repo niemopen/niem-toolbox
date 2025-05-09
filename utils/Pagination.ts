@@ -11,8 +11,10 @@ export class Pagination {
   static queryVariables(pageable: Pageable): String {
     let criteria: String[] = [];
     if (pageable.page) criteria.push("page=" + pageable.page);
-    if (pageable.number) criteria.push("number=" + pageable.number);
-    if (pageable.sort) criteria.push("sort=" + pageable.sort);
+    if (pageable.size) criteria.push("size=" + pageable.size);
+    if (pageable.sort) {
+      pageable.sort.forEach(sort => criteria.push("sort=" + sort));
+    }
     return criteria.join("&");
   }
 
@@ -32,11 +34,12 @@ export class Pagination {
    * Get a Pageable object that converts the given offset (number of records) into
    * the next page number.
    */
-  static pageable(offset: number, sort?: string): Pageable {
+  static pageable(offset: number, sort?: string[]): Pageable {
     return {
       page: Math.trunc(offset / API.PAGINATION_LIMIT),
       sort,
-      number: API.PAGINATION_LIMIT };
+      size: API.PAGINATION_LIMIT
+    };
   }
 
   /**
@@ -80,6 +83,14 @@ export class Pagination {
    */
   static emptySubproperties(): Paginated<Subproperty> {
     return Pagination.emptyEntities<Subproperty>();
+  }
+
+  static sortByRankQName() {
+    return ["namespaceRank", "qname"];
+  }
+
+  static sortByQName() {
+    return ["qname"];
   }
 
   /**

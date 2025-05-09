@@ -34,7 +34,7 @@ export class Property extends Component {
   }
 
   override get badgeVariant(): ColorVariantType {
-    return Property.badgeVariant(this.category);
+    return Property.badgeVariant(this.category, this.type?.category);
   }
 
   override get icon() {
@@ -107,8 +107,10 @@ export class Property extends Component {
     return category == "abstract_element" ? "neutral" : "primary";
   }
 
-  static override badgeVariant(category: APIPropertyCategory | undefined): ColorVariantType {
-    let label = Property.badgeLabel(category);
+  static override badgeVariant(category: APIPropertyCategory | undefined,
+        typeCategory?: APITypeCategory): ColorVariantType {
+    if (category != "element") return "subtle";
+    let label = Property.badgeLabel(category, typeCategory);
     return label == "object" ? "solid" : "subtle";
   }
 

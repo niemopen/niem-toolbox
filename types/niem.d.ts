@@ -32,8 +32,8 @@ declare global {
 
   type Pageable = {
     page?: number,
-    number?: number,
-    sort?: string
+    size?: number,
+    sort?: string[]
   }
 
   type APIStewardParams = {
