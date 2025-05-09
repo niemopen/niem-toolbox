@@ -3,8 +3,8 @@ import FileSaver from "file-saver";
 
 export type APIMediaType = "json" | "xml" | "csv";
 
-type IconKeys = keyof typeof icons;
-type IconValues = typeof icons[IconKeys];
+type IconKeys = keyof typeof Icons;
+type IconValues = typeof Icons[IconKeys];
 
 type ItemType = SelectMenuItem & {
   value: APIMediaType;
@@ -69,9 +69,17 @@ export class API {
     else if (!response.ok) {
       // Error message
       results.status = "error";
-      results.error = await response.json() || await response.text();
-      results.title = `ERROR ${results.error?.status}: ${results.error?.error}`;
-      results.message = results.error?.message.replaceAll(";", "\n\n") || "";
+      let error = await response.json() || await response.text();
+      results.error = error;
+
+      if ("title" in error && "detail" in error) {
+        results.title = `ERROR ${error.status}: ${error.title}`;
+        results.message = error.detail || "";
+      }
+      else if ("error" in error && "message" in error) {
+        results.title = `ERROR ${results.error?.status}: ${results.error?.error}`;
+        results.message = results.error?.message?.replaceAll(";", "\n\n") || "";
+      }
       console.error("Request failed");
     }
 

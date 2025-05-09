@@ -23,7 +23,7 @@ const items = [
 ] as NavigationMenuItem[];
 
 const ui = {
-  root: "flex justify-between h-12 bg-[var(--ui-primary)] p-4",
+  root: "flex justify-between h-12 bg-primary p-4",
   // Display drop-down as single small (not full width) column on right
   viewportWrapper: "w-48 right-0 left-auto",
   childList: "grid-cols-1 ",
@@ -31,7 +31,7 @@ const ui = {
   link: "text-white",
   linkLeadingIcon: "text-white",
   linkTrailingIcon: "hidden",
-  childLinkIcon: "text-[var(--ui-text)]",
+  childLinkIcon: "text-default",
   variants: {
     disabled: {
       true: {

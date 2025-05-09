@@ -86,7 +86,7 @@ function toggle(e: Event) {
 }
 
 const ui = {
-  base: "disabled:cursor-auto disabled:text-[var(--ui-text-dimmed)] disabled:hover:text-[var-(--ui-text-dimmed)] hover:text-[var(--ui-text-highlighted)]"
+  base: "disabled:cursor-auto disabled:text-dimmed disabled:hover:text-dimmed hover:text-highlighted"
 }
 
 </script>

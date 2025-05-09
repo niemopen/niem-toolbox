@@ -31,7 +31,7 @@ const { property } = defineProps<{
 
 const toolbox = useToolboxStore();
 
-let type: Type | undefined;
+let type: Type | null;
 
 if (property.type) {
   type = await toolbox.type({...property.params, qname: property.type?.qname});

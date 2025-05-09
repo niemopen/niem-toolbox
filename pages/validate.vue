@@ -121,8 +121,8 @@
 <script setup lang="ts">
 
 import type { SelectItem } from "@nuxt/ui";
-import type { InputFileType } from "../utils/toolbox/validation";
-import { validationMenuItems } from "../utils/toolbox/validation";
+import type { InputFileType } from "../utils/Validation";
+import { validationMenuItems } from "../utils/Validation";
 
 // *** Input mode ***
 
@@ -244,7 +244,8 @@ const groupedValidationItems = reactive({
 });
 
 const validationItem = computed(() => {
-  return validationItems.find(item => item.value == state.kind);
+  let kind = state.kind;
+  return validationItems.find(item => item.value == kind);
 })
 
 const file1TypeLabel = computed(() => fileTypeLabelHelper(validationItem.value?.file1));
@@ -361,11 +362,23 @@ async function onSubmit() {
 
   // Make the validation request from the NIEM API and download the results
   const response = await API.post(validationItem.value.route, customState, results, false);
+  updateResultsPanel();
   await API.downloadReportResults(state.mediaType as APIMediaType, response, results);
 
   // Reset validation checks
   validationFinalPass = false;
 
+}
+
+/**
+ * Reset results panel for CSV validation reports, which are currently not processed.
+ */
+function updateResultsPanel() {
+  if (state.mediaType == "csv") {
+    results.title = "Downloaded";
+    results.status = "info";
+    results.message = "Check downloaded validation report for results.";
+  }
 }
 
 </script>

@@ -22,8 +22,8 @@ const { color="neutral" } = defineProps<{
 }>();
 
 const cardUI = {
-  root: `ring ring-inset ring-[var(--ui-${color})]/25 mt-[var(--app-vertical-spacer)] p-0 `,
-  header: `p-2 px-8 text-sm font-medium text-[var(--ui-text-muted)]`,
+  root: `ring ring-inset ring-${color}/25 mt-[var(--app-vertical-spacer)] p-0 `,
+  header: `p-2 px-8 text-sm font-medium text-muted`,
   body: "p-2 px-8 bg-gray-600 text-white",
   footer: "p-2 px-8 text-sm font-light"
 }

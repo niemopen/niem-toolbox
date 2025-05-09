@@ -40,8 +40,8 @@ function sortTestResults(a: APITypes.TestResult, b: APITypes.TestResult) {
 function testUI(status: APITypes.ResultStatusCode) {
   let color = getResultColorClass(status);
   return {
-    root: `ring-[var(--ui-${color})]/25`,
-    header: `bg-[var(--ui-${color})]/10 text-[var(--ui-${color})]`
+    root: `ring-${color}/25`,
+    header: `bg-${color}/10 text-${color}`
   }
 }
 

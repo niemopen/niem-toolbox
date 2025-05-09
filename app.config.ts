@@ -21,14 +21,14 @@ export default defineAppConfig({
       variants: {
         active: {
           true: {
-            link: "text-[var(--ui-text)] font-medium"
+            link: "text-default font-medium"
           }
         }
       }
     },
     button: {
       slots: {
-        base: ["hover:bg-[var(--ui-primary)] cursor-pointer disabled:cursor-auto", "transition"],
+        base: ["hover:bg-primary cursor-pointer disabled:cursor-auto", "transition"],
         leadingIcon: "size-4"
       },
       variants: {
@@ -42,7 +42,7 @@ export default defineAppConfig({
         {
           color: "primary",
           variant: "solid",
-          class: "hover:bg-[var(--ui-primary)]"
+          class: "hover:bg-primary"
         }
       ]
     },

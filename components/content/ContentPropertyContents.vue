@@ -12,7 +12,7 @@ const { property } = defineProps<{ property: Property}>();
 
 const toolbox = useToolboxStore();
 
-let type: Type | undefined;
+let type: Type | null;
 
 if (property.type && property.type.route) {
   type = await toolbox.type(property.type?.route);

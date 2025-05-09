@@ -17,7 +17,7 @@
 
       <UBreadcrumb v-if="entity.breadcrumbs" :items="entity.breadcrumbs" class="-mt-2 mb-5 ml-3">
         <template #separator>
-          <span class="mx-1 text-[var(--ui-text-muted)]">/</span>
+          <span class="mx-1 text-muted">/</span>
         </template>
       </UBreadcrumb>
 

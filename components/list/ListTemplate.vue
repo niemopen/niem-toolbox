@@ -11,7 +11,7 @@
 
         <!-- Popover info -->
         <UPopover mode="hover" :content="{side: 'right'}" :open-delay="700">
-          <UButton :icon="Icons.info" color="neutral" variant="ghost" class="align-middle text-[var(--ui-text-muted)]"/>
+          <UButton :icon="Icons.info" color="neutral" variant="ghost" class="align-middle text-muted"/>
           <template #content>
             <InfoTable :data="item.infoItems" width-class="w-[600px]"/>
           </template>

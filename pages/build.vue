@@ -18,7 +18,7 @@
             {{ item.label }}
           </template>
           <template #content="{ item }">
-            <p class="pb-3.5 text-sm text-[var(--ui-text-muted)]">
+            <p class="pb-3.5 text-sm text-muted">
               {{ item.content }}
               <br/>
               <UButton class="mt-2" @click="selectedItem = item.label">></UButton>

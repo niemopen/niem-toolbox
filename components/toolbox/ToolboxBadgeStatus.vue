@@ -29,7 +29,7 @@ const text = computed(() => {
 
 const icon = computed(() => {
   if (display == "text" || !color.value) return undefined;
-  return icons[color.value];
+  return Icons[color.value];
 });
 
 </script>

@@ -53,7 +53,7 @@ const title = computed(() => {
   return results.title || results.status.toUpperCase();
 });
 
-const icon = computed(() => icons[results.status]);
+const icon = computed(() => Icons[results.status]);
 
 const color = computed(() => {
   return results.status == 'pending' ? "warning" : results.status;

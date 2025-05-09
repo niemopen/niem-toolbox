@@ -34,12 +34,12 @@ const panelDisplay: Ref<""|"hidden"> = ref("");
 
 const cardClasses = computed(() => `mt-[var(--app-vertical-spacer)] ${panelDisplay.value}`);
 
-const closeButtonClasses = `right-0 p-0.5 bg-transparent text-[var(--ui-text-muted)] hover:text-[var(--ui-text)] font-medium text-sm hover:bg-inherit align-sub`;
+const closeButtonClasses = `right-0 p-0.5 bg-transparent text-muted hover:text-default font-medium text-sm hover:bg-inherit align-sub`;
 
 const cardUI = computed(() => {
   return {
-    root: `ring ring-inset ring-[var(--ui-${color})]/25 mt-[var(--app-vertical-spacer)] p-0`,
-    header: `p-2 px-8 text-sm font-medium bg-[var(--ui-${color})]/10 text-[var(--ui-${color})]`,
+    root: `ring ring-inset ring-${color}/25 mt-[var(--app-vertical-spacer)] p-0`,
+    header: `p-2 px-8 text-sm font-medium bg-${color}/10 text-${color}`,
     body: "p-2 px-8",
     footer: "p-2 px-8 text-sm font-light"
   }

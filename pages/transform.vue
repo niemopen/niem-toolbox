@@ -62,7 +62,6 @@
         </span>
 
         <!-- Select upload file or demo file option -->
-        <!-- @vue-expect-error -->
         <USelect v-model="inputMode" :items="inputModeItems" color="neutral" variant="subtle" :ui="UI.inputMode" :icon="inputModeItem?.icon"/>
 
       </UFormField>
@@ -251,7 +250,7 @@ async function onFileChange(event: Event) {
   state.file = ToolboxForm.fileInput(event);
   state.from = defaultFrom();
   results.request = "unsent"
-  await form.value.validate({name: "", silent: true});
+  await form.value.validate({name: undefined, silent: true});
 }
 
 function defaultFrom() {
@@ -304,17 +303,18 @@ function validate(state: Partial<TransformStateType>) {
 
 // *** Submit ***
 
-const results = API.initResults();
+let results = API.initResults();
 
 async function onSubmit() {
   // Include file in final round of validation check
   validationFinalPass = true;
-  let validateResults = await form.value?.validate({name: "", silent: true});
+  let validateResults = await form.value?.validate({name: undefined, silent: true});
   if (validateResults == false) {
     validationFinalPass = false;
     return;
   }
 
+  results.filename = "";
   const response = await API.post(API.routes.transform, state, results);
   await API.downloadFileResults(response, results);
 

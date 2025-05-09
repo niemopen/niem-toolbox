@@ -3,7 +3,7 @@
     <USeparator :decorative="true" class="my-2"/>
 
     <!-- Panel title -->
-    <ToolboxIconTitle :icon="icon" :title="title" classes="page-header-title font-semibold ml-3 text-[var(--ui-primary)]"/>
+    <ToolboxIconTitle :icon="icon" :title="title" classes="page-header-title font-semibold ml-3 text-primary"/>
 
     <!-- Panel contents passed in from parent component -->
     <div class="ml-[33px] mt-2 text-sm spaced-sm">

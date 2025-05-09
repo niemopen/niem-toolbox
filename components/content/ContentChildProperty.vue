@@ -20,8 +20,8 @@ const { childProperty } = defineProps<{
 
 const toolbox = useToolboxStore();
 
-let property: Property | undefined;
-let type: Type | undefined;
+let property: Property | null;
+let type: Type | null;
 
 if (childProperty.property?.route) {
   property = await toolbox.property(childProperty.property.route);

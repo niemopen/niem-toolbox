@@ -11,6 +11,8 @@ export type InputFileType = {
 }
 
 export type ValidationItemType = SelectItem & {
+  type: "label" | "item" | "separator",
+  label?: string,
   value?: APITypes.ValidationKindType,
   description?: string,
   note?: string,

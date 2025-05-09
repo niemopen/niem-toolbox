@@ -51,7 +51,6 @@
         </span>
 
         <!-- Select upload file or demo file option -->
-        <!-- @vue-expect-error -->
         <USelect v-model="inputMode" :items="inputModeItems" color="neutral" variant="subtle" :ui="UI.inputMode" :icon="inputModeItem?.icon"/>
 
       </UFormField>

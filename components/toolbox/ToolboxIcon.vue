@@ -15,7 +15,7 @@ const classes = computed(() => {
   let value = "";
 
   if (color) {
-    value += `text-[var(--ui-${color})] `;
+    value += `text-${color} `;
   }
 
   if (size) {
