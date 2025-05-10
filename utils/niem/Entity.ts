@@ -1,5 +1,6 @@
 import type { BreadcrumbItem } from "@nuxt/ui";
 import type { Serializer } from "@vueuse/core";
+import type { Reactive } from "vue";
 
 export type EntityTypeCode = "Steward" | "Model" | "Version" | "Namespace" | "Property" | "Type" | "ChildPropertyAssociation" | "Facet" | "LocalTerm";
 
@@ -101,7 +102,7 @@ export abstract class Entity {
 
   abstract get page(): AppLinkType;
 
-  abstract get tabsItems(): ToolboxTabsItem[];
+  abstract get tabsItems(): Reactive<ToolboxTabsItem[]>;
 
   protected static addInfoItem(infoItems: InfoItem[], field: string, value: string | undefined, format?: InfoItemFormat, link?: string, badgeColor?: ColorType, badgeVariant?: ColorVariantType) {
     if (value) {

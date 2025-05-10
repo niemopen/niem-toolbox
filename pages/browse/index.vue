@@ -5,7 +5,7 @@
       <span class="mr-2 mb-2">Clear storage:</span>
       <UButton label="session" @click="resetSessionStorage" size="xs" class="mr-2"/>
       <UButton label="local" @click="resetLocalStorage" size="xs" class="mr-2"/>
-      <UButton label="all" @click="resetLocalStorage" size="xs"/>
+      <UButton label="all" @click="resetAllStorage" size="xs"/>
     </template>
   </PageHeader>
 
@@ -33,10 +33,10 @@
       </template> -->
 
       <!-- TODO: History -->
-      <template #history>
+      <!-- <template #history>
         <ContentPlaceholder label="history"/>
         <ListProperties :properties="propertyHistory"/>
-      </template>
+      </template> -->
 
     </UTabs>
   </UCard>
@@ -48,7 +48,7 @@ import type { TabsItem } from '@nuxt/ui';
 const activeTab = ref<"stewards"|"models"|"highlights"|"favorites">("stewards");
 
 const toolbox = useToolboxStore();
-const { highlights, favorites, propertyHistory } = toolbox;
+// const { highlights, favorites, propertyHistory } = toolbox;
 
 const stewards = await toolbox.stewards();
 const models = await toolbox.models();
@@ -80,12 +80,12 @@ const items = ref<TabsItem[]>([
   //   slot: "favorites",
   //   value: "favorites"
   // },
-  {
-    label: "History" + ToolboxApp.labelCount(propertyHistory),
-    icon: Icons.history,
-    slot: "history",
-    value: "history"
-  }
+  // {
+  //   label: "History" + ToolboxApp.labelCount(propertyHistory),
+  //   icon: Icons.history,
+  //   slot: "history",
+  //   value: "history"
+  // }
 ]);
 
 function resetLocalStorage() {

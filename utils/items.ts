@@ -131,10 +131,10 @@ const AppItemsHelper = {
     label: "Type",
     icon: Icons.class
   },
-  childProperty: {
-    value: "childProperty",
+  subproperty: {
+    value: "subproperty",
     label: "Child Property",
-    icon: Icons.childProperty
+    icon: Icons.subproperty
   },
   facet: {
     value: "facet",

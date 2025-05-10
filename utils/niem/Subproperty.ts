@@ -4,6 +4,7 @@ import { Version } from "./Version";
 import { Type } from "./Type";
 import { Namespace } from "./Namespace";
 import { Property } from "./Property";
+import type { Reactive } from "vue";
 
 export class Subproperty extends Entity {
 
@@ -46,7 +47,7 @@ export class Subproperty extends Entity {
   }
 
   override get icon() {
-    return Icons.childProperty;
+    return Icons.subproperty;
   }
 
   override get infoItems(): InfoItem[] {
@@ -82,22 +83,22 @@ export class Subproperty extends Entity {
   }
 
   override get page() {
-    return AppItems.childProperty;
+    return AppItems.subproperty;
   }
 
   override get params() {
     return super.params as APISubpropertyParams
   }
 
-  override get tabsItems(): ToolboxTabsItem[] {
-    return [
+  override get tabsItems(): Reactive<ToolboxTabsItem[]> {
+    return reactive([
       {
-        icon: Icons.childProperty,
+        icon: Icons.subproperty,
         label: "Contents",
         slot: "contents",
         count: this.contentsCount
       }
-    ];
+    ]);
   }
 
   static override apiRoute(params: APISubpropertyParams) {
@@ -138,7 +139,7 @@ export class Subproperty extends Entity {
   }
 
   static override fromAPIList(apiData: APISubproperty[]) {
-    return apiData.map(apiChildProperty => Subproperty.fromAPI(apiChildProperty));
+    return apiData.map(apiSubproperty => Subproperty.fromAPI(apiSubproperty));
   }
 
   static override id(typeID: string, propertyQName: string) {
@@ -149,19 +150,19 @@ export class Subproperty extends Entity {
     return new Subproperty();
   }
 
-  static override params(childProperty: APISubproperty | string): APISubpropertyParams {
-    if (typeof childProperty == "string") {
-      let [stewardKey, modelKey, versionNumber, typeQName, propertyQName] = childProperty.split("/");
+  static override params(subproperty: APISubproperty | string): APISubpropertyParams {
+    if (typeof subproperty == "string") {
+      let [stewardKey, modelKey, versionNumber, typeQName, propertyQName] = subproperty.split("/");
       return {
         stewardKey, modelKey, versionNumber, typeQName, propertyQName
       }
     }
     return {
-      stewardKey: childProperty.steward?.stewardKey || "",
-      modelKey: childProperty.model?.modelKey || "",
-      versionNumber: childProperty.version?.versionNumber || "",
-      typeQName: childProperty.type?.qname,
-      propertyQName: childProperty.property?.qname
+      stewardKey: subproperty.steward?.stewardKey || "",
+      modelKey: subproperty.model?.modelKey || "",
+      versionNumber: subproperty.version?.versionNumber || "",
+      typeQName: subproperty.type?.qname,
+      propertyQName: subproperty.property?.qname
     }
   }
 

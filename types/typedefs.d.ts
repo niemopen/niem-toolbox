@@ -57,7 +57,7 @@ declare global {
 
   type ContentsItem = AccordionItem & {
     type: Type,
-    childProperties: Subproperty[],
+    subproperties: Subproperty[],
     category: ContentsCategory
   }
 

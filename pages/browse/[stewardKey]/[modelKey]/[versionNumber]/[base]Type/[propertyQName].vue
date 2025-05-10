@@ -1,7 +1,7 @@
 
 <template>
   <div>
-    <ContentChildProperty v-if="childProperty" as="page" :child-property="childProperty"/>
+    <ContentSubproperty v-if="subproperty" as="page" :subproperty="subproperty"/>
     <ContentNotFound v-else/>
   </div>
 </template>
@@ -15,7 +15,7 @@ type Params = APIVersionParams & {
 
 const params = useRoute().params as Params;
 
-const childProperty = await Data.subproperty({
+const subproperty = await Data.subproperty({
   ...params,
   typeQName: params.base + "Type"
 });

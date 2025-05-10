@@ -36,7 +36,9 @@
 
     <!-- Entity as tree -->
     <ContentTypeContents v-else-if="as=='tree' && entity['@type']=='Type'"
-        :type="(entity as Type)"/>
+        :type="(entity as Type)">
+      <span>TREE</span>
+    </ContentTypeContents>
 
   </div>
 

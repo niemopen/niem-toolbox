@@ -26,12 +26,12 @@ const user = new Steward("User", "Username", "Person");
 // Set models for default initialization and $reset
 // TODO-API: Move highlights subset model to database
 const sandboxModelObject = new Model(user, "Sandbox Model", "message");
-const favoritesModelObject = new Model(user, "Favorites", "other");
-const highlightsModelObject = new Model(user, "Highlights", "other");
+// const favoritesModelObject = new Model(user, "Favorites", "other");
+// const highlightsModelObject = new Model(user, "Highlights", "other");
 
 const sandboxVersion = new Version(sandboxModelObject, "1.0", "5.2");
-const favoritesVersion = new Version(favoritesModelObject, "5.2", "5.2");
-const highlightsVersion = new Version(highlightsModelObject, "5.2", "5.2");
+// const favoritesVersion = new Version(favoritesModelObject, "5.2", "5.2");
+// const highlightsVersion = new Version(highlightsModelObject, "5.2", "5.2");
 
 // TODO: Cannot call top-level await.  Convert to async function
 // const niemModelObject = await Data.model(Model.NIEMModelParams);
@@ -47,7 +47,9 @@ export const useToolboxStore = defineStore("niem-toolbox", () => {
 
   const modelStorage: RemovableRef<Model[]> = useStorage(key("models"), [] as Model[], sessionStorage, {...storageOptions, serializer: Model.serializeEntityList(Model.init)});
 
-  const versionStorage: RemovableRef<Version[]> = useStorage(key("versions"), [sandboxVersion, favoritesVersion, highlightsVersion], sessionStorage, {...storageOptions, serializer: Version.serializeEntityList(Version.init)});
+  const versionStorage: RemovableRef<Version[]> = useStorage(key("versions"), [sandboxVersion], sessionStorage, {...storageOptions, serializer: Version.serializeEntityList(Version.init)});
+
+  // const versionStorage: RemovableRef<Version[]> = useStorage(key("versions"), [sandboxVersion, favoritesVersion, highlightsVersion], sessionStorage, {...storageOptions, serializer: Version.serializeEntityList(Version.init)});
 
   // TODO: Depends on top-level await.
   // const niemModel: RemovableRef<Model> = useStorage(key("niem-model"), niemModelObject, sessionStorage, storageOptions);
@@ -57,24 +59,24 @@ export const useToolboxStore = defineStore("niem-toolbox", () => {
 
   // Local storage for published entities that do not change
 
-  const namespaceStorage: RemovableRef<Namespace[]> = useStorage(key("namespaces"), [], localStorage, {...storageOptions, serializer: Namespace.serializeEntityList(Namespace.init)});
+  const namespaceStorage: RemovableRef<Namespace[]> = useStorage(key("namespaces"), [], sessionStorage, {...storageOptions, serializer: Namespace.serializeEntityList(Namespace.init)});
 
-  const propertyStorage: RemovableRef<Property[]> = useStorage(key("properties"), [], localStorage, {...storageOptions, serializer: Property.serializeEntityList(Property.init)});
+  const propertyStorage: RemovableRef<Property[]> = useStorage(key("properties"), [], sessionStorage, {...storageOptions, serializer: Property.serializeEntityList(Property.init)});
 
-  const typeStorage: RemovableRef<Type[]> = useStorage(key("types"), [], localStorage, {...storageOptions, serializer: Type.serializeEntityList(Type.init)});
+  const typeStorage: RemovableRef<Type[]> = useStorage(key("types"), [], sessionStorage, {...storageOptions, serializer: Type.serializeEntityList(Type.init)});
 
-  const childPropertyStorage: RemovableRef<Subproperty[]> = useStorage(key("child-properties"), [], localStorage, {...storageOptions, serializer: Subproperty.serializeEntityList(Subproperty.init)});
+  const subpropertyStorage: RemovableRef<Subproperty[]> = useStorage(key("subproperties"), [], sessionStorage, {...storageOptions, serializer: Subproperty.serializeEntityList(Subproperty.init)});
 
 
   const userSteward: RemovableRef<Steward> = useStorage(key("user"), user, localStorage, storageOptions);
 
-  const favorites: RemovableRef<Model> = useStorage(key("favorites"), favoritesModelObject, localStorage, {...storageOptions, serializer: Model.serializer});
+  // const favorites: RemovableRef<Model> = useStorage(key("favorites"), favoritesModelObject, localStorage, {...storageOptions, serializer: Model.serializer});
 
-  const highlights: RemovableRef<Model> = useStorage(key("highlights"), highlightsModelObject, localStorage, storageOptions);
+  // const highlights: RemovableRef<Model> = useStorage(key("highlights"), highlightsModelObject, localStorage, storageOptions);
 
   const sandbox: RemovableRef<Model> = useStorage(key("sandbox"), sandboxModelObject, localStorage, storageOptions);
 
-  const propertyHistory: RemovableRef<Property[]> = useStorage(key("history"), [], localStorage, storageOptions);
+  // const propertyHistory: RemovableRef<Property[]> = useStorage(key("history"), [], localStorage, storageOptions);
 
   const routeHistory: RemovableRef<string> = useStorage(key("routes"), [], localStorage, storageOptions);
 
@@ -87,14 +89,15 @@ export const useToolboxStore = defineStore("niem-toolbox", () => {
     stewardStorage.value = [];
     modelStorage.value = [];
     versionStorage.value = [];
+    namespaceStorage.value = [];
+    propertyStorage.value = [];
+    typeStorage.value = [];
+    subpropertyStorage.value = [];
   }
 
   function resetLocalStorage() {
     config.value = { ...Config };
 
-    namespaceStorage.value = [];
-    propertyStorage.value = [];
-    typeStorage.value = [];
   }
 
   function $reset() {
@@ -106,172 +109,234 @@ export const useToolboxStore = defineStore("niem-toolbox", () => {
    * Get all stewards.
    */
   async function stewards(): Promise<Steward[]> {
-    if (stewardStorage.value.length == 0) {
-      stewardStorage.value = await Data.stewards();
+    // Return stewards from storage if available
+    let stewards = stewardStorage.value;
+    if (stewards.length > 0) {
+      return stewards;
     }
-    else {
-      processHits(stewardStorage.value);
-    }
-    return stewardStorage.value;
+
+    // Pull stewards from the API and save to storage
+    stewards = await Data.stewards();
+    return addStorageItems(stewardStorage, stewards, false, Steward.sort);
   }
 
   /**
-   * Get all models from the given steward, or all models from all stewards if
-   * no steward is given.
+   * Get all models from the given steward, or all models from all stewards if no steward is given.
    */
   async function models(steward?: Steward): Promise<Model[]> {
-    if (steward && steward.modelsLoaded) {
-      // Get all models from given steward in storage
-      return modelStorage.value.filter(model => model.steward?.route == steward.route);
+    if (steward) {
+      // Return steward models from storage if available
+      let models = modelStorage.value.filter(model => model.steward?.route == steward.route);
+      if (models.length > 0) {
+        return models.sort(Model.sort);
+      }
+
+      // Pull models from the API and save to storage
+      models = await Data.models(steward.params);
+      return addStorageItems(modelStorage, models, false, Model.sort);
     }
-    else if (steward) {
-      // Get all models from given steward from API
-      return await Data.models(steward.params);
-    }
-    else if (modelStorage.value.length > 0) {
-      // All models have already been loaded into storage
-      processHits(modelStorage.value);
-      return modelStorage.value;
+    else if (modelStorage.value.length == 0) {
+      // Pull all models from all stewards from the API
+      let models = await Data.models();
+      return addStorageItems(modelStorage, models, false, Model.sort);
     }
     else {
-      // Get all models from API
-      modelStorage.value = await Data.models();
-
-      // Mark steward models as loaded
-      for (let steward of stewardStorage.value) {
-        steward.modelsLoaded = true;
-      }
-      return modelStorage.value;
+      // Return all models from all stewards in storage
+      return modelStorage.value.sort(Model.sort);
     }
   }
 
+  /**
+   * Get all versions from the given model.
+   */
   async function versions(model: Model): Promise<Version[]> {
-    // if (model.versionsLoaded) {
-    //   let results = versionStorage.value.filter(version => version.model?.route == model.apiRoute);
-    //   processHits(results);
-    //   return results;
-    // }
-
-    let results = await Data.versions(model.params);
-    // versionStorage.value.push(...results);
-    // model.versionsLoaded = true;
-    return results;
-  }
-
-  async function namespaces(version: Version): Promise<Namespace[]> {
-    if (version.namespacesLoaded) {
-      let results = namespaceStorage.value.filter(namespace => namespace.version?.route == version.route);
-      processHits(results);
-      return results;
+    // Return model versions from storage if available
+    let versions = versionStorage.value.filter(version => version.model?.route == model.apiRoute);
+    if (versions.length > 0) {
+      return versions.sort(Version.sort);
     }
 
-    let results = await Data.namespaces(version.params);
-    // namespaceStorage.value.push(...results);
-    // version.namespacesLoaded = true;
-    return results;
+    // Pull model versions from the API and save to storage
+    versions = await Data.versions(model.params);
+    return addStorageItems(versionStorage, versions, false, Version.sort);
   }
 
+  /**
+   * Get all namespaces from the given version.
+   */
+  async function namespaces(version: Version): Promise<Namespace[]> {
+    // Return version namespaces from storage if available
+    let namespaces = namespaceStorage.value.filter(namespace => namespace.version?.route == version.route);
+    if (namespaces.length > 0) {
+      return namespaces.sort(Namespace.sort);
+    }
+
+    // Pull version namespaces from the API and save to storage
+    namespaces = await Data.namespaces(version.params);
+    return addStorageItems(namespaceStorage, namespaces, false, Namespace.sort);
+  }
+
+  /**
+   * Get a page of properties from the given version.
+   */
   async function propertiesFromVersion(version: Version, offset=0): Promise<Paginated<Property>> {
     let pageable = Pagination.pageable(offset);
     return Data.properties(version.params, pageable);
   }
 
+  /**
+   * Get a page of properties from the given namespace.
+   */
   async function propertiesFromNamespace(namespace: Namespace, offset=0):
       Promise<Paginated<Property>> {
-    if (!namespace.prefix) return Pagination.emptyProperties();
     let pageable = Pagination.pageable(offset);
     return Data.properties(namespace.params, pageable);
   }
 
+  /**
+   * Get a page of types from the given version.
+   */
   async function typesFromVersion(version: Version, offset=0): Promise<Paginated<Type>> {
     let pageable = Pagination.pageable(offset);
     return Data.types(version.params, pageable);
   }
 
+  /**
+   * Get a page of types from the given namespace.
+   */
   async function typesFromNamespace(namespace: Namespace, offset=0): Promise<Paginated<Type>> {
     let pageable = Pagination.pageable(offset);
     return Data.types(namespace.params, pageable);
   }
 
-  async function childPropertiesOfType(type: Type): Promise<Subproperty[]> {
-    if (type.contentsLoaded) {
-      let results = childPropertyStorage.value.filter(childProperty => childProperty.type?.route == type.route);
-      processHits(results);
-      return results.sort(Subproperty.sort);
+  /**
+   * Get all subproperties of the given type.
+   */
+  async function subproperties(type: Type): Promise<Subproperty[]> {
+    let subproperties = subpropertyStorage.value.filter(subproperty => subproperty.type?.route == type.route);
+    if (subproperties.length > 0) {
+      return subproperties.sort(Subproperty.sort);
     }
 
-    console.log("PULLING CHILD PROPERTIES OF ", type.qname);
-    let results = await Data.subpropertiesOfType(type.params);
-    childPropertyStorage.value.push(...results);
-    type.contentsLoaded = true;
-    return results || [];
+    subproperties = await Data.subpropertiesOfType(type.params);
+    return addStorageItems(subpropertyStorage, subproperties, false, Subproperty.sort);
   }
 
-  async function childPropertiesWithProperty(property: Property): Promise<Subproperty[]> {
+  async function subpropertiesWithProperty(property: Property): Promise<Subproperty[]> {
     let results = await Data.subpropertiesWithProperty(property.params);
-    return results || [];
+    return results;
   }
 
 
   /**
-   * Get the steward with the given fields from storage or from the API.
+   * Get the steward with the given fields.
    */
-  async function steward(params: APIStewardParams): Promise<Steward|null> {
-    // Attempt to load from store
-    let result = stewardStorage.value.find(steward => steward.stewardKey == params.stewardKey);
-    processHit(result);
+  async function steward(params: APIStewardParams): Promise<Steward | undefined> {
+    // Load from storage if available
+    let steward = stewardStorage.value.find(steward => steward.stewardKey == params.stewardKey);
 
-    if (!result) {
-      // Attempt to pull from API
-      return Data.steward(params);
+    if (steward) {
+      processHit(steward);
+      return steward;
     }
 
-    return result ?? null;
+    // Pull from the API
+    steward = await Data.steward(params);
+    return addStorageItem(stewardStorage, steward);
   }
 
   /**
-   * Get the model with the given fields from storage or from the API.
+   * Get the model with the given fields.
    */
-  async function model(params: APIModelParams): Promise<Model|null> {
-    // Attempt to load from store
+  async function model(params: APIModelParams): Promise<Model | undefined> {
+    // Load from storage if available
     let modelID = Model.idFromParams(Model, params);
-    let result = modelStorage.value.find(model => model.id == modelID);
-    processHit(result);
+    let model = modelStorage.value.find(model => model.id == modelID);
 
-    if (!result) {
-      // Attempt to load from API
-      return Data.model(params);
+    if (model) {
+      processHit(model);
+      return model;
     }
 
-    return result ?? null;
+    // Pull from the API
+    model = await Data.model(params);
+    return addStorageItem(modelStorage, model);
   }
 
   /**
-   * Get the version with the given fields from the API.
+   * Get the version with the given fields.
    */
-  async function version(params: APIVersionParams): Promise<Version|null> {
-    return Data.version(params);
+  async function version(params: APIVersionParams): Promise<Version|undefined> {
+    // Load from storage if available
+    let versionID = Version.idFromParams(Version, params);
+    let version = versionStorage.value.find(version => version.id == versionID);
+
+    if (version) {
+      processHit(version);
+      return version;
+    }
+
+    // Pull from the API
+    version = await Data.version(params);
+    return addStorageItem(versionStorage, version);
   }
 
   /**
    * Get the namespace with the given fields.
    */
-  async function namespace(params: APINamespaceParams): Promise<Namespace|null> {
-    return Data.namespace(params);
+  async function namespace(params: APINamespaceParams): Promise<Namespace | undefined> {
+    // Load from storage if available
+    let namespaceID = Namespace.idFromParams(Namespace, params);
+    let namespace = namespaceStorage.value.find(namespace => namespace.id == namespaceID);
+
+    if (namespace) {
+      processHit(namespace);
+      return namespace;
+    }
+
+    // Pull from the API
+    namespace = await Data.namespace(params);
+    return addStorageItem(namespaceStorage, namespace);
   }
 
   /**
    * Get the property with the given fields.
+   *
+   * @param arg = Property params or API route string
    */
-  async function property(arg: APIComponentParams | string): Promise<Property|null> {
-    return Data.property(arg);
+  async function property(arg: APIComponentParams | string): Promise<Property | undefined> {
+    // Load from storage if available
+    let apiRoute = typeof arg == "string" ? arg : Property.apiRoute(arg);
+    let property = propertyStorage.value.find(property => property.apiRoute == apiRoute);
+
+    if (property) {
+      processHit(property);
+      return property;
+    }
+
+    // Pull from the API
+    property = await Data.property(arg);
+    return addStorageItem(propertyStorage, property);
   }
 
   /**
    * Get the type with the given fields.
+   *
+   * @param arg = Type params or API route string
    */
-  async function type(arg: APIComponentParams | string): Promise<Type|null> {
-    return Data.type(arg);
+  async function type(arg: APIComponentParams | string): Promise<Type | undefined> {
+    // Load from storage if available
+    let apiRoute = typeof arg == "string" ? arg : Type.apiRoute(arg);
+    let type = typeStorage.value.find(type => type.apiRoute == apiRoute);
+
+    if (type) {
+      processHit(type);
+      return type;
+    }
+
+    // Pull from the API
+    type = await Data.type(arg);
+    return addStorageItem(typeStorage, type);
   }
 
   /**
@@ -344,18 +409,18 @@ export const useToolboxStore = defineStore("niem-toolbox", () => {
     typesFromNamespace,
     type,
 
-    childPropertiesOfType,
-    childPropertiesWithProperty,
+    subproperties,
+    subpropertiesWithProperty,
 
     bases,
     augmentations,
     substitutions,
 
     userSteward,
-    highlights,
-    favorites,
+    // highlights,
+    // favorites,
     sandbox,
-    propertyHistory,
+    // propertyHistory,
     routeHistory,
 
     // TODO: Depends on top-level await.
@@ -395,3 +460,71 @@ function processResponses(storeEntities: RemovableRef<Entity[]>, entities: Entit
   }
 }
 
+/**
+ * Tries to add the give item to the storage array and returns the now reactive item.
+ *
+ * Logs an error if storage is full and returns the non-reactive item.
+ *
+ * @param checkDuplicates - If true, checks storage for item with the same route before adding.
+ */
+function addStorageItem<T extends Entity>(storage: RemovableRef<T[]>, item: T | undefined,
+    checkDuplicates=false): T | undefined {
+
+  if (!item) {
+    return;
+  }
+
+  try {
+    if (checkDuplicates) {
+      let result = storage.value.find(storageItem => storageItem.route == item.route);
+      if (result) {
+        return result;
+      }
+    }
+    storage.value.push(item);
+  }
+  catch (error) {
+    console.log("Storage full");
+    return item;
+  }
+  return storage.value.find(storageItem => storageItem.route == item.route) || item;
+
+}
+
+/**
+ * Tries to add the given items or items to the storage array and returns the now reactive items.
+ *
+ * Logs an error if storage is full and returns the non-reactive items.
+ *
+ * @param checkDuplicates - If true, checks storage for item with the same route before adding.
+ */
+function addStorageItems<T extends Entity>(storage: RemovableRef<T[]>, items: T[],
+    checkDuplicates=false, sortFunction?: (a: T, b: T) => number): T[] {
+
+  try {
+    if (checkDuplicates) {
+      for (let item of items) {
+        if (!storage.value.find(storageItem => storageItem.route == item.route)) {
+          storage.value.push(item);
+        }
+      }
+    }
+    else {
+      storage.value.push(...items);
+    }
+  }
+  catch (error) {
+    console.log("Storage full");
+    return items;
+  }
+
+  let itemRoutes = items.map(item => item.route);
+  let results = storage.value.filter(storageItem => itemRoutes.includes(storageItem.route));
+
+  if (sortFunction) {
+    results = results.sort(sortFunction);
+  }
+
+  return results;
+
+}

@@ -1,6 +1,7 @@
 import type { BreadcrumbItem } from "@nuxt/ui";
 import { Entity, type EntityTypeCode } from "./Entity";
 import { Version } from "./Version";
+import type { Reactive } from "vue";
 
 export class Namespace extends Entity {
 
@@ -29,9 +30,9 @@ export class Namespace extends Entity {
   typesLoaded = false;
   localTermsLoaded = false;
 
-  propertiesCount: number | undefined = undefined;
-  typesCount: number | undefined = undefined;
-  localTermsCount: number | undefined = undefined;
+  propertiesCount: number | undefined;
+  typesCount: number | undefined;
+  localTermsCount: number | undefined;
 
   override get badgeLabel() {
     return this.category;
@@ -84,8 +85,8 @@ export class Namespace extends Entity {
     return super.params as APINamespaceParams;
   }
 
-  override get tabsItems(): ToolboxTabsItem[] {
-    return [
+  override get tabsItems(): Reactive<ToolboxTabsItem[]> {
+    return reactive([
       {
         icon: Icons.property,
         label: "Properties",
@@ -105,7 +106,7 @@ export class Namespace extends Entity {
         label: "Local terms",
         slot: "terms"
       }
-    ];
+    ]);
   }
 
   static override apiRoute(params: APIVersionParams | APINamespaceParams) {

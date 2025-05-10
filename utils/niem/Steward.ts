@@ -1,6 +1,7 @@
 import type { BreadcrumbItem, TabsItem } from "@nuxt/ui";
 import { Entity, type EntityTypeCode } from "./Entity"
 import { Config } from "../Config";
+import type { Reactive } from "vue";
 
 export class Steward extends Entity {
 
@@ -97,8 +98,8 @@ export class Steward extends Entity {
     return super.params as APIStewardParams;
   }
 
-  override get tabsItems(): ToolboxTabsItem[] {
-    return [
+  override get tabsItems(): Reactive<ToolboxTabsItem[]> {
+    return reactive([
       {
         icon: Icons.model,
         label: "Models",
@@ -110,7 +111,7 @@ export class Steward extends Entity {
         label: "Namespaces",
         slot: "namespaces"
       }
-    ];
+    ]);
   }
 
   override get toolboxRoute() {

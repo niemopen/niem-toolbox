@@ -31,13 +31,13 @@ const { property } = defineProps<{
 
 const toolbox = useToolboxStore();
 
-let type: Type | null;
+let type: Type | undefined;
 
 if (property.type) {
   type = await toolbox.type({...property.params, qname: property.type?.qname});
 }
 
-let usages: Subproperty[] = await toolbox.childPropertiesWithProperty(property);
+let usages: Subproperty[] = await toolbox.subpropertiesWithProperty(property);
 
 property.usagesCount = usages.length;
 

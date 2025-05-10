@@ -2,6 +2,7 @@ import { Entity, type EntityTypeCode } from "./Entity";
 import { Model } from "./Model";
 import { Steward } from "./Steward";
 import { ToolboxApp } from "../ToolboxApp";
+import type { Reactive } from "vue";
 
 export class Version extends Entity {
 
@@ -121,8 +122,8 @@ export class Version extends Entity {
     return super.params as APIVersionParams;
   }
 
-  override get tabsItems(): ToolboxTabsItem[] {
-    return [
+  override get tabsItems(): Reactive<ToolboxTabsItem[]> {
+    return reactive([
       {
         icon: Icons.namespace,
         label: "Namespaces",
@@ -143,7 +144,7 @@ export class Version extends Entity {
         count: this.typesCount,
         more: !this.typesLoaded
       }
-    ];
+    ]);
   }
 
   static override apiRoute(params: APIModelParams | APIVersionParams) {

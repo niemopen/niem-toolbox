@@ -42,6 +42,17 @@ export abstract class Component extends Entity {
     return super.params as APIComponentParams;
   }
 
+  get ref(): APIComponentRef {
+    return {
+      route: this.route || "",
+      prefix: this.prefix || "",
+      name: this.name || "",
+      qname: this.qname || "",
+      category: this.category,
+      definition: this.definition || ""
+    }
+  }
+
   static override breadcrumbs(params: APIComponentParams): BreadcrumbItem[] {
     params.prefix = params.qname.split(":")[0];
     params.name = params.qname.split(":")[1];

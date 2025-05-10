@@ -103,15 +103,15 @@ export class Model extends Entity {
     return super.params as APIModelParams;
   }
 
-  override get tabsItems(): ToolboxTabsItem[] {
-    return [
+  override get tabsItems(): Reactive<ToolboxTabsItem[]> {
+    return reactive([
       {
         icon: Icons.version,
         label: "Versions",
         slot: "versions",
         count: this.versionsCount
       }
-    ]
+    ]);
   }
 
   static override apiRoute(params: APIStewardParams | APIModelParams) {
@@ -175,12 +175,18 @@ export class Model extends Entity {
   static override sort(a: Model, b: Model) {
     // Check that sort fields exist
     if (!a.steward?.stewardKey || !a.steward.shortName || !b.steward?.stewardKey || !b.steward.shortName || !a.shortName || !b.shortName) {
+      console.log("STEWARD KEY MISSING");
       return 0;
     }
 
     // Return the NIEM reference model first
     if (a.steward.stewardKey == Steward.NIEMStewardKey && a.modelKey == Model.NIEMModelKey) {
       return -1;
+    }
+
+    // Return the NIEM reference model first
+    if (b.steward.stewardKey == Steward.NIEMStewardKey && b.modelKey == Model.NIEMModelKey) {
+      return 1;
     }
 
     // If model short names match, sort by steward short name

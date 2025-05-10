@@ -86,8 +86,8 @@ export default {
   class: "streamline:hierarchy-2",
   datatype: "clarity:block-line",
   contents: "mdi:format-list-group",
-  childProperty: "material-symbols:subdirectory-arrow-right-rounded",
-  // childProperty: "bi:list-nested",
+  subproperty: "material-symbols:subdirectory-arrow-right-rounded",
+  // subproperty: "bi:list-nested",
   facet: "codicon:symbol-enum",
   term: "material-symbols:dictionary-outline-rounded"
 

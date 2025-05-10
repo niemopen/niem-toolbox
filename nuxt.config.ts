@@ -78,6 +78,9 @@ export default defineNuxtConfig({
   //     colors: ["primary", "secondary", "success", "warning", "error", "info", "neutral"]
   //   }
   // },
+  ui: {
+    fonts: false
+  },
   vite: {
     css: {
       preprocessorOptions: {

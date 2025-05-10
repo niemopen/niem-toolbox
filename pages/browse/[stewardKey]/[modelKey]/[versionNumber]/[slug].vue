@@ -22,9 +22,9 @@ type RouteParamsType = APIVersionParams & {
 const params = route.params as RouteParamsType;
 const slug = params.slug as string;
 
-let namespace: Namespace | null = null;
-let property: Property | null = null;
-let type: Type | null = null;
+let namespace: Namespace | undefined;
+let property: Property | undefined;
+let type: Type | undefined;
 
 const toolbox = useToolboxStore();
 

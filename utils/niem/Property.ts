@@ -1,3 +1,4 @@
+import type { Reactive } from "vue";
 import { Component } from "./Component";
 import { Entity, type EntityTypeCode } from "./Entity";
 import { Type } from "./Type";
@@ -68,10 +69,10 @@ export class Property extends Component {
     return AppItems.property;
   }
 
-  override get tabsItems(): ToolboxTabsItem[] {
-    return [
+  override get tabsItems(): Reactive<ToolboxTabsItem[]> {
+    return reactive([
       {
-        icon: Icons.childProperty,
+        icon: Icons.subproperty,
         label: "Contents",
         slot: "contents",
         count: this.contentsCount
@@ -82,7 +83,7 @@ export class Property extends Component {
         slot: "usages",
         count: this.usagesCount
       }
-    ];
+    ]);
   }
 
   static override apiRoute(params: APIVersionParams | APINamespaceParams | APIComponentParams) {

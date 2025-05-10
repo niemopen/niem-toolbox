@@ -22,15 +22,14 @@ export class Data {
   }
 
   /**
-   * Get a steward with the given fields from the API, or null if not found.
+   * Get a steward with the given fields from the API.
    */
-  static async steward(stewardParams: APIStewardParams): Promise<Steward | null> {
+  static async steward(stewardParams: APIStewardParams): Promise<Steward | undefined> {
     let response = await fetch(Steward.apiRoute(stewardParams));
     if (response.ok) {
       let apiSteward = await response.json() as APISteward;
       return Steward.fromAPI(apiSteward);
     }
-    return null;
   }
 
   /**
@@ -51,15 +50,14 @@ export class Data {
   }
 
   /**
-   * Get a model with the given fields from the API, or null if not found.
+   * Get a model with the given fields from the API.
    */
-  static async model(modelParams: APIModelParams): Promise<Model | null> {
+  static async model(modelParams: APIModelParams): Promise<Model | undefined> {
     let response = await fetch(Model.apiRoute(modelParams));
     if (response.ok) {
       let apiModel = await response.json() as APIModel;
       return Model.fromAPI(apiModel);
     }
-    return null;
   }
 
   /**
@@ -75,15 +73,14 @@ export class Data {
   }
 
   /**
-   * Get a version with the given fields from the API, or null if not found.
+   * Get a version with the given fields from the API.
    */
-  static async version(versionParams: APIVersionParams): Promise<Version | null> {
+  static async version(versionParams: APIVersionParams): Promise<Version | undefined> {
     let response = await fetch(Version.apiRoute(versionParams));
     if (response.ok) {
       let apiVersion = await response.json() as APIVersion;
       return Version.fromAPI(apiVersion);
     }
-    return null;
   }
 
   /**
@@ -99,15 +96,14 @@ export class Data {
   }
 
   /**
-   * Get a namespace with the given fields from the API, or null if not found.
+   * Get a namespace with the given fields from the API.
    */
-  static async namespace(namespaceParams: APINamespaceParams): Promise<Namespace | null> {
+  static async namespace(namespaceParams: APINamespaceParams): Promise<Namespace | undefined> {
     let response = await fetch(Namespace.apiRoute(namespaceParams));
     if (response.ok) {
       let apiNamespace = await response.json() as APINamespace;
       return Namespace.fromAPI(apiNamespace);
     }
-    return null;
   }
 
   /**
@@ -132,18 +128,17 @@ export class Data {
   }
 
   /**
-   * Get a property with the given fields from the API, or null if not found.
+   * Get a property with the given fields from the API.
    *
    * @args - Property fields OR API property route.
    */
-  static async property(args: APIComponentParams | string): Promise<Property | null> {
+  static async property(args: APIComponentParams | string): Promise<Property | undefined> {
     let route = typeof args == "string" ? args : Property.apiRoute(args);
     let response = await fetch(route);
     if (response.ok) {
       let apiProperty = await response.json() as APIProperty;
       return Property.fromAPI(apiProperty);
     }
-    return null;
   }
 
   /**
@@ -168,18 +163,17 @@ export class Data {
   }
 
   /**
-   * Get a type with the given fields from the API, or null if not found.
+   * Get a type with the given fields from the API.
    *
    * @args - Type fields OR API type route.
    */
-  static async type(args: APIComponentParams | string): Promise<Type | null> {
+  static async type(args: APIComponentParams | string): Promise<Type | undefined> {
     let route = typeof args == "string" ? args : Type.apiRoute(args);
     let response = await fetch(route);
     if (response.ok) {
       let apiType = await response.json() as APIType;
       return Type.fromAPI(apiType);
     }
-    return null;
   }
 
   /**
@@ -236,16 +230,15 @@ export class Data {
   }
 
   /**
-   * Get a subproperty from the API with the given fields, or null if not found.
+   * Get a subproperty from the API with the given fields.
    */
   static async subproperty(subpropertyParams: APISubpropertyParams):
-      Promise<Subproperty | null> {
+      Promise<Subproperty | undefined> {
     let response = await fetch(Subproperty.apiRoute(subpropertyParams));
     if (response.ok) {
       let apiSubproperty = await response.json() as APISubproperty;
       return Subproperty.fromAPI(apiSubproperty);
     }
-    return null;
   }
 
   /**

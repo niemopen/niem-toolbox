@@ -245,7 +245,7 @@ declare global {
     isSimple: boolean,
     isComplexContent: boolean,
     isSimpleContent: boolean,
-    base?: APITypeRef | null,
+    base?: APITypeRef | undefined,
   }
 
   type APISubproperty = APIEntity & {
