@@ -32,14 +32,12 @@
 </template>
 
 <script setup lang="ts">
-import type { Property } from '~/utils/niem/Property';
 import type { Subproperty } from '~/utils/niem/Subproperty';
 import type { Type } from '~/utils/niem/Type';
 
-const { type, path = [], highlightProperty } = defineProps<{
+const { type, path = [] } = defineProps<{
   type: Type
-  path?: APIComponentRef[],
-  highlightProperty?: Property
+  path?: APIComponentRef[]
 }>();
 
 const toolbox = useToolboxStore();
@@ -67,18 +65,8 @@ for (let base of bases) {
 
 // Add immediate subproperties
 let subproperties = await toolbox.subproperties(type);
-if (highlightProperty) {
-  // Highlight matching property if given
-  let match = subproperties.find(subproperty => subproperty.property?.route == highlightProperty.route);
-  if (match) {
-    match.background = "bg-warning/10";
-  }
-console.log(highlightProperty, match);
-}
 loadContents(type, "children", subproperties, `Properties from`);
 type.contentsCount += subproperties.length;
-
-
 
 
 // Add augmentation subproperties

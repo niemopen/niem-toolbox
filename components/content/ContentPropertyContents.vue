@@ -1,6 +1,7 @@
 
 <template>
   <ContentTypeContents v-if="type" :type="type"/>
+  <ListProperties v-else-if="property.category=='abstract_element'" :properties="substitutions"/>
   <UAlert v-else title="No contents" variant="subtle"/>
 </template>
 
@@ -14,8 +15,12 @@ const toolbox = useToolboxStore();
 
 let type: Type | undefined;
 
+let substitutions: Property[] = [];
+
 if (property.type && property.type.route) {
   type = await toolbox.type(property.type?.route);
 }
+
+substitutions = await toolbox.substitutions(property.params);
 
 </script>

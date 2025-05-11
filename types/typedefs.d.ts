@@ -53,7 +53,7 @@ declare global {
     more?: boolean
   }
 
-  type ContentsCategory = "children" | "inherited" | "augmentation";
+  type ContentsCategory = "children" | "inherited" | "augmentation" | "substitutions" | "value" | "list" | "union";
 
   type ContentsItem = AccordionItem & {
     type: Type,

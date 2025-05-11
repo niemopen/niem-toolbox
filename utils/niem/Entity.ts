@@ -49,6 +49,8 @@ export abstract class Entity {
    */
   disabled = false;
 
+  background = "bg-default";
+
   private get childConstructor() {
     return this.constructor as typeof Entity;
   }

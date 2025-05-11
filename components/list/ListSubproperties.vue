@@ -3,9 +3,9 @@
   <ListTemplate :entities="subproperties">
     <!-- @vue-expect-error -->
     <template #default="{ item: subproperty }: { item: Subproperty}">
-      <ContentSubproperty :subproperty="subproperty" :path="path"/>
-    </template>
-  </ListTemplate>
+        <ContentSubproperty :subproperty="subproperty" :path="path" :h/>
+      </template>
+    </ListTemplate>
 </template>
 
 <script setup lang="ts">

@@ -6,24 +6,26 @@
       <!-- Accordion item header -->
       <template #default="{ item, index }" >
 
-        <!-- Link to item -->
-        <ToolboxLink :link="{ label: item.label, to: item.to, labelClasses: 'align-middle' }"/>
+          <!-- Link to item -->
+          <span :class="item.background">
+            <ToolboxLink :link="{ label: item.label, to: item.to, labelClasses: 'align-middle' }"/>
+          </span>
 
-        <!-- Popover info -->
-        <UPopover mode="hover" :content="{side: 'right'}" :open-delay="700">
-          <UButton :icon="Icons.info" color="neutral" variant="ghost" class="align-middle text-muted"/>
-          <template #content>
-            <InfoTable :data="item.infoItems" width-class="w-[600px]"/>
-          </template>
-        </UPopover>
+          <!-- Popover info -->
+          <UPopover mode="hover" :content="{side: 'right'}" :open-delay="700">
+            <UButton :icon="Icons.info" color="neutral" variant="ghost" class="align-middle text-muted"/>
+            <template #content>
+              <InfoTable :data="item.infoItems" width-class="w-[600px]"/>
+            </template>
+          </UPopover>
 
-        <!-- Badge -->
-        <UBadge v-if="item.badgeLabel" :label="item.badgeLabel" size="sm" :variant="item.badgeVariant || 'subtle'" :color="item.badgeColor || 'neutral'" class="ml-1 font-light align-middle"/>
+          <!-- Badge -->
+          <UBadge v-if="item.badgeLabel" :label="item.badgeLabel" size="sm" :variant="item.badgeVariant || 'subtle'" :color="item.badgeColor || 'neutral'" class="ml-1 font-light align-middle"/>
 
-        <span v-if="useLabelQualifier && item.labelQualifier" class="ml-1 align-middle">
-          <span class="mr-1"> - </span>
-          <span>{{ item.labelQualifier }}</span>
-        </span>
+          <span v-if="useLabelQualifier && item.labelQualifier" class="ml-1 align-middle">
+            <span class="mr-1"> - </span>
+            <span>{{ item.labelQualifier }}</span>
+          </span>
 
       </template>
 
