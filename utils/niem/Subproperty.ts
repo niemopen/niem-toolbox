@@ -167,6 +167,11 @@ export class Subproperty extends Entity {
   }
 
   static override sort(a: Subproperty, b: Subproperty): number {
+    if (a.type?.prefix != b.type?.prefix) {
+      // Return Core results first
+      if (a.type?.prefix == "nc") return -1;
+      if (b.type?.prefix == "nc") return 1;
+    }
     if (!a.sequence || !b.sequence) return 0;
     return a.sequence - b.sequence;
   }

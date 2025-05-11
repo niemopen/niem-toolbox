@@ -7,7 +7,7 @@
     </template>
 
     <template #usages>
-      <ListSubpropertiesAsTable :property="property"/>
+      <ListSubpropertiesWithProperty :property="property"/>
     </template>
 
   </EntityContents>

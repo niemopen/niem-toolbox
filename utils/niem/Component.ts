@@ -106,8 +106,15 @@ export abstract class Component extends Entity {
     }
   }
 
+  /**
+   * Sort by Core, then qname.
+   */
   static override sort(a: Component, b: Component): number {
-    if (!a.qname || !b.qname) return 0;
+    if (!a.qname || !b.qname || !a.prefix || !b.prefix) return 0;
+    if (a.prefix != b.prefix) {
+      if (a.prefix == "nc") return -1;
+      if (b.prefix == "nc") return 1;
+    }
     return a.qname.localeCompare(b.qname);
   }
 

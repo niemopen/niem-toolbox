@@ -72,13 +72,13 @@ declare global {
   type APIEntity = {
     "@id": string,
     "@type": string,
-    localIdentifier: string,
     route: string,
     title: string
   }
 
   type APIEntityRef = {
-    route?: string
+    route: string,
+    "@id": string
   }
 
   type APIStewardCategory = "Federal" | "State" | "Local" | "Tribal" | "Territorial" | "International" | "Industry" | "Nonprofit" | "SDO" | "Educational" | "Person" | "Other";

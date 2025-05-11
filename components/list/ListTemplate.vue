@@ -7,9 +7,10 @@
       <template #default="{ item, index }" >
 
           <!-- Link to item -->
-          <span :class="item.background">
-            <ToolboxLink :link="{ label: item.label, to: item.to, labelClasses: 'align-middle' }"/>
-          </span>
+          <UBadge v-if="item.highlight" :color="item.highlight" variant="subtle">
+            <ToolboxLink :link="{ label: item.label, to: item.to, labelClasses: 'align-middle text-sm' }"/>
+          </UBadge>
+          <ToolboxLink v-else :link="{ label: item.label, to: item.to, labelClasses: 'align-middle text-sm' }"/>
 
           <!-- Popover info -->
           <UPopover mode="hover" :content="{side: 'right'}" :open-delay="700">

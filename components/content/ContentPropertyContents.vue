@@ -1,6 +1,6 @@
 
 <template>
-  <ContentTypeContents v-if="type" :type="type"/>
+  <ContentTypeContents v-if="type" :type="type" :property="property"/>
   <ListProperties v-else-if="property.category=='abstract_element'" :properties="substitutions"/>
   <UAlert v-else title="No contents" variant="subtle"/>
 </template>
@@ -19,8 +19,11 @@ let substitutions: Property[] = [];
 
 if (property.type && property.type.route) {
   type = await toolbox.type(property.type?.route);
+  property.contentsCount = type?.contentsCount;
 }
-
-substitutions = await toolbox.substitutions(property.params);
+else if (property.category == 'abstract_element') {
+  substitutions = await toolbox.substitutions(property.params);
+  property.contentsCount = substitutions.length;
+}
 
 </script>

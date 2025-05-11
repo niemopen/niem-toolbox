@@ -151,7 +151,7 @@ export const useToolboxStore = defineStore("niem-toolbox", () => {
    */
   async function versions(model: Model): Promise<Version[]> {
     // Return model versions from storage if available
-    let versions = versionStorage.value.filter(version => version.model?.route == model.apiRoute);
+    let versions = versionStorage.value.filter(version => version.model?.route == model.route);
     if (versions.length > 0) {
       return versions.sort(Version.sort);
     }

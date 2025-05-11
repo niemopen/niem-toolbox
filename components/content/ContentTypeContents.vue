@@ -7,7 +7,7 @@
       <!-- Current path -->
       <div v-if="path.length > 1" class="p-2 rounded-lg bg-muted text-dimmed text-xs">
         <span>Current path: </span>
-        <span>{{ path.slice(0, -1).map(ref => ref.qname).join(' > ') }}</span>
+        <span>{{ path.map(ref => ref.qname).join(' > ') }}</span>
       </div>
 
       <!-- Contents -->
@@ -36,10 +36,11 @@ import type { Property } from '~/utils/niem/Property';
 import type { Subproperty } from '~/utils/niem/Subproperty';
 import type { Type } from '~/utils/niem/Type';
 
-const { type, path = [], highlightProperty } = defineProps<{
+const { type, path = [], highlightProperty, property } = defineProps<{
   type: Type
   path?: APIComponentRef[],
-  highlightProperty?: Property
+  highlightProperty?: Property,
+  property?: Property
 }>();
 
 const toolbox = useToolboxStore();
@@ -65,20 +66,11 @@ for (let base of bases) {
 }
 
 
-// Add immediate subproperties
+// Add immediate subproperties and set the background of the matching subproperty
 let subproperties = await toolbox.subproperties(type);
-if (highlightProperty) {
-  // Highlight matching property if given
-  let match = subproperties.find(subproperty => subproperty.property?.route == highlightProperty.route);
-  if (match) {
-    match.background = "bg-warning/10";
-  }
-console.log(highlightProperty, match);
-}
+highlightMatchingProperty(subproperties);
 loadContents(type, "children", subproperties, `Properties from`);
 type.contentsCount += subproperties.length;
-
-
 
 
 // Add augmentation subproperties
@@ -98,6 +90,10 @@ for (let augmentation of augmentations) {
 
 loading.value = false;
 
+if (property) {
+  property.contentsCount = type.contentsCount;
+}
+
 
 /**
  * Adds a entry to the contentsItems array for the contents of a base type, the given type,
@@ -116,6 +112,24 @@ function loadContents(type: Type, category: ContentsCategory, subproperties: Sub
     value: type.qname
   })
 
+}
+
+
+/**
+ * For the given list of subproperties, set the background of the property
+ * that matches the given property to highlight.
+ *
+ * Note: This helps to visually distinguish the occurrences of the original property
+ * in the property usages tabs from the other properties the types also contain.
+ */
+function highlightMatchingProperty(subproperties: Subproperty[]) {
+  // Reset in existing highlights and highlight the matching property if given
+  for (let subproperty of subproperties) {
+    subproperty.highlight = undefined;
+    if (highlightProperty && subproperty.property?.route == highlightProperty.route) {
+      subproperty.highlight = "warning";
+    }
+  }
 }
 
 </script>

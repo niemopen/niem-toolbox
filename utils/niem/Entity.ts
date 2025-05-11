@@ -49,7 +49,7 @@ export abstract class Entity {
    */
   disabled = false;
 
-  background = "bg-default";
+  highlight: ColorType | undefined;
 
   private get childConstructor() {
     return this.constructor as typeof Entity;
