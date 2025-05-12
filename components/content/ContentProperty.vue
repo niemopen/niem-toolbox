@@ -28,4 +28,8 @@ let usages: Subproperty[] = await toolbox.subpropertiesWithProperty(property);
 
 property.usagesCount = usages.length;
 
+const count = computed<number | undefined>(() => {
+  return property.contentsCount;
+});
+
 </script>

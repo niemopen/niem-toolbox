@@ -31,7 +31,7 @@
           </template>
 
           <template #details>
-            <InfoTable :data="entity.infoItems"/>
+            <TableInfo :data="entity.infoItems"/>
           </template>
 
           <template v-for="tabsItem in entity.tabsItems" #[tabsItem.slot]>
@@ -73,7 +73,7 @@ const updatedTabsItems: ToolboxTabsItem[] = [
     label: "Details",
     slot: "details"
   },
-  ...entity?.tabsItems || []
+  ...entity.tabsItems
 ];
 
 

@@ -66,7 +66,8 @@ declare global {
   }
 
   type APIFacetParams = APIComponentParams & {
-    category?: string
+    category?: string,
+    value?: string
   }
 
   type APIEntity = {

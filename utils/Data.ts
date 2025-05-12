@@ -6,6 +6,7 @@ import { Steward } from "./niem/Steward";
 import { Type } from "./niem/Type";
 import { Version } from "./niem/Version";
 import { Pagination } from "./Pagination";
+import { Facet } from "./niem/Facet";
 
 export class Data {
 
@@ -177,12 +178,12 @@ export class Data {
   }
 
   /**
-   * Get all subproperties from the API for the version or namespace with the given fields.
+   * Get a page of subproperties from the API for the version or namespace with the given fields.
    */
   static async subproperties(params: APIVersionParams | APINamespaceParams,
       pageable: Pageable): Promise<Paginated<Subproperty>> {
 
-    let route = Pagination.route(Subproperty.apiRoute(params) + "/subproperties", pageable);
+    let route = Pagination.route(Subproperty.apiRoute(params), pageable);
     let response = await fetch(route);
 
     if (response.ok) {
@@ -239,6 +240,22 @@ export class Data {
       let apiSubproperty = await response.json() as APISubproperty;
       return Subproperty.fromAPI(apiSubproperty);
     }
+  }
+
+  /**
+   *
+   */
+  static async facets(params: APIVersionParams | APINamespaceParams | APIComponentParams,
+      pageable: Pageable): Promise<Paginated<Facet>> {
+
+    let route = Pagination.route(Facet.apiRoute(params), pageable);
+    let response = await fetch(route);
+
+    if (response.ok) {
+      let paginatedAPIResults = await response.json() as Paginated<APIFacet>;
+      return Pagination.processAPIFacets(paginatedAPIResults);
+    }
+    return Pagination.emptyFacets();
   }
 
   /**

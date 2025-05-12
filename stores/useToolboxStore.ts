@@ -8,6 +8,7 @@ import { Subproperty } from "../utils/niem/Subproperty";
 import { Namespace } from "../utils/niem/Namespace";
 import { Version } from "~/utils/niem/Version";
 import type { Entity } from "~/utils/niem/Entity";
+import type { Facet } from "~/utils/niem/Facet";
 
 /**
  * Prefix keys in local storage with "niem-toolbox-".
@@ -222,11 +223,37 @@ export const useToolboxStore = defineStore("niem-toolbox", () => {
     return addStorageItems(subpropertyStorage, subproperties, false, Subproperty.sort);
   }
 
+  /**
+   * Get all subproperties that include the given property.
+   */
   async function subpropertiesWithProperty(property: Property): Promise<Subproperty[]> {
     let results = await Data.subpropertiesWithProperty(property.params);
     return results;
   }
 
+  /**
+   * Get a page of facets from the given version.
+   */
+  async function facetsFromVersion(version: Version, offset=0): Promise<Paginated<Facet>> {
+    let pageable = Pagination.pageable(offset);
+    return Data.facets(version.params, pageable);
+  }
+
+  /**
+   * Get a page of facets from the given version.
+   */
+  async function facetsFromNamespace(namespace: Namespace, offset=0): Promise<Paginated<Facet>> {
+    let pageable = Pagination.pageable(offset);
+    return Data.facets(namespace.params, pageable);
+  }
+
+  /**
+   * Get a page of facets from the given type.
+   */
+  async function facetsFromType(type: Type, offset=0): Promise<Paginated<Facet>> {
+    let pageable = Pagination.pageable(offset);
+    return Data.facets(type.params, pageable);
+  }
 
   /**
    * Get the steward with the given fields.
@@ -411,6 +438,10 @@ export const useToolboxStore = defineStore("niem-toolbox", () => {
 
     subproperties,
     subpropertiesWithProperty,
+
+    facetsFromVersion,
+    facetsFromNamespace,
+    facetsFromType,
 
     bases,
     augmentations,

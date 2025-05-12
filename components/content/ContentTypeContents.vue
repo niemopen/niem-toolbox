@@ -27,6 +27,8 @@
           <ListSubproperties :subproperties="item.subproperties" :path="[...path]" class="ml-6"/>
         </template>
       </UAccordion>
+
+      <TableTypeFacets :type="type"/>
     </div>
   </div>
 </template>

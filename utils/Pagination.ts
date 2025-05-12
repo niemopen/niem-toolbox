@@ -2,6 +2,7 @@ import { Property } from "./niem/Property";
 import { Subproperty } from "./niem/Subproperty";
 import { Type } from "./niem/Type";
 import { API } from "./API";
+import { Facet } from "./niem/Facet";
 
 export class Pagination {
 
@@ -85,6 +86,13 @@ export class Pagination {
     return Pagination.emptyEntities<Subproperty>();
   }
 
+  /**
+   * Returns an empty paginated object for facets.
+   */
+  static emptyFacets(): Paginated<Facet> {
+    return Pagination.emptyEntities<Facet>();
+  }
+
   static sortByRankQName() {
     return ["namespaceRank", "qname"];
   }
@@ -137,6 +145,14 @@ export class Pagination {
       Paginated<Subproperty> {
     let content = Subproperty.fromAPIList(paginatedAPISubproperties.content);
     return Pagination.processAPIContent(paginatedAPISubproperties, content);
+  }
+
+  /**
+   * Transform paginated API facets to paginated Toolbox facets.
+   */
+  static processAPIFacets(paginatedAPIFacets: Paginated<APIFacet>): Paginated<Facet> {
+    let content = Facet.fromAPIList(paginatedAPIFacets.content);
+    return Pagination.processAPIContent(paginatedAPIFacets, content);
   }
 
 }

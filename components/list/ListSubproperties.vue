@@ -2,7 +2,7 @@
 <template>
   <ListTemplate :entities="subproperties">
     <!-- @vue-expect-error -->
-    <template #default="{ item: subproperty }: { item: Subproperty}">
+    <template #default="{ item: subproperty }: { item: Subproperty }">
         <ContentSubproperty :subproperty="subproperty" :path="path" :h/>
       </template>
     </ListTemplate>
