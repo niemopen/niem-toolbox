@@ -27,7 +27,7 @@
         </template>
       </UAccordion>
 
-      <!-- <TableTypeFacets :type="type"/> -->
+      <TableTypeFacets v-if="showFacets && type.isSimpleContent" :type="type"/>
     </div>
   </div>
 </template>
@@ -37,11 +37,12 @@ import type { Property } from '~/utils/niem/Property';
 import type { Subproperty } from '~/utils/niem/Subproperty';
 import type { Type } from '~/utils/niem/Type';
 
-const { type, path = [], highlightProperty, property } = defineProps<{
+const { type, path = [], highlightProperty, property, showFacets = false } = defineProps<{
   type: Type
   path?: APIComponentRef[],
   highlightProperty?: Property,
-  property?: Property
+  property?: Property,
+  showFacets?: boolean
 }>();
 
 const emit = defineEmits(["setContentsCount"]);

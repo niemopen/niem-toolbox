@@ -3,7 +3,7 @@
   <EntityContents :as="as" :entity="type">
 
     <template #contents>
-      <ContentTypeContents :type="type"/>
+      <ContentTypeContents :type="type" :show-facets="true"/>
     </template>
 
     <template #usages>
