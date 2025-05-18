@@ -388,12 +388,8 @@ export const useToolboxStore = defineStore("niem-toolbox", () => {
       return [];
     }
 
-    let augmentationParams = type.params;
-    augmentationParams.qname = type.params.qname?.slice(0, -4) + "AugmentationPoint";
-
     try {
-      let augmentationProperty = await Data.property(augmentationParams);
-      return augmentationProperty ? substitutions(augmentationProperty.params) : [];
+      return Data.augmentations(type.params);
     }
     catch (error) {
       return [];

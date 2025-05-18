@@ -282,4 +282,16 @@ export class Data {
     return [];
   }
 
+  /**
+   * Get the augmentations from the API for the type with the given fields.
+   */
+  static async augmentations(typeParams: APIComponentParams): Promise<Property[]> {
+    let response = await fetch(Type.apiRoute(typeParams) + "/augmentations");
+    if (response.ok) {
+      let apiProperties = await response.json() as APIProperty[];
+      return Property.fromAPIList(apiProperties);
+    }
+    return [];
+  }
+
 }
