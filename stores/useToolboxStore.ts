@@ -388,6 +388,22 @@ export const useToolboxStore = defineStore("niem-toolbox", () => {
   }
 
   /**
+   * Get a list of immediate children for the given type.
+   */
+  async function children(arg: APIComponentParams): Promise<Type[]> {
+    let children = await Data.children(arg);
+    return children.sort(Type.sort);
+  }
+
+  /**
+   * Get a list of property usages of the given type.
+   */
+  async function usages(arg: APIComponentParams, offset = 0): Promise<Paginated<Property>> {
+    let pageable = Pagination.pageable(offset);
+    return Data.usages(arg, pageable);
+  }
+
+  /**
    * Get augmentation properties for the type with the given fields.
    */
   async function augmentations(type: Type): Promise<Property[]> {
@@ -467,7 +483,10 @@ export const useToolboxStore = defineStore("niem-toolbox", () => {
     facetsFromType,
 
     bases,
+    children,
     augmentations,
+    usages,
+
     substitutions,
     groups,
 

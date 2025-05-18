@@ -143,7 +143,7 @@ export class Data {
   }
 
   /**
-   * Get all types from the API for the version or namespace with the given fields.
+   * Get a page of types from the API for the version or namespace with the given fields.
    */
   static async types(params: APIVersionParams | APINamespaceParams,
       pageable: Pageable): Promise<Paginated<Type>> {
@@ -304,6 +304,38 @@ export class Data {
       return Property.fromAPIList(apiProperties);
     }
     return [];
+  }
+
+  /**
+   * Get the immediate children from the API for the type with the given fields.
+   */
+  static async children(typeParams: APIComponentParams): Promise<Type[]> {
+    let response = await fetch(Type.apiRoute(typeParams) + "/children");
+    if (response.ok) {
+      let apiTypes = await response.json() as APIType[];
+      return Type.fromAPIList(apiTypes);
+    }
+    return [];
+  }
+
+  /**
+   * Get a page of property usages from the API of the type with the given fields.
+   */
+  static async usages(typeParams: APIComponentParams, pageable: Pageable):
+    Promise<Paginated<Property>> {
+
+    if (!pageable.sort) {
+      pageable.sort = Pagination.sortByRankQName();
+    }
+
+    let route = Pagination.route(Type.apiRoute(typeParams) + "/usages", pageable);
+    let response = await fetch(route);
+
+    if (response.ok) {
+      let paginatedAPIResults = await response.json() as Paginated<APIProperty>;
+      return Pagination.processAPIProperties(paginatedAPIResults);
+    }
+    return Pagination.emptyProperties();
   }
 
   /**

@@ -7,7 +7,12 @@
     </template>
 
     <template #usages>
-      <ListProperties :properties="properties" :enable-more="hasMoreUsages" :total="usagesCount" @load-more="loadMoreUsages"/>
+      <ListProperties :properties="properties" :enable-more="hasMoreUsages"
+          :total="usagesCount" @load-more="loadMoreUsages"/>
+    </template>
+
+    <template #children>
+      <ListTypes v-if="type.childrenLoaded" :types="children" :total="children.length"/>
     </template>
 
   </EntityContents>
@@ -26,6 +31,12 @@ const toolbox = useToolboxStore();
 
 let properties: Ref<Property[]> = ref([]);
 
+let children: Ref<Type[]> = ref([]);
+
+children.value = await toolbox.children(type.params);
+type.childrenCount = children.value.length;
+type.childrenLoaded = true;
+
 // Reactive indicator for if the type has more property usages that could be loaded
 const hasMoreUsages = computed<boolean>(() => {
   return !type.usagesLoaded;
@@ -38,10 +49,6 @@ const usagesCount = computed<number|undefined>(() => {
   return type.usagesCount;
 })
 
-// Find the NIEM version number for this type
-const version = await toolbox.version(type.params);
-const niemVersionNumber = version?.niemVersionNumber;
-
 // Initial load
 await loadMoreUsages();
 
@@ -50,10 +57,7 @@ async function loadMoreUsages() {
   if (type.usagesLoaded) return;
   if (!type.qname) return;
 
-  let page = await Search.properties({
-    niemVersionNumber: niemVersionNumber,
-    type: [type.qname]
-  })
+  let page = await toolbox.usages(type.params, properties.value.length);
 
   if (page.first) {
     type.usagesCount = page.totalElements;

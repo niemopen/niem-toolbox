@@ -22,6 +22,9 @@ export class Type extends Component {
   isSimpleContent?: boolean;
   base?: APITypeRef | null;
 
+  childrenCount?: number;
+  childrenLoaded?: boolean;
+
   override get badgeColor(): ColorType {
     return Type.badgeColor(this.category);
   }
@@ -78,6 +81,12 @@ export class Type extends Component {
         label: "Usages",
         slot: "usages",
         count: this.usagesCount
+      },
+      {
+        icon: Icons.checklist,
+        label: "Children",
+        slot: "children",
+        count: this.childrenCount
       }
     ]);
   }
