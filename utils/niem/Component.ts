@@ -26,6 +26,9 @@ export abstract class Component extends Entity {
   usagesCount?: number;
   usagesLoaded?: boolean;
 
+  facetsCount?: number;
+  facetsLoaded?: boolean;
+
   override get badgeColor(): ColorType {
     return "neutral";
   }

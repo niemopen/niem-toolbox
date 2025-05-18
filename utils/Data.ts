@@ -271,6 +271,18 @@ export class Data {
   }
 
   /**
+   * Get substitution group head chain from the API for the property with the given fields.
+   */
+  static async groups(propertyParams: APIComponentParams): Promise<Property[]> {
+    let response = await fetch(Property.apiRoute(propertyParams) + "/groups");
+    if (response.ok) {
+      let groups = await response.json() as APIProperty[];
+      return Property.fromAPIList(groups);
+    }
+    return [];
+  }
+
+  /**
    * Get the type inheritance or restriction chain from the API for the type with the given fields.
    */
   static async bases(typeParams: APIComponentParams): Promise<Type[]> {
@@ -292,6 +304,30 @@ export class Data {
       return Property.fromAPIList(apiProperties);
     }
     return [];
+  }
+
+  /**
+   * Get the number of facets for the type with the given fields.
+   */
+  static async countFacets(typeParams: APIComponentParams): Promise<number> {
+    let response = await fetch(Facet.apiRoute(typeParams) + "/count");
+    if (response.ok) {
+      let results = await response.text();
+      return Number(results);
+    }
+    return 0;
+  }
+
+  /**
+   * Get the number of subproperties for the type with the given fields.
+   */
+  static async countSubproperties(typeParams: APIComponentParams): Promise<number> {
+    let response = await fetch(Type.apiRoute(typeParams) + "/subproperties/count");
+    if (response.ok) {
+      let results = await response.text();
+      return Number(results);
+    }
+    return 0;
   }
 
 }

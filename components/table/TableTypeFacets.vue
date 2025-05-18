@@ -2,28 +2,11 @@
 <template>
   <div v-if="facets.length > 0">
 
-    <!-- Type derivation -->
-    <div class="text-sm text-muted">
-      <div class="p-2">
-        <UCard variant="subtle" :ui="{body: 'p-2 sm:p-2 bg-neutral'}">
-          <template #default>
-            <!-- Simple style -->
-            <span v-if="pattern=='simple_value'">Value from </span>
-            <span v-else-if="pattern=='simple_list'">List from </span>
-            <span v-else-if="union">Union of [pending] </span>
-
-            <!-- Current and base types -->
-            <span v-for="(type, index) of types" class="pt-4">
-              <ULink :to="type.toolboxRoute" class="text-xs font-medium">{{ type.qname }}</ULink>
-              <span v-if="index < types.length - 1"> > </span>
-            </span>
-          </template>
-        </UCard>
-      </div>
-    </div>
+    <!-- Show type restriction chain -->
+    <ContentValue :type="type"/>
 
     <!-- Facet table -->
-    <UTable :data="facets" :columns="columns" :sticky="true" :ui="ui" class="pt-2"/>
+    <UTable :data="facets" :columns="columns" :sticky="true" :ui="ui" class="pt-2 table-facets"/>
 
     <!-- More button and loaded items count -->
     <div>
@@ -57,17 +40,6 @@ const facets: Ref<Facet[]> = ref([]);
 
 const total = ref(0);
 const loaded = ref(false);
-
-let bases = await toolbox.bases(type.params);
-bases = bases.reverse();
-
-const patterns = bases.map(base => base.pattern);
-const pattern: APITypePattern = patterns.includes("simple_list") ? "simple_list" : "simple_value";
-
-// TODO: Support unions
-const union = patterns.includes("simple_union");
-
-const types = [type, ...bases];
 
 let currentType: Type | undefined = type;
 
@@ -150,3 +122,10 @@ async function loadMoreFacets() {
 }
 
 </script>
+
+<style lang="scss">
+
+.table-facets td:nth-child(3) {
+  width: 60%;
+}
+</style>

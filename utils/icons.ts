@@ -52,6 +52,8 @@ export default {
   open: "material-symbols:arrow-circle-right-outline-rounded",
   starOutline: "material-symbols:star-outline",
   starFilled: "material-symbols:star",
+  empty: "ph:empty",
+  value: "ic:round-text-fields",
 
   // Directions and locations
   start: "material-symbols:line-start-circle-outline-rounded",
@@ -89,6 +91,7 @@ export default {
   subproperty: "material-symbols:subdirectory-arrow-right-rounded",
   // subproperty: "bi:list-nested",
   facet: "codicon:symbol-enum",
-  term: "material-symbols:dictionary-outline-rounded"
+  term: "material-symbols:dictionary-outline-rounded",
+  substitution: "material-symbols:arrow-circle-right-outline-rounded"
 
 } as const;

@@ -6,8 +6,7 @@
     <div v-else>
       <!-- Current path -->
       <div v-if="path.length > 1" class="p-2 rounded-lg bg-muted text-dimmed text-xs">
-        <span>Current path: </span>
-        <span>{{ path.map(ref => ref.qname).join(' > ') }}</span>
+        <ToolboxCopy :text="path.map(ref => ref.qname).join(' > ')"/>
       </div>
 
       <!-- Contents -->
@@ -24,11 +23,11 @@
         </template>
 
         <template #content="{ item }">
-          <ListSubproperties :subproperties="item.subproperties" :path="[...path]" class="ml-6"/>
+          <ListSubproperties :subproperties="item.subproperties" :path="path" class="ml-6"/>
         </template>
       </UAccordion>
 
-      <TableTypeFacets :type="type"/>
+      <!-- <TableTypeFacets :type="type"/> -->
     </div>
   </div>
 </template>
@@ -44,6 +43,8 @@ const { type, path = [], highlightProperty, property } = defineProps<{
   highlightProperty?: Property,
   property?: Property
 }>();
+
+const emit = defineEmits(["setContentsCount"]);
 
 const toolbox = useToolboxStore();
 
@@ -74,7 +75,6 @@ highlightMatchingProperty(subproperties);
 loadContents(type, "children", subproperties, `Properties from`);
 type.contentsCount += subproperties.length;
 
-
 // Add augmentation subproperties
 let augmentations = await toolbox.augmentations(type);
 
@@ -91,6 +91,7 @@ for (let augmentation of augmentations) {
 }
 
 loading.value = false;
+emit("setContentsCount", type.contentsCount);
 
 if (property) {
   property.contentsCount = type.contentsCount;

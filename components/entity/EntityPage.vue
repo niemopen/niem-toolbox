@@ -67,6 +67,7 @@ const { entity } = defineProps<{
   entity: Entity
 }>();
 
+// @ts-ignore
 const updatedTabsItems: ToolboxTabsItem[] = [
   {
     icon: Icons.info,

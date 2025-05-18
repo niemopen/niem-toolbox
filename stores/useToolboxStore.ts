@@ -381,10 +381,17 @@ export const useToolboxStore = defineStore("niem-toolbox", () => {
   }
 
   /**
+   * Get a list of substitution group heads (chain) for the given property.
+   */
+  async function groups(arg: APIComponentParams): Promise<Property[]> {
+    return Data.groups(arg);
+  }
+
+  /**
    * Get augmentation properties for the type with the given fields.
    */
   async function augmentations(type: Type): Promise<Property[]> {
-    if (type.isSimpleContent) {
+    if (type.isSimpleContent || type.pattern == "augmentation") {
       return [];
     }
 
@@ -395,6 +402,26 @@ export const useToolboxStore = defineStore("niem-toolbox", () => {
       return [];
     }
 
+  }
+
+  /**
+   * Get the number of facets for the given type.
+   */
+  async function countFacets(type: Type): Promise<number> {
+    if (type.isSimpleContent && !type.isSimple && type.base) {
+      let baseType = await Data.type(type.base.route);
+      if (baseType) {
+        return Data.countFacets(baseType.params);
+      }
+    }
+    return Data.countFacets(type.params);
+  }
+
+  /**
+   * Get the number of immediate children for the given type.
+   */
+  async function countSubproperties(type: Type): Promise<number> {
+    return Data.countSubproperties(type.params);
   }
 
 
@@ -442,6 +469,10 @@ export const useToolboxStore = defineStore("niem-toolbox", () => {
     bases,
     augmentations,
     substitutions,
+    groups,
+
+    countFacets,
+    countSubproperties,
 
     userSteward,
     // highlights,

@@ -24,6 +24,9 @@ export class Property extends Component {
   type?: APITypeRef;
   group?: APIPropertyRef;
 
+  substitutionsCount?: number;
+  substitutionsLoaded?: boolean;
+
   static readonly PROPERTY_DATA_REPRESENTATION_TERMS = ["Amount", "BinaryObject", "Graphic", "Picture", "Sound", "Video", "Code", "DateTime", "Date", "Time", "Duration", "ID", "URI", "Indicator", "Measure", "Numeric", "Value", "Rate", "Percent", "Quantity", "Text", "Name", "List"];
 
   override get badgeColor(): ColorType {
