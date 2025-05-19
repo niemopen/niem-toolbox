@@ -163,6 +163,27 @@ export const useToolboxStore = defineStore("niem-toolbox", () => {
   }
 
   /**
+   * Get all versions from the NIEM reference model.
+   */
+  async function niemVersions(): Promise<Version[]> {
+    let model = await Data.model({stewardKey: "niem", modelKey: "model"});
+
+    if (!model) {
+      return [];
+    }
+
+    // Return model versions from storage if available
+    let versions = versionStorage.value.filter(version => version.model?.route == model.route);
+    if (versions.length > 0) {
+      return versions.sort(Version.sort);
+    }
+
+    // Pull model versions from the API and save to storage
+    versions = await Data.versions(model.params);
+    return addStorageItems(versionStorage, versions, false, Version.sort);
+  }
+
+  /**
    * Get all namespaces from the given version.
    */
   async function namespaces(version: Version): Promise<Namespace[]> {
@@ -489,6 +510,8 @@ export const useToolboxStore = defineStore("niem-toolbox", () => {
 
     substitutions,
     groups,
+
+    niemVersions,
 
     countFacets,
     countSubproperties,

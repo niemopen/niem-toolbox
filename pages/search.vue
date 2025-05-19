@@ -1,10 +1,8 @@
 
 <template>
-  <NuxtLayout>
-    <template #header>
-      <PageHeader :link="links.search"/>
-    </template>
+  <PageHeader :page="AppItems.search"/>
 
+  <UCard>
     <div class="flex flex-row flex-nowrap gap-2 divide-x divide-gray-300 h-[500px]">
       <div id="panel-search" class="basis-1/5 panel">
 
@@ -15,7 +13,7 @@
         <div class="spaced mt-4">
           <UFormField label="Select NIEM Version">
             <!-- <USelect v-model="toolbox.config.selectedNIEMVersionNumber" :items="['3.0','4.2','5.2']"/> -->
-            <USelect v-model="toolbox.config.selectedNIEMVersionNumber" :items="toolbox.niemVersionNumbers"/>
+            <USelect v-model="toolbox.config.selectedNIEMVersionNumber" :items="niemVersionItems"/>
           </UFormField>
 
           <ToolboxInputClear v-model="terms" placeholder="Search terms" name="terms" @clear="terms=''"/>
@@ -23,7 +21,8 @@
           <UInput name="typeTerms" placeholder="Search type terms" v-model="typeTerms"/>
           <UInput name="prefixes" placeholder="Search namespace prefixes" v-model="prefixes"/>
 
-          <URadioGroup name="matchMode" v-model="matchMode" :items="matchModeItems" legend="Match mode"/>
+          <URadioGroup name="matchMode" v-model="matchMode" :items="matchModeItems"
+            legend="Match mode" variant="table"/>
 
           <UFormField label="Include:">
             <UCheckbox name="includeElements" label="Elements" v-model="includeElements"/>
@@ -53,7 +52,7 @@
         <h3>RESULTS</h3>
         <USeparator/>
         <div v-for="property in properties" :key="property.id" class="divider-y">
-          <div class="flex flex-row w-full">
+          <div class="flex flex-row w-full" v-if="property.qname">
             <UButton :icon="Icons.more" @click="property.expand=!property.expand" :class="UI.button_icon"/>
 
             <ULink @click="console.log('clicked', property.qname)" class="mr-1 font-medium text-sm text-indigo-800">{{ property.qname }}</ULink>
@@ -80,15 +79,24 @@
         {{ selectedItem }}
       </div>
     </div>
-
-  </NuxtLayout>
+  </UCard>
 </template>
 
 <script setup lang="ts">
+import type { SelectItem } from '@nuxt/ui';
 import type { Property } from '~/utils/niem/Property';
 
 
 const toolbox = useToolboxStore();
+
+let niemVersions = await toolbox.niemVersions();
+let niemVersionItems: SelectItem[] = niemVersions.map(version => {
+  return {
+    value: version.versionNumber,
+    label: version.versionNumber,
+    type: 'item'
+  }
+});
 
 let terms = ref("default");
 let matchMode = ref("substring");
