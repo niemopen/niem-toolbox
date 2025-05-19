@@ -58,7 +58,8 @@ declare global {
   type ContentsItem = AccordionItem & {
     type: Type,
     subproperties: Subproperty[],
-    category: ContentsCategory
+    category: ContentsCategory,
+    path: APIComponentRef[]
   }
 
 }

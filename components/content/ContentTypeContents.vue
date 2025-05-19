@@ -25,7 +25,7 @@
         </template>
 
         <template #content="{ item }">
-          <ListSubproperties :subproperties="item.subproperties" :path="path" class="ml-6"/>
+          <ListSubproperties :subproperties="item.subproperties" :path="item.path" class="ml-6"/>
         </template>
       </UAccordion>
 
@@ -89,7 +89,7 @@ for (let augmentation of augmentations) {
   if (!augmentationType) continue;
 
   let subproperties = await toolbox.subproperties(augmentationType);
-  loadContents(augmentationType, "augmentation", subproperties, `Augmented properties from `);
+  await loadContents(augmentationType, "augmentation", subproperties, `Augmented properties from `);
   type.contentsCount += subproperties.length;
 }
 
@@ -105,9 +105,18 @@ if (property) {
  * Adds a entry to the contentsItems array for the contents of a base type, the given type,
  * or an augmentation type.
  */
-function loadContents(type: Type, category: ContentsCategory, subproperties: Subproperty[], label: string) {
+async function loadContents(type: Type, category: ContentsCategory, subproperties: Subproperty[],
+    label: string) {
 
   if (subproperties.length == 0) return;
+
+  let augmentationProperty: Property | undefined;
+
+  if (category == 'augmentation') {
+    let augmentationParams = type.params;
+    augmentationParams.qname = type.params.qname.replace("Type", "");
+    augmentationProperty = await toolbox.property(augmentationParams);
+  }
 
   contentsItems.value.push({
     category,
@@ -115,8 +124,9 @@ function loadContents(type: Type, category: ContentsCategory, subproperties: Sub
     type,
     icon: Icons.contents,
     label: label,
-    value: type.qname
-  })
+    value: type.qname,
+    path: augmentationProperty ? [...path, augmentationProperty.ref] : path
+  });
 
 }
 
