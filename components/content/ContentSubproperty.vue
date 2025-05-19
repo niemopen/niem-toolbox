@@ -1,6 +1,8 @@
 
 <template>
-  <ContentTypeContents v-if="type" :type="type" :path="forkedPath"/>
+    <ContentPropertyContents v-if="property" :property="property" :path="path"/>
+    <ContentTypeContents v-else-if="type" :type="type" :path="forkedPath"/>
+
 </template>
 
 <script setup lang="ts">
@@ -28,6 +30,5 @@ if (subproperty.property?.route) {
     type = await toolbox.type(property.type.route);
   }
 }
-
 
 </script>

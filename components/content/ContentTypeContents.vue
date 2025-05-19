@@ -9,6 +9,8 @@
         <ToolboxCopy :text="path.map(ref => ref.qname).join(' > ')"/>
       </div>
 
+      <ContentValue v-if="type && type.isSimpleContent" :type="type"/>
+
       <!-- Contents -->
       <UAccordion :items="contentsItems" type="multiple" :defaultValue="[type.qname || '']">
         <template #trailing="{ item }">
