@@ -178,9 +178,7 @@ export class Subproperty extends Entity {
 
   static override toolboxRoute(params: APISubpropertyParams) {
     if ("typeQName" in params && "propertyQName" in params) {
-      return Version.toolboxRoute(params)
-      + "/" + params.typeQName
-      + "/" + params.propertyQName;
+      return Version.toolboxRoute(params) + "/" + params.propertyQName;
     }
     return "";
   }
