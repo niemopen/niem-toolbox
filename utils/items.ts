@@ -31,7 +31,7 @@ const AppItemsHelper = {
   },
   search: {
     value: "search",
-    to: undefined,
+    to: "/search",
     label: "Search NIEM and community content",
     icon: Icons.search,
     description: "Search on specific terms, filter results by namespaces, types, and other options."

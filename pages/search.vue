@@ -1,28 +1,70 @@
 
 <template>
-  <PageHeader :page="AppItems.search"/>
+  <PageHeader :page="AppItems.search">
+    <template #developer>
+      <div v-if="route">
+        <div class="font-medium">Route:</div>
+        <div>{{ route }}</div>
+      </div>
+      <div v-else>
+        Perform a search to see the route used to get results...
+      </div>
+    </template>
+  </PageHeader>
 
   <UCard>
-    <div class="flex flex-row flex-nowrap gap-2 divide-x divide-gray-300 h-[500px]">
-      <div id="panel-search" class="basis-1/5 panel">
+    <div class="flex flex-row flex-nowrap gap-2 divide-x divide-gray-300 min-h-[500px]">
+      <div id="panel-search" class="basis-2/5 panel pr-4">
 
-        <h3>SEARCH</h3>
+        <!-- Search criteria panel -->
+        <div class="font-semibold pb-2">Search criteria</div>
         <USeparator/>
-        <span>{{ terms }}</span>
 
         <div class="spaced mt-4">
+
+          <!-- Search scope -->
+          <URadioGroup name="scope" :items="scopes" v-model="scope" default-value="Properties"
+              legend="Scope" variant="table" orientation="horizontal" indicator="hidden"
+              :ui="{item: 'py-2 px-3'}"/>
+
+          <!-- Select NIEM version -->
           <UFormField label="Select NIEM Version">
-            <!-- <USelect v-model="toolbox.config.selectedNIEMVersionNumber" :items="['3.0','4.2','5.2']"/> -->
-            <USelect v-model="toolbox.config.selectedNIEMVersionNumber" :items="niemVersionItems"/>
+            <USelect
+                :icon="Icons.version"
+                v-model="toolbox.config.selectedNIEMVersionNumber"
+                :items="niemVersionItems"/>
           </UFormField>
 
-          <ToolboxInputClear v-model="terms" placeholder="Search terms" name="terms" @clear="terms=''"/>
+          <!-- Search tokens -->
+          <ToolboxInput v-model="tokens" :name="tokens"
+              :icon="Icons.search"
+              label="Search tokens"
+              help="Example: 'arm' returns components with 'Arm' and 'Armed' but does not return 'Alarm' or 'Firearm'."
+              @clear="tokens=''"/>
 
-          <UInput name="typeTerms" placeholder="Search type terms" v-model="typeTerms"/>
-          <UInput name="prefixes" placeholder="Search namespace prefixes" v-model="prefixes"/>
+          <!-- Search button -->
+          <UButton color="primary" @click="search">Search</UButton>
 
-          <URadioGroup name="matchMode" v-model="matchMode" :items="matchModeItems"
-            legend="Match mode" variant="table"/>
+          <!-- Search substrings -->
+          <ToolboxInput v-model="substrings" name="substrings"
+              :icon="Icons.search"
+              label="Search substrings"
+              help="Example: 'arm' returns all matches, including 'Arm', 'Armed', 'Alarm', 'Firearm', etc."
+              @clear="substrings=''"/>
+
+          <!-- Search type names -->
+          <ToolboxInput v-if="scope == 'Properties'" v-model="typeNames" name="typeNames"
+              :icon="Icons.type"
+              label="Search type names"
+              help="Example: 'person official' will restrict results to properties with 'person' or 'official' in the name of their type."
+              @clear="typeNames=''"/>
+
+          <!-- Search namespace prefixes -->
+          <ToolboxInput v-model="prefixes" name="prefixes"
+              :icon="Icons.namespace"
+              label="Search namespace prefixes"
+              help="Example: 'nc j' will restrict results to properties in Core or the Justice domain."
+              @clear="prefixes=''"/>
 
           <UFormField label="Include:">
             <UCheckbox name="includeElements" label="Elements" v-model="includeElements"/>
@@ -31,7 +73,6 @@
             <UCheckbox name="includeAbstract" label="Abstract" v-model="includeAbstract"/>
           </UFormField>
 
-          <UButton color="primary">Search</UButton>
         </div>
           <!-- <UAccordion :items="accordion" type="multiple">
             <template #default="{ item }">
@@ -48,10 +89,14 @@
           </UAccordion> -->
       </div>
 
-      <div id="panel-results" class="basis-2/5 grow panel">
-        <h3>RESULTS</h3>
-        <USeparator/>
-        <div v-for="property in properties" :key="property.id" class="divider-y">
+      <!-- Results panel -->
+      <div id="panel-results" class="basis-2/5 grow panel pl-4">
+        <div class="font-semibold pb-2">Results</div>
+        <USeparator class="pb-4"/>
+
+        <ListProperties :properties="properties" :enable-more="true"/>
+
+        <!-- <div v-for="property in properties" :key="property.id" class="divider-y">
           <div class="flex flex-row w-full" v-if="property.qname">
             <UButton :icon="Icons.more" @click="property.expand=!property.expand" :class="UI.button_icon"/>
 
@@ -70,38 +115,38 @@
               <li>-- nc:PersonAgeMeasure</li>
             </ul>
           </div>
-        </div>
-      </div>
-
-      <div id="panel-item" class="basis-2/5 panel">
-        <h3>ITEMS</h3>
-        <USeparator/>
-        {{ selectedItem }}
+        </div> -->
       </div>
     </div>
   </UCard>
 </template>
 
 <script setup lang="ts">
-import type { SelectItem } from '@nuxt/ui';
+import type { RadioGroupItem, RadioGroupValue, SelectItem } from '@nuxt/ui';
 import type { Property } from '~/utils/niem/Property';
-
 
 const toolbox = useToolboxStore();
 
-let niemVersions = await toolbox.niemVersions();
+// TODO: Replace with a dynamic list
+let niemVersions = ["6.0", "5.2", "5.1", "5.0", "4.2", "4.1", "4.0", "3.2", "3.1", "3.0", "2.1", "2.0", "1.0"];
+
 let niemVersionItems: SelectItem[] = niemVersions.map(version => {
   return {
-    value: version.versionNumber,
-    label: version.versionNumber,
+    value: version,
+    label: version,
     type: 'item'
   }
 });
 
-let terms = ref("default");
+let scope = ref<RadioGroupValue>("Properties");
+let scopes = ref<RadioGroupItem[]>(["Properties", "Types"]);
+
+let tokens = ref("");
+let substrings = ref("");
+let typeNames = ref("");
+
 let matchMode = ref("substring");
 let prefixes = ref("");
-let typeTerms = ref("");
 let includeElements = ref(true);
 let includeAttributes = ref(true);
 let includeAbstract = ref(true);
@@ -119,23 +164,53 @@ let matchModeItems = ref([
   },
 ]);
 
-
 let offset = ref(0);
 
 // const selectedNIEMVersion = toolbox.selectedNIEMVersion;
 
-let properties: Property[] = [];
-
-
 let selectedItem = ref("PROPERTY");
 
+let total = ref(0);
+let subtotal = ref(0);
+let properties: Ref<Property[]> = ref([]);
+let loaded = ref(false);
 
-</script>
+let route = ref("");
 
-<style lang="scss" scoped>
+async function search() {
 
-.panel {
-  height: 100%;
+  let options: SearchPropertiesOptions = {
+    token: asArray(tokens.value),
+    niemVersionNumber: toolbox.config.selectedNIEMVersionNumber,
+    substring: asArray(substrings.value),
+    type: asArray(typeNames.value),
+    prefix: asArray(prefixes.value)
+  };
+
+  route.value = Search.route(options);
+
+  let page = await Search.properties(options);
+
+  if (page.first) {
+    total.value = page.totalElements;
+  }
+
+  if (page.last) {
+    loaded.value = true;
+  }
+
+  subtotal.value += page.numberOfElements;
+
+  properties.value = page.content;
+
 }
 
-</style>
+function asArray(text: string) {
+  text = text.trim();
+  if (text == "") {
+    return [];
+  }
+  return text.replaceAll(",", " ").split(" ");
+}
+
+</script>

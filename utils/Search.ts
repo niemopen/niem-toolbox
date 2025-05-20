@@ -27,15 +27,27 @@ export type SearchTypesOptions = {
 
 export class Search {
 
-  static async properties(options: SearchPropertiesOptions): Promise<Paginated<Property>> {
+  static route(options: SearchPropertiesOptions | SearchTypesOptions): string {
     let queryString = Search.optionsQueryString(options);
-    if (queryString == "") return Pagination.emptyProperties();
+    if (queryString == "") return "";
 
-    let response = await fetch(API.routes.search_properties + queryString);
+    return API.routes.search_properties + queryString
+  }
 
-    if (response.ok) {
-      let paginatedAPIProperties = await response.json() as Paginated<APIProperty>;
-      return Pagination.processAPIProperties(paginatedAPIProperties);
+  static async properties(options: SearchPropertiesOptions): Promise<Paginated<Property>> {
+    let route = Search.route(options);
+    if (route == "") return Pagination.emptyProperties();
+
+    try {
+      let response = await fetch(route);
+
+      if (response.ok) {
+        let paginatedAPIProperties = await response.json() as Paginated<APIProperty>;
+        return Pagination.processAPIProperties(paginatedAPIProperties);
+      }
+    }
+    catch(error) {
+      console.error(route, error);
     }
 
     return Pagination.emptyProperties();
@@ -58,7 +70,13 @@ export class Search {
   private static optionsQueryString(options: {[x: string] : string | boolean | number | string[]}) {
     let queryString = "";
     for (let [key, value] of Object.entries(options)) {
+      // Skip empty arrays
+      if (Array.isArray(value) && value.length == 0) {
+        continue;
+      }
+
       if (queryString != "") queryString += "&";
+
       queryString += key + "=";
       queryString += Array.isArray(value) ? value.join(",") : value;
     }

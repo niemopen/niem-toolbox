@@ -1,10 +1,14 @@
 
 <template>
-  <UInput v-model="value" :placeholder="placeholder" :name="name" :ui="ui">
-    <template v-if="true" #trailing>
-      <UButton color="neutral" variant="link" size="sm" :icon="Icons.close" aria-label="Clear input" @click="value=''"/>
-    </template>
-  </UInput>
+  <UFormField :label="label" :help="help">
+    <UInput v-model="value" :placeholder="placeholder" :name="name" :icon="icon"
+        :ui="ui" class="w-full">
+      <template v-if="true" #trailing>
+        <UButton color="neutral" variant="link" size="sm" :icon="Icons.close"
+            aria-label="Clear input" @click="value=''" class="hover:bg-elevated"/>
+      </template>
+    </UInput>
+  </UFormField>
 </template>
 
 <script setup lang="ts">
@@ -14,16 +18,13 @@ let value = defineModel({
   type: String
 });
 
-let { placeholder, name } = defineProps({
-  placeholder: {
-    type: String,
-    required: false
-  },
-  name: {
-    type: String,
-    required: true
-  }
-})
+let { name, } = defineProps<{
+  name: string,
+  icon: string,
+  label?: string
+  placeholder?: string,
+  help?: string
+}>();
 
 defineShortcuts({
   "escape": {
