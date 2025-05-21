@@ -1,0 +1,1 @@
+{"version":3,"file":"Dk2J-bn9.js","sources":["../../../../node_modules/@nuxtjs/mdc/dist/runtime/components/prose/ProseTable.vue"],"sourcesContent":["<template>\n  <table>\n    <slot />\n  </table>\n</template>\n"],"names":["_cache","_openBlock","_createElementBlock"],"mappings":"0GAGUA,EAAA,QADEC,EAAA,EAAAC,EAAA,QAAA,KAAA","x_google_ignoreList":[0]}

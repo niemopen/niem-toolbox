@@ -1,0 +1,1 @@
+{"version":3,"file":"B5KOv9Tv.js","sources":["../../../../layouts/custom.vue"],"sourcesContent":["\r\n<template>\r\n  <slot/>\r\n</template>"],"names":["_sfc_render","_ctx","_cache"],"mappings":"wFAEEA,EAAOC,EAAAC,EAAA"}

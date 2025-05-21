@@ -1,0 +1,1 @@
+{"version":3,"file":"DAZ2SEdg.js","sources":["../../../../node_modules/@nuxtjs/mdc/dist/runtime/components/prose/ProseUl.vue"],"sourcesContent":["<template>\n  <ul>\n    <slot />\n  </ul>\n</template>\n"],"names":["_cache","_openBlock","_createElementBlock"],"mappings":"0GAGOA,EAAA,QADKC,EAAA,EAAAC,EAAA,KAAA,KAAA","x_google_ignoreList":[0]}

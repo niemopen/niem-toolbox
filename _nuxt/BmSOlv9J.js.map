@@ -1,0 +1,1 @@
+{"version":3,"file":"BmSOlv9J.js","sources":["../../../../node_modules/@nuxtjs/mdc/dist/runtime/components/prose/ProseOl.vue"],"sourcesContent":["<template>\n  <ol>\n    <slot />\n  </ol>\n</template>\n"],"names":["_cache","_openBlock","_createElementBlock"],"mappings":"0GAGOA,EAAA,QADKC,EAAA,EAAAC,EAAA,KAAA,KAAA","x_google_ignoreList":[0]}

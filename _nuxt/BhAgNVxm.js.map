@@ -1,0 +1,1 @@
+{"version":3,"file":"BhAgNVxm.js","sources":["../../../../node_modules/@nuxtjs/mdc/dist/runtime/components/prose/ProseTbody.vue"],"sourcesContent":["<template>\n  <tbody>\n    <slot />\n  </tbody>\n</template>\n"],"names":["_cache","_openBlock","_createElementBlock"],"mappings":"0GAGUA,EAAA,QADEC,EAAA,EAAAC,EAAA,QAAA,KAAA","x_google_ignoreList":[0]}
