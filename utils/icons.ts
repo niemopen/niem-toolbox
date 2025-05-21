@@ -54,6 +54,7 @@ export default {
   starFilled: "material-symbols:star",
   empty: "ph:empty",
   value: "ic:round-text-fields",
+  sort: "mi:sort",
 
   // Directions and locations
   start: "material-symbols:line-start-circle-outline-rounded",

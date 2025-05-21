@@ -63,6 +63,19 @@ export default defineAppConfig({
         // trailing: "text-xs font-medium text-gray-400"
       }
     },
+    radioGroup: {
+      slots: {
+        item: "py-2 px-3"
+      },
+      compoundVariants: [
+        {
+          size: "md",
+          class: {
+            item: "px-3 py-2"
+          }
+        }
+      ]
+    },
     select: {
       slots: {
         base: ["cursor-pointer"]

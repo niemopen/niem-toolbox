@@ -2,46 +2,63 @@ import type { Property } from "./niem/Property";
 import type { Type } from "./niem/Type";
 import { Pagination } from "./Pagination";
 
-export type SearchPropertiesOptions = {
+export type SearchOptions = {
   niemVersionNumber?: string,
   token?: string[],
   substring?: string[],
   prefix?: string[],
-  type?: string[],
-  isAbstract?: boolean,
-  isElement?: boolean,
-  page?: number,
-  limit?: number
+  namespaceCategory?: string[],
 }
 
-export type SearchTypesOptions = {
-  niemVersionNumber?: string,
-  token?: string[],
-  substring?: string[],
-  prefix?: string[],
-  page?: number,
-  limit?: number
+export type SearchPropertiesOptions = SearchOptions & {
+  type?: string[],
+  isAbstract?: boolean,
+  isElement?: boolean
 }
+
+export type SearchTypesOptions = SearchOptions & {
+}
+
+export type ScopeType = "Properties" | "Types";
+
+export type SortType = "score_name" | "score_qname" | "rank_qname" | "rank_name" | "qname" | "name";
 
 // TODO-API: Limit searches to specific stewards, models, and versions
 
 export class Search {
 
-  static route(options: SearchPropertiesOptions | SearchTypesOptions): string {
-    let queryString = Search.optionsQueryString(options);
-    if (queryString == "") return "";
+  static route(scope: ScopeType, options: SearchPropertiesOptions | SearchTypesOptions,
+      sort: SortType, pageNumber: number): string {
 
-    return API.routes.search_properties + queryString
+    // Convert options into query parameters
+    let queryString = Search.optionsQueryString(options);
+
+    // Skip if no search criteria given
+    if (queryString == "") {
+      return "";
+    }
+
+    let route = "";
+
+    if (scope == "Properties") {
+      route += API.routes.search_properties;
+    }
+    else {
+      route += API.routes.search_types;
+    }
+
+    route += `${queryString}&sortOrder=${sort}&page=${pageNumber}`;
+    return route;
+
   }
 
-  static async properties(options: SearchPropertiesOptions): Promise<Paginated<Property>> {
-    let route = Search.route(options);
+  static async properties(route: string): Promise<Paginated<Property>> {
     if (route == "") return Pagination.emptyProperties();
 
     try {
       let response = await fetch(route);
 
-      if (response.ok) {
+      if (response.ok && response.status == 200) {
         let paginatedAPIProperties = await response.json() as Paginated<APIProperty>;
         return Pagination.processAPIProperties(paginatedAPIProperties);
       }
@@ -53,11 +70,10 @@ export class Search {
     return Pagination.emptyProperties();
   }
 
-  static async types(options: SearchTypesOptions): Promise<Paginated<Type>> {
-    let queryString = Search.optionsQueryString(options);
-    if (queryString == "") return Pagination.emptyTypes();
+  static async types(route: string): Promise<Paginated<Type>> {
+    if (route == "") return Pagination.emptyTypes();
 
-    let response = await fetch(API.routes.search_types + queryString);
+    let response = await fetch(route);
 
     if (response.ok) {
       let paginatedAPITypes = await response.json() as Paginated<APIType>;
