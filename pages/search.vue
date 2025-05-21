@@ -22,15 +22,19 @@
 
         <div class="spaced mt-4">
 
-          <!-- Search scope -->
-          <URadioGroup name="radio-scope" :items="scopeItems" v-model="scope"
-              legend="Scope" variant="table" orientation="horizontal" indicator="hidden"/>
+          <div class="flex justify-between">
 
-          <!-- Select NIEM version -->
-          <UFormField label="Select NIEM Version">
-            <USelect class="w-38" :icon="Icons.version"
-                v-model="toolbox.config.selectedNIEMVersionNumber" :items="niemVersionItems"/>
-          </UFormField>
+            <!-- Search scope -->
+            <URadioGroup name="radio-scope" :items="scopeItems" v-model="scope"
+                legend="Scope" variant="table" orientation="horizontal" indicator="hidden"/>
+
+            <!-- NIEM version -->
+            <UFormField label="NIEM Version">
+              <USelect class="w-30 py-2" :icon="Icons.version" size="md"
+                  v-model="toolbox.config.selectedNIEMVersionNumber" :items="niemVersionItems"/>
+            </UFormField>
+
+          </div>
 
           <!-- Search tokens -->
           <ToolboxInput v-model="tokens" :name="tokens" :icon="Icons.search"
@@ -46,47 +50,67 @@
             <UButton color="neutral" variant="subtle" @click="reset">Reset</UButton>
           </div>
 
-          <!-- Search substrings -->
-          <ToolboxInput v-model="substrings" name="substrings" :icon="Icons.search"
-              label="Search substrings"
-              help="Example: 'arm' returns all matches, including 'Arm', 'Armed', 'Alarm', 'Firearm', etc."
-              @clear="substrings=''" @keyup.enter="search" @keyup.esc="substrings=''"/>
+          <!-- Advanced search options -->
+          <UCollapsible v-model:open="advancedSearchOpen" :unmount-on-hide="false">
 
-          <!-- Search type names -->
-          <ToolboxInput v-if="scope == 'Properties'" v-model="typeNames" name="typeNames"
-              :icon="Icons.type"
-              label="Search type names"
-              help="Example: 'eye color' will restrict results to properties with both 'eye' and 'color' in their type names."
-              @clear="typeNames=''" @keyup.enter="search" @keyup.esc="typeNames=''"/>
+            <UButton label="Advanced search options"
+                color="neutral" variant="subtle" :trailing-icon="Icons.down" block
+                :ui="advancedSearchUI"/>
 
-          <!-- Search namespace prefixes -->
-          <ToolboxInput v-model="prefixes" name="prefixes"
-              :icon="Icons.namespace"
-              label="Search namespace prefixes"
-              help="Example: 'nc j' will restrict results to properties in Core or the Justice domain."
-              @clear="prefixes=''" @keyup.enter="search" @keyup.esc="prefixes=''"/>
+            <template #content class="pt-6">
 
-          <!-- Search namespace categories -->
-          <UFormField label="Search namespace categories">
-            <USelect multiple class="w-full" :icon="Icons.namespace"
-                v-model="namespaceCategories" :items="namespaceCategoryItems"/>
-          </UFormField>
+              <div class="spaced mt-6">
 
-          <!-- Properties: Select elements vs attribute -->
-          <URadioGroup v-if="scope == 'Properties'" name="radio-elementsAttributes"
-              :items="elementAttributeItems" v-model="elementAttribute"
-              variant="table" orientation="horizontal" indicator="hidden"/>
+                <!-- Search substrings -->
+                <ToolboxInput v-model="substrings" name="substrings" :icon="Icons.search"
+                    label="Search substrings"
+                    help="Example: 'arm' returns all matches, including 'Arm', 'Armed', 'Alarm', 'Firearm', etc."
+                    @clear="substrings=''" @keyup.enter="search" @keyup.esc="substrings=''"/>
 
-          <!-- Properties: Select concrete vs abstract -->
-          <URadioGroup v-if="scope == 'Properties'" name="radio-concretesAbstract"
-              :items="concreteAbstractItems" v-model="concreteAbstract"
-              variant="table" orientation="horizontal" indicator="hidden"/>
+                <!-- Search type names -->
+                <ToolboxInput v-if="scope == 'Properties'" v-model="typeNames" name="typeNames"
+                    :icon="Icons.type"
+                    label="Search type names"
+                    help="Example: 'eye color' will restrict results to properties with both 'eye' and 'color' in their type names."
+                    @clear="typeNames=''" @keyup.enter="search" @keyup.esc="typeNames=''"/>
 
-          <!-- Sort order for results -->
-          <UFormField label="Sort results by">
-            <USelect :icon="Icons.sort" v-model="sort" :items="sortItems" value-key="id"
-                class="w-full"/>
-          </UFormField>
+                <!-- Search namespace prefixes -->
+                <ToolboxInput v-model="prefixes" name="prefixes"
+                    :icon="Icons.namespace"
+                    label="Search namespace prefixes"
+                    help="Example: 'nc j' will restrict results to properties in Core or the Justice domain."
+                    @clear="prefixes=''" @keyup.enter="search" @keyup.esc="prefixes=''"/>
+
+                <!-- Search namespace categories -->
+                <UFormField label="Search namespace categories"
+                  help="Select one or more values to restrict results to specific kinds of namespaces.">
+                  <USelect multiple class="w-full" :icon="Icons.namespace"
+                      v-model="namespaceCategories" :items="namespaceCategoryItems"/>
+                </UFormField>
+
+                <!-- Properties: Select elements vs attribute -->
+                <URadioGroup v-if="scope == 'Properties'" name="radio-elementsAttributes"
+                    :items="elementAttributeItems" v-model="elementAttribute"
+                    variant="table" orientation="horizontal" indicator="hidden"
+                    legend="Search on XML representation of property"/>
+
+                <!-- Properties: Select concrete vs abstract -->
+                <URadioGroup v-if="scope == 'Properties'" name="radio-concretesAbstract"
+                    :items="concreteAbstractItems" v-model="concreteAbstract"
+                    variant="table" orientation="horizontal" indicator="hidden"
+                    legend="Search to include or exclude abstracts"/>
+
+                <!-- Sort order for results -->
+                <UFormField label="Sort results by">
+                  <USelect :icon="Icons.sort" v-model="sort" :items="sortItems" value-key="id"
+                      class="w-full"/>
+                </UFormField>
+
+              </div>
+
+            </template>
+
+          </UCollapsible>
 
         </div>
           <!-- <UAccordion :items="accordion" type="multiple">
@@ -259,6 +283,17 @@ syncResults();
 let route = ref("");
 
 let searchOptions: SearchPropertiesOptions | SearchTypesOptions;
+
+let advancedSearchOpen = ref(false);
+
+/**
+ * Collapsible component isn't registering open state.  Alternate method to rotate icon.
+ */
+let advancedSearchUI = computed(() => {
+  return {
+    trailingIcon: `${ advancedSearchOpen.value ? 'rotate-0' : '-rotate-90' } transition-transform duration-400`
+  }
+});
 
 /**
  * Set general search criteria.
