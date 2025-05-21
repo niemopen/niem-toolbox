@@ -1,0 +1,1 @@
+{"version":3,"file":"5PTs5gF7.js","sources":["../../../../node_modules/@nuxtjs/mdc/dist/runtime/components/prose/ProseP.vue"],"sourcesContent":["<template>\n  <p><slot /></p>\n</template>\n"],"names":["_createElementBlock","_renderSlot","_ctx"],"mappings":"wHACEA,EAAe,IAAA,KAAA,CAAZC,EAAQC,EAAA,OAAA,SAAA","x_google_ignoreList":[0]}

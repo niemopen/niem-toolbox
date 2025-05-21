@@ -1,0 +1,1 @@
+{"version":3,"file":"BbToa1S1.js","sources":["../../../../node_modules/@nuxtjs/mdc/dist/runtime/components/prose/ProseBlockquote.vue"],"sourcesContent":["<template>\n  <blockquote>\n    <slot />\n  </blockquote>\n</template>\n"],"names":["_createElementBlock","_renderSlot","_ctx"],"mappings":"wHACEA,EAEa,aAAA,KAAA,CADXC,EAAQC,EAAA,OAAA,SAAA","x_google_ignoreList":[0]}

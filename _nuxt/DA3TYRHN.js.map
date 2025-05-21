@@ -1,1 +1,0 @@
-{"version":3,"file":"DA3TYRHN.js","sources":["../../../../node_modules/@nuxtjs/mdc/dist/runtime/components/prose/ProseTh.vue"],"sourcesContent":["<template>\n  <th>\n    <slot />\n  </th>\n</template>\n"],"names":["_cache","_openBlock","_createElementBlock"],"mappings":"0GAGOA,EAAA,QADKC,EAAA,EAAAC,EAAA,KAAA,KAAA","x_google_ignoreList":[0]}

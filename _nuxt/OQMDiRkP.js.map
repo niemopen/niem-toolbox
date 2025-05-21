@@ -1,0 +1,1 @@
+{"version":3,"file":"OQMDiRkP.js","sources":["../../../../layouts/custom.vue"],"sourcesContent":["\r\n<template>\r\n  <slot/>\r\n</template>"],"names":["_renderSlot","_ctx"],"mappings":"sGAEEA,EAAOC,EAAA,OAAA,SAAA"}

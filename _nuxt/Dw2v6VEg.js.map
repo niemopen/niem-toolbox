@@ -1,1 +1,0 @@
-{"version":3,"file":"Dw2v6VEg.js","sources":["../../../../node_modules/@nuxtjs/mdc/dist/runtime/components/prose/ProseCode.vue"],"sourcesContent":["<template>\n  <code><slot /></code>\n</template>\n"],"names":["_cache","_openBlock","_createElementBlock"],"mappings":"0GACuBA,EAAA,QAAPC,EAAA,EAAAC,EAAA,OAAA,KAAA","x_google_ignoreList":[0]}

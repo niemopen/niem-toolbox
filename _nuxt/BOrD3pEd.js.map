@@ -1,1 +1,0 @@
-{"version":3,"file":"BOrD3pEd.js","sources":["../../../../node_modules/@nuxtjs/mdc/dist/runtime/components/prose/ProseBlockquote.vue"],"sourcesContent":["<template>\n  <blockquote>\n    <slot />\n  </blockquote>\n</template>\n"],"names":["_cache","_openBlock","_createElementBlock"],"mappings":"0GAGeA,EAAA,QADHC,EAAA,EAAAC,EAAA,aAAA,KAAA","x_google_ignoreList":[0]}

@@ -1,1 +1,0 @@
-{"version":3,"file":"gD9YbUym.js","sources":["../../../../node_modules/@nuxtjs/mdc/dist/runtime/components/prose/ProseStrong.vue"],"sourcesContent":["<template>\n  <strong>\n    <slot />\n  </strong>\n</template>\n"],"names":["_cache","_openBlock","_createElementBlock"],"mappings":"0GAGWA,EAAA,QADCC,EAAA,EAAAC,EAAA,SAAA,KAAA","x_google_ignoreList":[0]}

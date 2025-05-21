@@ -1,0 +1,1 @@
+{"version":3,"file":"DepTOJu8.js","sources":["../../../../node_modules/@nuxtjs/mdc/dist/runtime/components/prose/ProseTh.vue"],"sourcesContent":["<template>\n  <th>\n    <slot />\n  </th>\n</template>\n"],"names":["_createElementBlock","_renderSlot","_ctx"],"mappings":"wHACEA,EAEK,KAAA,KAAA,CADHC,EAAQC,EAAA,OAAA,SAAA","x_google_ignoreList":[0]}

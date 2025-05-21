@@ -1,1 +1,0 @@
-{"version":3,"file":"aliEVeS2.js","sources":["../../../../node_modules/@nuxtjs/mdc/dist/runtime/components/prose/ProseP.vue"],"sourcesContent":["<template>\n  <p><slot /></p>\n</template>\n"],"names":["_cache","_openBlock","_createElementBlock"],"mappings":"0GACiBA,EAAA,QAAJC,EAAA,EAAAC,EAAA,IAAA,KAAA","x_google_ignoreList":[0]}
