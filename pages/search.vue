@@ -156,6 +156,15 @@ import type { ScopeType, SortType } from '~/utils/Search';
 
 const toolbox = useToolboxStore();
 
+const {
+  getPropertyResults,
+  getTypeResults,
+  addPropertyResults,
+  addTypeResults,
+  resetPropertyResults,
+  resetTypeResults
+} = toolbox;
+
 // TODO: Replace with a dynamic list
 let niemVersions = ["6.0", "5.2", "5.1", "5.0", "4.2", "4.1", "4.0", "3.2", "3.1", "3.0", "2.1", "2.0", "1.0"];
 
@@ -245,6 +254,7 @@ let empty = ref(false);
 
 let properties: Ref<Property[]> = ref([]);
 let types: Ref<Type[]> = ref([]);
+syncResults();
 
 let route = ref("");
 
@@ -342,13 +352,14 @@ async function search() {
 
   if (scope.value == "Properties") {
     let propertyPage = page as Paginated<Property>;
-    properties.value.push(...propertyPage.content);
+    addPropertyResults(propertyPage.content);
   }
   else {
     let typePage = page as Paginated<Type>;
-    types.value.push(...typePage.content);
+    addTypeResults(typePage.content);
   }
 
+  syncResults();
 
 }
 
@@ -385,8 +396,14 @@ function resetResults() {
   pageNumber.value = 0;
   subtotal.value = 0;
   total.value = 0;
-  properties.value = [];
-  types.value = [];
+  resetPropertyResults();
+  resetTypeResults();
+  syncResults();
+}
+
+function syncResults() {
+  properties.value = getPropertyResults();
+  types.value = getTypeResults();
 }
 
 /**

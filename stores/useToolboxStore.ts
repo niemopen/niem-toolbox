@@ -50,6 +50,10 @@ export const useToolboxStore = defineStore("niem-toolbox", () => {
 
   const versionStorage: RemovableRef<Version[]> = useStorage(key("versions"), [sandboxVersion], sessionStorage, {...storageOptions, serializer: Version.serializeEntityList(Version.init)});
 
+  const searchPropertyResultsStorage: RemovableRef<Property[]> = useStorage(key("properties"), [], sessionStorage, { ...storageOptions, serializer: Property.serializeEntityList(Property.init) });
+
+  const searchTypeResultsStorage: RemovableRef<Type[]> = useStorage(key("types"), [], sessionStorage, { ...storageOptions, serializer: Type.serializeEntityList(Type.init) });
+
   // const versionStorage: RemovableRef<Version[]> = useStorage(key("versions"), [sandboxVersion, favoritesVersion, highlightsVersion], sessionStorage, {...storageOptions, serializer: Version.serializeEntityList(Version.init)});
 
   // TODO: Depends on top-level await.
@@ -94,6 +98,8 @@ export const useToolboxStore = defineStore("niem-toolbox", () => {
     propertyStorage.value = [];
     typeStorage.value = [];
     subpropertyStorage.value = [];
+    searchPropertyResultsStorage.value = [];
+    searchTypeResultsStorage.value = [];
   }
 
   function resetLocalStorage() {
@@ -468,6 +474,47 @@ export const useToolboxStore = defineStore("niem-toolbox", () => {
   // });
 
 
+  /**
+   * Append results from a property search.
+   */
+  function addPropertyResults(properties: Property[]) {
+    searchPropertyResultsStorage.value.push(...properties);
+  }
+
+  /**
+   * Append results from a type search.
+   */
+  function addTypeResults(types: Type[]) {
+    searchTypeResultsStorage.value.push(...types);
+  }
+
+  /**
+   * Set stored results from a property search to empty.
+   */
+  function resetPropertyResults() {
+    searchPropertyResultsStorage.value = [];
+  }
+
+  /**
+   * Set stored results from a type search to empty.
+   */
+  function resetTypeResults() {
+    searchTypeResultsStorage.value = [];
+  }
+
+  /**
+   * Stored results from a property search.
+   */
+  function getPropertyResults() {
+    return searchPropertyResultsStorage.value;
+  }
+
+  /**
+   * Stored results from a type search.
+   */
+  function getTypeResults() {
+    return searchTypeResultsStorage.value;
+  }
 
   return {
     config,
@@ -515,6 +562,15 @@ export const useToolboxStore = defineStore("niem-toolbox", () => {
 
     countFacets,
     countSubproperties,
+
+    addPropertyResults,
+    addTypeResults,
+
+    resetPropertyResults,
+    resetTypeResults,
+
+    getPropertyResults,
+    getTypeResults,
 
     userSteward,
     // highlights,
