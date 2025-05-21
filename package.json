@@ -6,42 +6,42 @@
   "type": "module",
   "scripts": {
     "cleanup": "nuxt cleanup",
-    "deploy": "gh-pages -d .output/public -o niem -t true",
+    "deploy": "gh-pages -d .output/public -o niem -t",
     "dev": "nuxt dev",
     "generate": "nuxt generate",
     "preview": "nuxt preview",
     "postinstall": "nuxt prepare",
     "serve": "npx serve .output/public",
-    "stage": "gh-pages -d .output/public -o cdm -t true"
+    "stage": "gh-pages -d .output/public -o origin -t"
   },
   "dependencies": {
-    "@iconify-json/bi": "^1.2.3",
+    "@iconify-json/bi": "^1.2.4",
     "@iconify-json/gravity-ui": "^1.2.5",
     "@iconify-json/heroicons": "^1.2.2",
     "@iconify-json/hugeicons": "^1.2.5",
-    "@iconify-json/material-symbols": "^1.2.20",
-    "@iconify-json/material-symbols-light": "^1.2.20",
+    "@iconify-json/material-symbols": "^1.2.21",
+    "@iconify-json/material-symbols-light": "^1.2.21",
     "@iconify-json/mdi": "^1.2.3",
-    "@iconify-json/octicon": "^1.2.5",
+    "@iconify-json/octicon": "^1.2.6",
     "@iconify-json/ph": "^1.2.2",
-    "@iconify-json/simple-icons": "^1.2.33",
-    "@iconify-json/tabler": "^1.2.17",
+    "@iconify-json/simple-icons": "^1.2.35",
+    "@iconify-json/tabler": "^1.2.18",
     "@iconify/tailwind": "^1.2.0",
     "@nuxt/content": "^3.5.1",
-    "@nuxt/ui": "^3.1.1",
-    "@vueuse/core": "^13.1.0",
-    "@vueuse/nuxt": "^13.1.0",
+    "@nuxt/ui": "^3.1.2",
+    "@vueuse/core": "^13.2.0",
+    "@vueuse/nuxt": "^13.2.0",
     "file-saver": "^2.0.5",
-    "nuxt": "^3.17.2",
+    "nuxt": "^3.17.4",
     "pinia": "^3.0.2",
-    "vue": "^3.5.13",
+    "vue": "^3.5.14",
     "vue-router": "^4.5.1"
   },
   "devDependencies": {
     "@pinia/nuxt": "^0.11.0",
     "@types/file-saver": "^2.0.7",
-    "@vite-pwa/nuxt": "^1.0.0",
+    "@vite-pwa/nuxt": "^1.0.1",
     "gh-pages": "^6.3.0",
-    "sass-embedded": "^1.87.0"
+    "sass-embedded": "^1.89.0"
   }
 }
