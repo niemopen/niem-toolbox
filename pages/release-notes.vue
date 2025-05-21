@@ -31,7 +31,32 @@ type NoteType = {
 
 const notes: NoteType[] = [
   {
-    header: "Alpha 2.1: 2024-11-25",
+    header: "2025-05-21",
+    features: [
+      {
+        summary: "Migrate NIEM subsets",
+        description: "Migrate NIEM subsets in CMF from one version to any later NIEM version in one pass. A migration report is included with the output to identify any issues encountered during the process.  Note: Use the transform tool to convert subsets in NIEM XML Schema to CMF for the migration tool input, and to convert the migration output back to NIEM XML Schema, JSON Schema, or another supported format."
+      },
+      {
+        summary: "NIEM 6.0 data and migration rules",
+        description: "This update includes NIEM 6.0 PS02 data and migration rules from the previous version, NIEM 5.2."
+      },
+      {
+        summary: "Browse model content",
+        description: "Browse information about stewards, models, versions, namespaces, properties, types, and facets.  While currently only content from the NIEM reference model is available, this tool has been built for multi-model support, allowing for the publication and reuse of community reference models and message models at a component level."
+      },
+      {
+        summary: "Search model content",
+        description: "Search for properties and types with token and substring searches.  Filter results by namespace prefixes or categories.  For property searches, filter results by type name tokens, by elements vs attributes, and by concrete vs abstract. Choose the sort order for the results."
+      },
+      {
+        summary: "Updated validation handling for NIEM 3.0 and NIEM 6.0 schemas",
+        description: "Updated validation handling for NIEM 3.0 and 6.0 schemas, which were previously returning empty validation reports."
+      }
+    ]
+  },
+  {
+    header: "2024-11-25",
     features: [
       {
         summary: "Updated validation reports",
@@ -44,7 +69,7 @@ const notes: NoteType[] = [
     ]
   },
   {
-    header: "Alpha 2: 2024-11-14",
+    header: "2024-11-14",
     features: [
       // {
       //   summary: "Migrate NIEM subsets",
@@ -69,7 +94,7 @@ const notes: NoteType[] = [
     ]
   },
   {
-    header: "Alpha 1: 2023-03-31",
+    header: "2023-03-31",
     features: [
       {
         summary: "Initial application",
