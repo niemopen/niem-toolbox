@@ -1,0 +1,1 @@
+{"version":3,"file":"B2kZi3-f.js","sources":["../../../../node_modules/@nuxtjs/mdc/dist/runtime/components/prose/ProseLi.vue"],"sourcesContent":["<template>\n  <li><slot /></li>\n</template>\n"],"names":["_createElementBlock","_renderSlot","_ctx"],"mappings":"wHACEA,EAAiB,KAAA,KAAA,CAAbC,EAAQC,EAAA,OAAA,SAAA","x_google_ignoreList":[0]}

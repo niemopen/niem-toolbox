@@ -1,1 +1,0 @@
-{"version":3,"file":"CMGI2CqW.js","sources":["../../../../node_modules/@nuxtjs/mdc/dist/runtime/components/prose/ProseEm.vue"],"sourcesContent":["<template>\n  <em>\n    <slot />\n  </em>\n</template>\n"],"names":["_createElementBlock","_renderSlot","_ctx"],"mappings":"wHACEA,EAEK,KAAA,KAAA,CADHC,EAAQC,EAAA,OAAA,SAAA","x_google_ignoreList":[0]}

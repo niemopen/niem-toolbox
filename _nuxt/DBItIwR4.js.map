@@ -1,1 +1,0 @@
-{"version":3,"file":"DBItIwR4.js","sources":["../../../../components/content/ContentNotFound.vue"],"sourcesContent":["\r\n<template>\r\n  <UAlert title=\"Item not found\" color=\"error\" variant=\"subtle\"/>\r\n</template>\r\n"],"names":["_createBlock","_component_UAlert"],"mappings":"6JAEEA,EAA+DC,EAAA,CAAvD,MAAM,iBAAiB,MAAM,QAAQ,QAAQ"}

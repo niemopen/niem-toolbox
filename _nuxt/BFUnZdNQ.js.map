@@ -1,1 +1,0 @@
-{"version":3,"file":"BFUnZdNQ.js","sources":["../../../../node_modules/@nuxtjs/mdc/dist/runtime/components/prose/ProseUl.vue"],"sourcesContent":["<template>\n  <ul>\n    <slot />\n  </ul>\n</template>\n"],"names":["_createElementBlock","_renderSlot","_ctx"],"mappings":"wHACEA,EAEK,KAAA,KAAA,CADHC,EAAQC,EAAA,OAAA,SAAA","x_google_ignoreList":[0]}

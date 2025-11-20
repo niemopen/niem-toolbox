@@ -1,0 +1,1 @@
+{"version":3,"file":"xndHBqY5.js","sources":["../../../../node_modules/@nuxtjs/mdc/dist/runtime/components/prose/ProseTd.vue"],"sourcesContent":["<template>\n  <td>\n    <slot />\n  </td>\n</template>\n"],"names":["_createElementBlock","_renderSlot","_ctx"],"mappings":"wHACEA,EAEK,KAAA,KAAA,CADHC,EAAQC,EAAA,OAAA,SAAA","x_google_ignoreList":[0]}
