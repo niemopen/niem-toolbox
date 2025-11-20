@@ -1,0 +1,1 @@
+{"version":3,"file":"CTZbc5CL.js","sources":["../../../../node_modules/@nuxtjs/mdc/dist/runtime/components/prose/ProseStrong.vue"],"sourcesContent":["<template>\n  <strong>\n    <slot />\n  </strong>\n</template>\n"],"names":["_createElementBlock","_renderSlot","_ctx"],"mappings":"wHACEA,EAES,SAAA,KAAA,CADPC,EAAQC,EAAA,OAAA,SAAA","x_google_ignoreList":[0]}

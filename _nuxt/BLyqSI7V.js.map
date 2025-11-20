@@ -1,1 +1,0 @@
-{"version":3,"file":"BLyqSI7V.js","sources":["../../../../node_modules/@nuxtjs/mdc/dist/runtime/components/prose/ProseTable.vue"],"sourcesContent":["<template>\n  <table>\n    <slot />\n  </table>\n</template>\n"],"names":["_createElementBlock","_renderSlot","_ctx"],"mappings":"wHACEA,EAEQ,QAAA,KAAA,CADNC,EAAQC,EAAA,OAAA,SAAA","x_google_ignoreList":[0]}

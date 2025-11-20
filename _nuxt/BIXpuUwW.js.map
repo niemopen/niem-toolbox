@@ -1,0 +1,1 @@
+{"version":3,"file":"BIXpuUwW.js","sources":["../../../../node_modules/@nuxtjs/mdc/dist/runtime/components/prose/ProseOl.vue"],"sourcesContent":["<template>\n  <ol>\n    <slot />\n  </ol>\n</template>\n"],"names":["_createElementBlock","_renderSlot","_ctx"],"mappings":"wHACEA,EAEK,KAAA,KAAA,CADHC,EAAQC,EAAA,OAAA,SAAA","x_google_ignoreList":[0]}

@@ -1,2 +1,0 @@
-import{p as r,aE as n,ai as l,e as u,n as p,h as f,o as d,w as i,q as m,v as c,g as _,P as w}from"./5JgAEXcR.js";function C(e){return r(()=>{var o;return n(e)?!!((o=l(e))!=null&&o.closest("form")):!0})}const P=u({__name:"Label",props:{for:{},asChild:{type:Boolean},as:{default:"label"}},setup(e){const o=e;return p(),(t,s)=>(d(),f(_(w),c(o,{onMousedown:s[0]||(s[0]=a=>{!a.defaultPrevented&&a.detail>1&&a.preventDefault()})}),{default:i(()=>[m(t.$slots,"default")]),_:3},16))}});export{P as _,C as u};
-//# sourceMappingURL=CzrRDHhD.js.map

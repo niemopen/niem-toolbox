@@ -1,0 +1,1 @@
+{"version":3,"file":"qx7-qPaf.js","sources":["../../../../node_modules/@nuxtjs/mdc/dist/runtime/components/prose/ProseTbody.vue"],"sourcesContent":["<template>\n  <tbody>\n    <slot />\n  </tbody>\n</template>\n"],"names":["_createElementBlock","_renderSlot","_ctx"],"mappings":"wHACEA,EAEQ,QAAA,KAAA,CADNC,EAAQC,EAAA,OAAA,SAAA","x_google_ignoreList":[0]}
